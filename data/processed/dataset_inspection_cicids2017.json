@@ -1,0 +1,601 @@
+{
+  "repo": "lacg030175/CICIDS2017",
+  "revision": "d071fd53782d9ca7cdc15173b8ceb858fea04628",
+  "last_modified": "2026-04-02 05:30:17+00:00",
+  "files": {
+    "random/test-00000-of-00001.parquet": {
+      "config": "random",
+      "split": "test",
+      "num_rows": 565576,
+      "num_columns": 80,
+      "size_bytes": 78379404,
+      "label_distribution": {
+        "BENIGN": 454265,
+        "DoS Hulk": 46258,
+        "PortScan": 31835,
+        "DDoS": 25301,
+        "DoS GoldenEye": 2098,
+        "FTP-Patator": 1595,
+        "SSH-Patator": 1211,
+        "DoS slowloris": 1128,
+        "DoS Slowhttptest": 1083,
+        "Bot": 376,
+        "Web Attack \ufffd Brute Force": 290,
+        "Web Attack \ufffd XSS": 126,
+        "Infiltration": 5,
+        "Web Attack \ufffd Sql Injection": 3,
+        "Heartbleed": 2
+      },
+      "int_label_distribution": {
+        "0": 454265,
+        "1": 111311
+      },
+      "int_to_string": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ],
+        "0": [
+          "BENIGN"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "random/train-00000-of-00001.parquet": {
+      "config": "random",
+      "split": "train",
+      "num_rows": 2262300,
+      "num_columns": 80,
+      "size_bytes": 313668479,
+      "label_distribution": {
+        "BENIGN": 1817055,
+        "DoS Hulk": 183866,
+        "PortScan": 126969,
+        "DDoS": 102724,
+        "DoS GoldenEye": 8195,
+        "FTP-Patator": 6340,
+        "SSH-Patator": 4686,
+        "DoS slowloris": 4668,
+        "DoS Slowhttptest": 4416,
+        "Bot": 1580,
+        "Web Attack \ufffd Brute Force": 1217,
+        "Web Attack \ufffd XSS": 526,
+        "Infiltration": 31,
+        "Web Attack \ufffd Sql Injection": 18,
+        "Heartbleed": 9
+      },
+      "int_label_distribution": {
+        "0": 1817055,
+        "1": 445245
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "random_3way/test-00000-of-00001.parquet": {
+      "config": "random_3way",
+      "split": "test",
+      "num_rows": 282788,
+      "num_columns": 80,
+      "size_bytes": 39188187,
+      "label_distribution": {
+        "BENIGN": 227132,
+        "DoS Hulk": 23112,
+        "PortScan": 15887,
+        "DDoS": 12678,
+        "DoS GoldenEye": 1019,
+        "FTP-Patator": 860,
+        "SSH-Patator": 587,
+        "DoS slowloris": 557,
+        "DoS Slowhttptest": 547,
+        "Bot": 196,
+        "Web Attack \ufffd Brute Force": 147,
+        "Web Attack \ufffd XSS": 62,
+        "Web Attack \ufffd Sql Injection": 2,
+        "Infiltration": 2
+      },
+      "int_label_distribution": {
+        "0": 227132,
+        "1": 55656
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "random_3way/train-00000-of-00001.parquet": {
+      "config": "random_3way",
+      "split": "train",
+      "num_rows": 2262300,
+      "num_columns": 80,
+      "size_bytes": 313668479,
+      "label_distribution": {
+        "BENIGN": 1817055,
+        "DoS Hulk": 183866,
+        "PortScan": 126969,
+        "DDoS": 102724,
+        "DoS GoldenEye": 8195,
+        "FTP-Patator": 6340,
+        "SSH-Patator": 4686,
+        "DoS slowloris": 4668,
+        "DoS Slowhttptest": 4416,
+        "Bot": 1580,
+        "Web Attack \ufffd Brute Force": 1217,
+        "Web Attack \ufffd XSS": 526,
+        "Infiltration": 31,
+        "Web Attack \ufffd Sql Injection": 18,
+        "Heartbleed": 9
+      },
+      "int_label_distribution": {
+        "0": 1817055,
+        "1": 445245
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "random_3way/validation-00000-of-00001.parquet": {
+      "config": "random_3way",
+      "split": "validation",
+      "num_rows": 282788,
+      "num_columns": 80,
+      "size_bytes": 39211763,
+      "label_distribution": {
+        "BENIGN": 227133,
+        "DoS Hulk": 23146,
+        "PortScan": 15948,
+        "DDoS": 12623,
+        "DoS GoldenEye": 1079,
+        "FTP-Patator": 735,
+        "SSH-Patator": 624,
+        "DoS slowloris": 571,
+        "DoS Slowhttptest": 536,
+        "Bot": 180,
+        "Web Attack \ufffd Brute Force": 143,
+        "Web Attack \ufffd XSS": 64,
+        "Infiltration": 3,
+        "Heartbleed": 2,
+        "Web Attack \ufffd Sql Injection": 1
+      },
+      "int_label_distribution": {
+        "0": 227133,
+        "1": 55655
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "PortScan",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "temporal/test-00000-of-00001.parquet": {
+      "config": "temporal",
+      "split": "test",
+      "num_rows": 702718,
+      "num_columns": 80,
+      "size_bytes": 72318531,
+      "label_distribution": {
+        "BENIGN": 413933,
+        "PortScan": 158804,
+        "DDoS": 128025,
+        "Bot": 1956
+      },
+      "int_label_distribution": {
+        "0": 413933,
+        "1": 288785
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "Bot",
+          "DDoS",
+          "PortScan"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "PortScan"
+        ]
+      }
+    },
+    "temporal/train-00000-of-00001.parquet": {
+      "config": "temporal",
+      "split": "train",
+      "num_rows": 2125158,
+      "num_columns": 80,
+      "size_bytes": 265000784,
+      "label_distribution": {
+        "BENIGN": 1857387,
+        "DoS Hulk": 230124,
+        "DoS GoldenEye": 10293,
+        "FTP-Patator": 7935,
+        "SSH-Patator": 5897,
+        "DoS slowloris": 5796,
+        "DoS Slowhttptest": 5499,
+        "Web Attack \ufffd Brute Force": 1507,
+        "Web Attack \ufffd XSS": 652,
+        "Infiltration": 36,
+        "Web Attack \ufffd Sql Injection": 21,
+        "Heartbleed": 11
+      },
+      "int_label_distribution": {
+        "0": 1857387,
+        "1": 267771
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "temporal_3way/test-00000-of-00001.parquet": {
+      "config": "temporal_3way",
+      "split": "test",
+      "num_rows": 351359,
+      "num_columns": 80,
+      "size_bytes": 45142844,
+      "label_distribution": {
+        "BENIGN": 206966,
+        "PortScan": 79318,
+        "DDoS": 64135,
+        "Bot": 940
+      },
+      "int_label_distribution": {
+        "0": 206966,
+        "1": 144393
+      },
+      "int_to_string": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "PortScan"
+        ],
+        "0": [
+          "BENIGN"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "PortScan"
+        ]
+      }
+    },
+    "temporal_3way/train-00000-of-00001.parquet": {
+      "config": "temporal_3way",
+      "split": "train",
+      "num_rows": 2125158,
+      "num_columns": 80,
+      "size_bytes": 265000784,
+      "label_distribution": {
+        "BENIGN": 1857387,
+        "DoS Hulk": 230124,
+        "DoS GoldenEye": 10293,
+        "FTP-Patator": 7935,
+        "SSH-Patator": 5897,
+        "DoS slowloris": 5796,
+        "DoS Slowhttptest": 5499,
+        "Web Attack \ufffd Brute Force": 1507,
+        "Web Attack \ufffd XSS": 652,
+        "Infiltration": 36,
+        "Web Attack \ufffd Sql Injection": 21,
+        "Heartbleed": 11
+      },
+      "int_label_distribution": {
+        "0": 1857387,
+        "1": 267771
+      },
+      "int_to_string": {
+        "0": [
+          "BENIGN"
+        ],
+        "1": [
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "DoS GoldenEye",
+          "DoS Hulk",
+          "DoS Slowhttptest",
+          "DoS slowloris",
+          "FTP-Patator",
+          "Heartbleed",
+          "Infiltration",
+          "SSH-Patator",
+          "Web Attack \ufffd Brute Force",
+          "Web Attack \ufffd Sql Injection",
+          "Web Attack \ufffd XSS"
+        ]
+      }
+    },
+    "temporal_3way/validation-00000-of-00001.parquet": {
+      "config": "temporal_3way",
+      "split": "validation",
+      "num_rows": 351359,
+      "num_columns": 80,
+      "size_bytes": 44812267,
+      "label_distribution": {
+        "BENIGN": 206967,
+        "PortScan": 79486,
+        "DDoS": 63890,
+        "Bot": 1016
+      },
+      "int_label_distribution": {
+        "0": 206967,
+        "1": 144392
+      },
+      "int_to_string": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "PortScan"
+        ],
+        "0": [
+          "BENIGN"
+        ]
+      },
+      "pairing_consistent": false,
+      "pairing_conflicts": {
+        "1": [
+          "Bot",
+          "DDoS",
+          "PortScan"
+        ]
+      }
+    }
+  },
+  "configs": {
+    "random": {
+      "splits": {
+        "test": 565576,
+        "train": 2262300
+      },
+      "total_rows": 2827876
+    },
+    "random_3way": {
+      "splits": {
+        "test": 282788,
+        "train": 2262300,
+        "validation": 282788
+      },
+      "total_rows": 2827876
+    },
+    "temporal": {
+      "splits": {
+        "test": 702718,
+        "train": 2125158
+      },
+      "total_rows": 2827876
+    },
+    "temporal_3way": {
+      "splits": {
+        "test": 351359,
+        "train": 2125158,
+        "validation": 351359
+      },
+      "total_rows": 2827876
+    }
+  },
+  "dup_fwd_header_length_equal": true,
+  "dup_check_rows": 565576
+}

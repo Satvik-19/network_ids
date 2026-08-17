@@ -1,0 +1,53 @@
+# config.yaml — Project configuration
+# Thresholds are placeholders until evaluation calibrates them (PRD §57).
+# Record any calibrated values in docs/DECISIONS.md.
+
+dataset:
+  hf_id: "lacg030175/CICIDS2017"
+  hf_revision: "d071fd53782d9ca7cdc15173b8ceb858fea04628"  # verified 2026-08-09
+  hf_last_modified: "2026-04-02"
+  default_config: "temporal"   # default; "random" also available
+
+inference:
+  known_confidence_threshold: 0.75  # validated 2026-08-09 (random/test: acc 0.9991 at conf>=0.75)
+  anomaly_threshold: -0.0928  # calibrated 2026-08-09 (random_3way/validation, FPR<=5%)
+  baseline_features:
+    - "Flow Duration"
+    - "Flow Packets/s"
+    - "Flow Bytes/s"
+    - "Packet Length Mean"
+    - "Packet Length Std"
+    - "Total Length of Fwd Packets"
+    - "Total Length of Bwd Packets"
+    - "Average Packet Size"
+    - "Flow IAT Mean"
+    - "Active Mean"
+
+anomaly:
+  calibration_criterion: "fpr_constrained_max_f1"
+  max_fpr: 0.05              # best F1 subject to FPR <= 5%
+
+incidents:
+  grouping_window_seconds: 30        # placeholder (PRD §14, §57)
+
+risk:
+  critical_threshold: 85            # placeholder
+  high_threshold: 65                # placeholder
+  medium_threshold: 40               # placeholder
+  severity:                          # per-family base severity 0..100 (PRD §11)
+    "BENIGN": 5
+    "Botnet": 60
+    "Denial of Service": 90
+    "Brute Force": 70
+    "Reconnaissance": 50
+    "Web Attack": 80
+    "Heartbleed": 95
+    "Infiltration": 85
+
+replay:
+  default_speed: 5
+  speeds: [1, 5, 20]
+
+development:
+  subset_target: 300000              # target ~200k–500k (PRD §29)
+  random_seed: 42

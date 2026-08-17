@@ -1,0 +1,100 @@
+{
+  "experiment": "temporal (Option B, PRD \u00a746)",
+  "wording": "unseen / unknown anomaly simulation (NOT zero-day detection)",
+  "train_set": "dev_temporal_train.parquet (Mon-Thu, 12 classes, 300k)",
+  "test_set": "temporal_3way/test (Friday second half)",
+  "calibration_set": "temporal_3way/validation (Friday first half)",
+  "unseen_classes": [
+    "Bot",
+    "DDoS",
+    "PortScan"
+  ],
+  "supervised": {
+    "model": "xgb_200",
+    "multiclass_metrics": {
+      "accuracy": 0.588927564115335,
+      "macro_f1": 0.05332781821766409,
+      "weighted_f1": 0.47118667339830766
+    }
+  },
+  "anomaly": {
+    "model": "IsolationForest (fit benign Mon-Thu only)",
+    "threshold": -0.115716,
+    "calibration_criterion": "best F1 subject to FPR <= 5% on temporal_3way/validation",
+    "metrics": {
+      "precision": 0.596772,
+      "recall": 0.075017,
+      "f1": 0.133281,
+      "fpr": 0.035363,
+      "true_positive": 10832,
+      "false_positive": 7319,
+      "false_negative": 133561
+    }
+  },
+  "per_class": {
+    "BENIGN": {
+      "n": 206966,
+      "anomaly_p50": 0.1551,
+      "pct_flagged_anomalous": 0.0354,
+      "hybrid_outcomes": {
+        "BENIGN": 199615,
+        "KNOWN_ATTACK": 32,
+        "UNKNOWN_SUSPICIOUS": 7319
+      },
+      "supervised_predicted_labels": {
+        "BENIGN": 206925,
+        "DoS GoldenEye": 3,
+        "DoS Hulk": 25,
+        "DoS Slowhttptest": 8,
+        "DoS slowloris": 1,
+        "Heartbleed": 1,
+        "SSH-Patator": 1,
+        "Web Attack - Brute Force": 2
+      }
+    },
+    "Bot": {
+      "n": 940,
+      "anomaly_p50": 0.1461,
+      "pct_flagged_anomalous": 0.0138,
+      "hybrid_outcomes": {
+        "BENIGN": 927,
+        "UNKNOWN_SUSPICIOUS": 13
+      },
+      "supervised_predicted_labels": {
+        "BENIGN": 940
+      }
+    },
+    "DDoS": {
+      "n": 64135,
+      "anomaly_p50": -0.0,
+      "pct_flagged_anomalous": 0.1685,
+      "hybrid_outcomes": {
+        "BENIGN": 23457,
+        "KNOWN_ATTACK": 40678
+      },
+      "supervised_predicted_labels": {
+        "BENIGN": 23363,
+        "DoS Hulk": 40772
+      }
+    },
+    "PortScan": {
+      "n": 79318,
+      "anomaly_p50": 0.1576,
+      "pct_flagged_anomalous": 0.0001,
+      "hybrid_outcomes": {
+        "BENIGN": 79193,
+        "KNOWN_ATTACK": 114,
+        "UNKNOWN_SUSPICIOUS": 11
+      },
+      "supervised_predicted_labels": {
+        "BENIGN": 79172,
+        "DoS Hulk": 58,
+        "DoS slowloris": 3,
+        "FTP-Patator": 24,
+        "SSH-Patator": 52,
+        "Web Attack - Brute Force": 5,
+        "Web Attack - XSS": 4
+      }
+    }
+  }
+}

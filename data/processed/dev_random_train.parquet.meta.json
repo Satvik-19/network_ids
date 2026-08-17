@@ -1,0 +1,65 @@
+{
+  "source": {
+    "config": "random",
+    "split": "train"
+  },
+  "seed": 42,
+  "target": 300000,
+  "per_class_cap": 60000,
+  "cap_floor": 8000,
+  "total_before": 2262300,
+  "total_after": 300000,
+  "counts_before": {
+    "BENIGN": 1817055,
+    "Bot": 1580,
+    "DDoS": 102724,
+    "DoS GoldenEye": 8195,
+    "DoS Hulk": 183866,
+    "DoS Slowhttptest": 4416,
+    "DoS slowloris": 4668,
+    "FTP-Patator": 6340,
+    "Heartbleed": 9,
+    "Infiltration": 31,
+    "PortScan": 126969,
+    "SSH-Patator": 4686,
+    "Web Attack - Brute Force": 1217,
+    "Web Attack - Sql Injection": 18,
+    "Web Attack - XSS": 526
+  },
+  "counts_after": {
+    "BENIGN": 88314,
+    "Bot": 1580,
+    "DDoS": 60000,
+    "DoS GoldenEye": 8195,
+    "DoS Hulk": 60000,
+    "DoS Slowhttptest": 4416,
+    "DoS slowloris": 4668,
+    "FTP-Patator": 6340,
+    "Heartbleed": 9,
+    "Infiltration": 31,
+    "PortScan": 60000,
+    "SSH-Patator": 4686,
+    "Web Attack - Brute Force": 1217,
+    "Web Attack - Sql Injection": 18,
+    "Web Attack - XSS": 526
+  },
+  "retained_fully": [
+    "Bot",
+    "DoS GoldenEye",
+    "DoS Slowhttptest",
+    "DoS slowloris",
+    "FTP-Patator",
+    "Heartbleed",
+    "Infiltration",
+    "SSH-Patator",
+    "Web Attack - Brute Force",
+    "Web Attack - Sql Injection",
+    "Web Attack - XSS"
+  ],
+  "capped_down": [
+    "BENIGN",
+    "DDoS",
+    "DoS Hulk",
+    "PortScan"
+  ]
+}

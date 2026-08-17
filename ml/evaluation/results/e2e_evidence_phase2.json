@@ -1,0 +1,90 @@
+{
+  "title": "Phase-2 end-to-end real-inference evidence records",
+  "dataset": "random_3way/test (disjoint held-out test)",
+  "note": "evaluation_truth_label is recorded for scoring ONLY; predictor.predict() never receives it (BUG-005).",
+  "config": {
+    "known_confidence_threshold": 0.75,
+    "anomaly_threshold": -0.0928
+  },
+  "records": [
+    {
+      "evidence_index": 0,
+      "evaluation_truth_label": "BENIGN",
+      "description": "benign normal traffic",
+      "predicted_label": "BENIGN",
+      "family": "BENIGN",
+      "classification": "BENIGN",
+      "confidence": 0.9999774694442749,
+      "anomaly_score": 0.161314,
+      "risk_score": 2.5,
+      "risk_level": "LOW",
+      "top_features_count": 5
+    },
+    {
+      "evidence_index": 16,
+      "evaluation_truth_label": "DoS Hulk",
+      "description": "known volumetric DoS",
+      "predicted_label": "DoS Hulk",
+      "family": "Denial of Service",
+      "classification": "KNOWN_ATTACK",
+      "confidence": 0.9999955892562866,
+      "anomaly_score": -0.110574,
+      "risk_score": 92.67,
+      "risk_level": "CRITICAL",
+      "top_features_count": 5
+    },
+    {
+      "evidence_index": 47,
+      "evaluation_truth_label": "DDoS",
+      "description": "known DDoS burst",
+      "predicted_label": "DDoS",
+      "family": "Denial of Service",
+      "classification": "KNOWN_ATTACK",
+      "confidence": 0.9999920129776001,
+      "anomaly_score": -0.018476,
+      "risk_score": 90.0,
+      "risk_level": "CRITICAL",
+      "top_features_count": 5
+    },
+    {
+      "evidence_index": 1531,
+      "evaluation_truth_label": "SSH-Patator",
+      "description": "known SSH brute force",
+      "predicted_label": "SSH-Patator",
+      "family": "Brute Force",
+      "classification": "KNOWN_ATTACK",
+      "confidence": 0.9998631477355957,
+      "anomaly_score": 0.15853,
+      "risk_score": 70.0,
+      "risk_level": "HIGH",
+      "top_features_count": 5
+    },
+    {
+      "evidence_index": 10,
+      "evaluation_truth_label": "PortScan",
+      "description": "known network / PortScan",
+      "predicted_label": "PortScan",
+      "family": "Reconnaissance",
+      "classification": "KNOWN_ATTACK",
+      "confidence": 0.9999932050704956,
+      "anomaly_score": 0.160431,
+      "risk_score": 50.0,
+      "risk_level": "MEDIUM",
+      "top_features_count": 5
+    },
+    {
+      "evidence_index": 1,
+      "evaluation_truth_label": "BENIGN",
+      "description": "anomaly-only candidate",
+      "predicted_label": "BENIGN",
+      "family": "BENIGN",
+      "classification": "UNKNOWN_SUSPICIOUS",
+      "confidence": 0.9995978474617004,
+      "anomaly_score": -0.178996,
+      "risk_score": 72.92,
+      "risk_level": "HIGH",
+      "top_features_count": 5
+    }
+  ],
+  "portscan_resolution": "Previously reported 'PortScan -> MEDIUM (50)' is resolved here to actual runtime classification=KNOWN_ATTACK risk_level=MEDIUM risk_score=50.0; the MEDIUM(50) figure is replaced by this runtime-inspected value."
+}

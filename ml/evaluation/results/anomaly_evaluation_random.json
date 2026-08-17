@@ -1,0 +1,33 @@
+{
+  "experiment": "random",
+  "reported_set": "random_3way/test",
+  "threshold": -0.092803,
+  "metrics": {
+    "threshold": -0.092803,
+    "true_positive": 16422,
+    "false_positive": 5011,
+    "false_negative": 39234,
+    "true_negative": 222121,
+    "precision": 0.766202,
+    "recall": 0.295063,
+    "f1": 0.426053,
+    "fpr": 0.022062,
+    "n_flows": 282788
+  },
+  "score_distributions": {
+    "benign": {
+      "min": -0.26897,
+      "p25": 0.111317,
+      "p50": 0.155561,
+      "p75": 0.17691,
+      "max": 0.184205
+    },
+    "attack": {
+      "min": -0.18172,
+      "p25": -0.109176,
+      "p50": 0.120715,
+      "p75": 0.158109,
+      "max": 0.171826
+    }
+  }
+}

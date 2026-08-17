@@ -1,0 +1,39 @@
+{
+  "run_ids_distinct": true,
+  "portscan_run": {
+    "state": "COMPLETED",
+    "run_id": "8984f35c..."
+  },
+  "normal_run": {
+    "state": "COMPLETED",
+    "run_id": "4d393f6d...",
+    "suspicious": 0,
+    "incidents": 0
+  },
+  "flows_after_normal_scoped_to_normal": {
+    "total": 8,
+    "scenarios": [
+      "normal"
+    ],
+    "all_normal": true
+  },
+  "flows_scoped_to_portscan": {
+    "total": 8,
+    "scenarios": [
+      "portscan"
+    ]
+  },
+  "incidents_scoped_to_normal": {
+    "total": 0
+  },
+  "incidents_scoped_to_portscan": {
+    "total": 1,
+    "sources": [
+      "10.0.0.50"
+    ]
+  },
+  "unscoped_incidents_history": {
+    "total": 1
+  },
+  "verdict": "ISOLATED"
+}

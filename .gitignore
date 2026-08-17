@@ -1,0 +1,123 @@
+# .gitignore — AI-Powered Network IDS & Security Evaluation System
+# Reflects PRD §55 git discipline:
+#   Never commit complete CICIDS2017 datasets, virtual environments,
+#   node_modules, secrets, generated cache files, or unnecessary large
+#   model artifacts.
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# ---- Node / frontend ----
+node_modules/
+dist/
+.vite/
+.next/
+.parcel-cache/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Datasets (PRD §55: never commit full CICIDS2017) ----
+# Raw / full datasets
+data/raw/
+# Full CICIDS2017 in any common form
+*.pcap
+*.pcapng
+*.cap
+# Large derived datasets
+*.parquet
+*.feather
+*.h5
+# Keep small processed fixtures/scenarios out of the blanket ignore by
+# tracking them explicitly in-repo only if intentional and small.
+# (Do NOT commit large data/processed outputs.)
+
+# ---- Model artifacts ----
+# Ignore experimental/baseline models.
+ml/artifacts/baselines/**
+
+# Ignore generated binary model artifacts recursively by default.
+ml/artifacts/**/*.joblib
+ml/artifacts/**/*.pkl
+ml/artifacts/**/*.pickle
+ml/artifacts/**/*.bin
+ml/artifacts/**/*.ubj
+ml/artifacts/**/*.model
+
+# Keep the small runtime artifacts required by the app.
+!ml/artifacts/inference/
+!ml/artifacts/inference/model.joblib
+!ml/artifacts/isolation_forest.joblib
+
+# Keep lightweight JSON contracts and metadata.
+!ml/artifacts/**/*.json
+
+# Keep directory placeholder.
+!ml/artifacts/.gitkeep
+
+# ---- SQLite runtime DBs (runtime state, not source) ----
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite-journal
+
+# ---- Secrets / env ----
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# ---- Generated cache / build outputs ----
+.cache/
+.tmp/
+tmp/
+*.tmp
+out/
+
+# ---- Zipped archives (often large dataset bundles) ----
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+.gstack/
+
+# ---- AI IDE generated metadata ----
+.qoder/
+
+# TypeScript incremental build cache
+*.tsbuildinfo

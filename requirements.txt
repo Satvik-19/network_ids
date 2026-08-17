@@ -1,0 +1,28 @@
+# requirements.txt — AI-Powered Network IDS
+# Dependencies for Phase 1 (dataset inspection + baseline training) and
+# subsequent phases. All are open-source, CPU-friendly, free.
+#
+# Dependency rule: before adding a package, confirm existing deps cannot
+# perform the task, it fits the PRD, and record the addition in SPRINT_LOG.
+
+# --- ML / data (PRD §50) ---
+pandas>=1.5
+numpy>=1.23
+scikit-learn>=1.1
+xgboost>=1.7
+shap>=0.42
+joblib>=1.2
+pyarrow>=12.0        # Parquet I/O (HF dataset uses Parquet — PRD §28)
+matplotlib>=3.6
+
+# --- Dataset loading ---
+datasets>=2.14       # Hugging Face datasets (load lacg030175/CICIDS2017)
+
+# --- Backend (needed from Phase 1 skeleton onward; PRD §50) ---
+fastapi>=0.100
+uvicorn>=0.23
+pydantic>=2.0
+sqlalchemy>=2.0
+
+# --- Development / testing ---
+pytest>=7.0

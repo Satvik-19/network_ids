@@ -1,0 +1,103 @@
+{
+  "version": "1.0",
+  "dataset": "lacg030175/CICIDS2017",
+  "revision": "d071fd53782d9ca7cdc15173b8ceb858fea04628",
+  "source": "dev_random_train.parquet (benign rows, random dev subset, seed 42)",
+  "n_benign_flows": 88314,
+  "feature_count": 10,
+  "features": [
+    "Flow Duration",
+    "Flow Packets/s",
+    "Flow Bytes/s",
+    "Packet Length Mean",
+    "Packet Length Std",
+    "Total Length of Fwd Packets",
+    "Total Length of Bwd Packets",
+    "Average Packet Size",
+    "Flow IAT Mean",
+    "Active Mean"
+  ],
+  "baselines": {
+    "Flow Duration": {
+      "median": 31034.0,
+      "mean": 11192926.970843,
+      "p25": 176.0,
+      "p75": 472068.0,
+      "std": 30048366.120486,
+      "n": 88314
+    },
+    "Flow Packets/s": {
+      "median": 120.157106,
+      "mean": 65194.724249,
+      "p25": 14.053401,
+      "p75": 21276.595745,
+      "std": 240486.008107,
+      "n": 88314
+    },
+    "Flow Bytes/s": {
+      "median": 5179.633543,
+      "mean": 1842776.54777,
+      "p25": 133.303035,
+      "p75": 266666.6667,
+      "std": 30185787.480252,
+      "n": 88314
+    },
+    "Packet Length Mean": {
+      "median": 59.0,
+      "mean": 109.65337,
+      "p25": 6.0,
+      "p75": 97.0,
+      "std": 187.064691,
+      "n": 88314
+    },
+    "Packet Length Std": {
+      "median": 27.386128,
+      "mean": 147.888988,
+      "p25": 0.0,
+      "p75": 93.660557,
+      "std": 305.916848,
+      "n": 88314
+    },
+    "Total Length of Fwd Packets": {
+      "median": 66.0,
+      "mean": 620.521763,
+      "p25": 12.0,
+      "p75": 160.0,
+      "std": 6150.780699,
+      "n": 88314
+    },
+    "Total Length of Bwd Packets": {
+      "median": 132.0,
+      "mean": 14271.134701,
+      "p25": 6.0,
+      "p75": 333.0,
+      "std": 1961125.19286,
+      "n": 88314
+    },
+    "Average Packet Size": {
+      "median": 74.75,
+      "mean": 124.579979,
+      "p25": 9.0,
+      "p75": 125.2,
+      "std": 197.063378,
+      "n": 88314
+    },
+    "Flow IAT Mean": {
+      "median": 10729.0,
+      "mean": 904974.952764,
+      "p25": 66.666667,
+      "p75": 111621.369309,
+      "std": 4085571.146735,
+      "n": 88314
+    },
+    "Active Mean": {
+      "median": 0.0,
+      "mean": 80408.005369,
+      "p25": 0.0,
+      "p75": 0.0,
+      "std": 764108.492844,
+      "n": 88314
+    }
+  },
+  "unit_note": "CICIDS2017 units; durations in microseconds, rates in per-second, lengths/bytes in bytes."
+}

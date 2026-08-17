@@ -1,0 +1,44 @@
+{
+  "dataset": "sequential portscan -> normal on one live server",
+  "portscan_run": {
+    "state": "COMPLETED",
+    "processed": 8,
+    "incidents": 1
+  },
+  "normal_run": {
+    "state": "COMPLETED",
+    "processed": 8,
+    "suspicious": 0,
+    "incidents": 0
+  },
+  "flows_feed_after_normal": {
+    "total": 16,
+    "scenarios_present": [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "portscan",
+      "portscan",
+      "portscan",
+      "portscan",
+      "portscan",
+      "portscan",
+      "portscan",
+      "portscan"
+    ],
+    "contains_stale_portscan_rows": true
+  },
+  "incidents_after_normal": {
+    "total": 1,
+    "sources": [
+      "10.0.0.50"
+    ],
+    "contains_stale_portscan_incident": true
+  },
+  "verdict": "MIXED"
+}

@@ -1,0 +1,66 @@
+{
+  "title": "IF unseen flag rate vs hybrid incremental rescue rate (Phase-2 closure; A1 precision)",
+  "wording": "unseen / unknown anomaly simulation (NOT zero-day detection)",
+  "source": "C:\\Users\\BIT\\OneDrive\\Desktop\\VII Sem\\Projects\\Network_ids\\ml\\evaluation\\results\\unknown_experiment_temporal.json",
+  "model": "IsolationForest (benign only) + hybrid decision layer",
+  "population_notes": "The IF unseen flag rate and the hybrid incremental rescue rate use DIFFERENT populations. Population A (IF flag rate) = all temporally-unseen malicious flows (Bot + DDoS + PortScan, Friday test). Population B (rescue rate) = unseen malicious flows NOT already classified KNOWN_ATTACK by supervised inference. The rescue rate therefore sits below the IF flag rate by construction; the two numbers MUST NOT be compared as equivalent.",
+  "if_unseen_flag_rate_definition": "fraction of ALL temporally-unseen malicious flows (population A) flagged by the anomaly detector on raw anomaly score < calibrated threshold (anomaly recall)",
+  "if_unseen_flag_rate_population": {
+    "population": "ALL unseen malicious flows (Bot + DDoS + PortScan)",
+    "denominator": 144393,
+    "numerator": 10832
+  },
+  "if_unseen_flag_rate_aggregate": 0.075017,
+  "if_unseen_flag_count_aggregate_exact": 10832,
+  "note": "aggregate IF flag rate/count are EXACT from unknown_experiment_temporal.json anomaly.metrics",
+  "hybrid_incremental_rescue_rate_definition": "among unseen malicious flows NOT already classified KNOWN_ATTACK by the supervised branch (population B), fraction surfaced to UNKNOWN_SUSPICIOUS by the IF anomaly branch of the hybrid",
+  "hybrid_incremental_rescue_aggregate": {
+    "population": "unseen malicious flows NOT classified KNOWN_ATTACK",
+    "total_unseen_flows": 144393,
+    "supervised_known_attack_count": 40792,
+    "rescue_denominator_not_known_attack": 103601,
+    "rescued_to_unknown_suspicious": 24,
+    "hybrid_incremental_rescue_rate": 0.000232
+  },
+  "estimate_consistency": {
+    "per_class_estimate_sum": 10828,
+    "aggregate_exact_count": 10832,
+    "note": "The per-class estimated IF counts (sum above) are derived from rounded per-class percentages and may differ by a few rows from the EXACT aggregate count (metrics.true_positive). Use the aggregate exact count as authoritative; per-class counts are named estimated_if_flag_count."
+  },
+  "per_class_breakdown": [
+    {
+      "attack_family_or_class": "Bot",
+      "n": 940,
+      "if_unseen_flag_rate": 0.0138,
+      "estimated_if_flag_count": 13,
+      "flag_count_source": "estimated: round(n * pct_flagged_anomalous); the experiment JSON stores per-class flagged count only as a rounded percentage (exact per-class counts not available)",
+      "supervised_known_attack_count": 0,
+      "hybrid_rescued_to_unknown_count": 13,
+      "rescue_denominator_not_known_attack": 940,
+      "hybrid_incremental_rescue_rate": 0.01383
+    },
+    {
+      "attack_family_or_class": "DDoS",
+      "n": 64135,
+      "if_unseen_flag_rate": 0.1685,
+      "estimated_if_flag_count": 10807,
+      "flag_count_source": "estimated: round(n * pct_flagged_anomalous); the experiment JSON stores per-class flagged count only as a rounded percentage (exact per-class counts not available)",
+      "supervised_known_attack_count": 40678,
+      "hybrid_rescued_to_unknown_count": 0,
+      "rescue_denominator_not_known_attack": 23457,
+      "hybrid_incremental_rescue_rate": 0.0
+    },
+    {
+      "attack_family_or_class": "PortScan",
+      "n": 79318,
+      "if_unseen_flag_rate": 0.0001,
+      "estimated_if_flag_count": 8,
+      "flag_count_source": "estimated: round(n * pct_flagged_anomalous); the experiment JSON stores per-class flagged count only as a rounded percentage (exact per-class counts not available)",
+      "supervised_known_attack_count": 114,
+      "hybrid_rescued_to_unknown_count": 11,
+      "rescue_denominator_not_known_attack": 79204,
+      "hybrid_incremental_rescue_rate": 0.000139
+    }
+  ],
+  "traceability_note": "both rates are evaluated at the SAME anomaly+confidence thresholds (-0.115716 temporal / 0.75 known-confidence); derived from unknown_experiment_temporal.json (2026-08-09)."
+}

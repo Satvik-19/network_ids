@@ -1,0 +1,145 @@
+{
+  "dataset": "random_3way/test (real held-out flows, committed fixtures)",
+  "scenarios": [
+    "dos_or_ddos",
+    "normal",
+    "portscan",
+    "unknown"
+  ],
+  "portscan_replay": {
+    "state": "COMPLETED",
+    "scenario": "portscan",
+    "speed": 20,
+    "speeds": [
+      1,
+      5,
+      20
+    ],
+    "pace_seconds": 0.05,
+    "processed": 8,
+    "total": 8,
+    "suspicious": 8,
+    "known_attacks": 8,
+    "unknown_suspicious": 0,
+    "incidents": 1,
+    "errors": 0,
+    "error": null,
+    "progress": 1.0,
+    "current_sequence": 7,
+    "current_replay_time": "2026-08-10T04:32:42.229516+00:00",
+    "max_risk_score": 50.0,
+    "max_risk_level": "MEDIUM",
+    "started_at": "2026-08-10T04:32:35.229515+00:00",
+    "run_id": "364ddc6fff274971a7c3125ad45461ef"
+  },
+  "recent_flows_contract": {
+    "rows": 8,
+    "limit_ok": true,
+    "limit_clamp": "422"
+  },
+  "portscan_incident": {
+    "id": 1,
+    "label": "PortScan",
+    "family": "Reconnaissance",
+    "classification": "KNOWN_ATTACK",
+    "severity": "MEDIUM",
+    "risk_level": "MEDIUM",
+    "risk_score": 50.0,
+    "source": "10.0.0.50",
+    "destination": "10.0.0.9",
+    "service_port": 20,
+    "flow_count": 8,
+    "started_at": "2026-08-10T04:32:35.229516",
+    "last_activity_at": "2026-08-10T04:32:42.229516",
+    "ended_at": "2026-08-10T04:32:42.229516"
+  },
+  "portscan_incident_detail": {
+    "id": 1,
+    "flows": 8
+  },
+  "normal_replay": {
+    "state": "COMPLETED",
+    "scenario": "normal",
+    "speed": 20,
+    "speeds": [
+      1,
+      5,
+      20
+    ],
+    "pace_seconds": 0.05,
+    "processed": 8,
+    "total": 8,
+    "suspicious": 0,
+    "known_attacks": 0,
+    "unknown_suspicious": 0,
+    "incidents": 0,
+    "errors": 0,
+    "error": null,
+    "progress": 1.0,
+    "current_sequence": 7,
+    "current_replay_time": "2026-08-10T04:32:43.122066+00:00",
+    "max_risk_score": 2.5,
+    "max_risk_level": "LOW",
+    "started_at": "2026-08-10T04:32:36.122065+00:00",
+    "run_id": "cda34e747f0f400b826dc1a8f96f97fc"
+  },
+  "sequential_run_isolation": {
+    "normal_feed_scenarios": [
+      "normal"
+    ],
+    "normal_incidents_scoped": 0
+  },
+  "dos_replay": {
+    "state": "COMPLETED",
+    "scenario": "dos_or_ddos",
+    "speed": 20,
+    "speeds": [
+      1,
+      5,
+      20
+    ],
+    "pace_seconds": 0.05,
+    "processed": 8,
+    "total": 8,
+    "suspicious": 8,
+    "known_attacks": 8,
+    "unknown_suspicious": 0,
+    "incidents": 1,
+    "errors": 0,
+    "error": null,
+    "progress": 1.0,
+    "current_sequence": 7,
+    "current_replay_time": "2026-08-10T04:32:43.782580+00:00",
+    "max_risk_score": 92.67,
+    "max_risk_level": "CRITICAL",
+    "started_at": "2026-08-10T04:32:36.782579+00:00",
+    "run_id": "57e92628b965448f81be96133f8b3365"
+  },
+  "dos_incident": {
+    "id": 2,
+    "label": "DoS Hulk",
+    "family": "Denial of Service",
+    "classification": "KNOWN_ATTACK",
+    "severity": "CRITICAL",
+    "risk_level": "CRITICAL",
+    "risk_score": 92.67,
+    "source": "10.0.1.7",
+    "destination": "10.0.0.20",
+    "service_port": 80,
+    "flow_count": 8,
+    "started_at": "2026-08-10T04:32:36.782580",
+    "last_activity_at": "2026-08-10T04:32:43.782580",
+    "ended_at": "2026-08-10T04:32:43.782580",
+    "detail_flows": 8
+  },
+  "benign_baselines": {
+    "features": 10,
+    "versions": "1.0"
+  },
+  "unknown_replay": {
+    "processed": 4,
+    "unknown_suspicious": 4,
+    "incidents": 1
+  },
+  "pass": true
+}

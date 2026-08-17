@@ -1,0 +1,19 @@
+{
+  "label_to_family": {
+    "BENIGN": "BENIGN",
+    "Bot": "Botnet",
+    "DDoS": "Denial of Service",
+    "DoS GoldenEye": "Denial of Service",
+    "DoS Hulk": "Denial of Service",
+    "DoS Slowhttptest": "Denial of Service",
+    "DoS slowloris": "Denial of Service",
+    "FTP-Patator": "Brute Force",
+    "Heartbleed": "Heartbleed",
+    "Infiltration": "Infiltration",
+    "PortScan": "Reconnaissance",
+    "SSH-Patator": "Brute Force",
+    "Web Attack - Brute Force": "Web Attack",
+    "Web Attack - Sql Injection": "Web Attack",
+    "Web Attack - XSS": "Web Attack"
+  }
+}

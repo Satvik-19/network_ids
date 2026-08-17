@@ -1,0 +1,56 @@
+{
+  "source": {
+    "config": "temporal",
+    "split": "train"
+  },
+  "seed": 42,
+  "target": 300000,
+  "per_class_cap": 60000,
+  "cap_floor": 8000,
+  "total_before": 2125158,
+  "total_after": 300000,
+  "counts_before": {
+    "BENIGN": 1857387,
+    "DoS GoldenEye": 10293,
+    "DoS Hulk": 230124,
+    "DoS Slowhttptest": 5499,
+    "DoS slowloris": 5796,
+    "FTP-Patator": 7935,
+    "Heartbleed": 11,
+    "Infiltration": 36,
+    "SSH-Patator": 5897,
+    "Web Attack - Brute Force": 1507,
+    "Web Attack - Sql Injection": 21,
+    "Web Attack - XSS": 652
+  },
+  "counts_after": {
+    "BENIGN": 202353,
+    "DoS GoldenEye": 10293,
+    "DoS Hulk": 60000,
+    "DoS Slowhttptest": 5499,
+    "DoS slowloris": 5796,
+    "FTP-Patator": 7935,
+    "Heartbleed": 11,
+    "Infiltration": 36,
+    "SSH-Patator": 5897,
+    "Web Attack - Brute Force": 1507,
+    "Web Attack - Sql Injection": 21,
+    "Web Attack - XSS": 652
+  },
+  "retained_fully": [
+    "DoS GoldenEye",
+    "DoS Slowhttptest",
+    "DoS slowloris",
+    "FTP-Patator",
+    "Heartbleed",
+    "Infiltration",
+    "SSH-Patator",
+    "Web Attack - Brute Force",
+    "Web Attack - Sql Injection",
+    "Web Attack - XSS"
+  ],
+  "capped_down": [
+    "BENIGN",
+    "DoS Hulk"
+  ]
+}

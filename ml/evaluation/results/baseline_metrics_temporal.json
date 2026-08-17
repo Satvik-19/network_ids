@@ -1,0 +1,1185 @@
+{
+  "experiment": "temporal",
+  "train_rows": 300000,
+  "test_rows": 702718,
+  "train_classes": [
+    "BENIGN",
+    "DoS GoldenEye",
+    "DoS Hulk",
+    "DoS Slowhttptest",
+    "DoS slowloris",
+    "FTP-Patator",
+    "Heartbleed",
+    "Infiltration",
+    "SSH-Patator",
+    "Web Attack - Brute Force",
+    "Web Attack - Sql Injection",
+    "Web Attack - XSS"
+  ],
+  "test_classes": [
+    "BENIGN",
+    "Bot",
+    "DDoS",
+    "PortScan"
+  ],
+  "models": {
+    "lr": {
+      "model": "lr",
+      "binary": {
+        "n": 702718,
+        "accuracy": 0.7518762860777723,
+        "precision": 0.8896107433739207,
+        "recall": 0.45235729002545144,
+        "f1": 0.5997488688769572,
+        "roc_auc": 0.7139499630359132,
+        "confusion_matrix": [
+          [
+            397723,
+            16210
+          ],
+          [
+            158151,
+            130634
+          ]
+        ],
+        "train_time_s": 19.815,
+        "inference_time_s": 0.12,
+        "scaler_fit": true
+      },
+      "multiclass": {
+        "n": 702718,
+        "accuracy": 0.582740160348817,
+        "macro_precision": 0.044172399881776035,
+        "macro_recall": 0.06595302460382074,
+        "macro_f1": 0.05290882445758222,
+        "weighted_precision": 0.3902934178489067,
+        "weighted_recall": 0.582740160348817,
+        "weighted_f1": 0.46748571477179424,
+        "per_class": {
+          "BENIGN": {
+            "precision": 0.6625859982266405,
+            "recall": 0.9892953690573112,
+            "f1": 0.7936323668637333,
+            "support": 413933
+          },
+          "Bot": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 1956
+          },
+          "DDoS": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 128025
+          },
+          "DoS GoldenEye": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS Hulk": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS Slowhttptest": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS slowloris": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "FTP-Patator": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Heartbleed": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Infiltration": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "PortScan": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 158804
+          },
+          "SSH-Patator": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - Brute Force": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - Sql Injection": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - XSS": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": [
+          [
+            409502,
+            0,
+            0,
+            216,
+            1869,
+            167,
+            317,
+            337,
+            0,
+            10,
+            0,
+            1444,
+            71,
+            0,
+            0
+          ],
+          [
+            1956,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            51097,
+            0,
+            0,
+            2250,
+            74662,
+            0,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            155481,
+            0,
+            0,
+            1,
+            141,
+            2,
+            3014,
+            83,
+            0,
+            0,
+            0,
+            23,
+            59,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "train_time_s": 51.548,
+        "inference_time_s": 0.345,
+        "scaler_fit": true
+      }
+    },
+    "rf": {
+      "model": "rf",
+      "binary": {
+        "n": 702718,
+        "accuracy": 0.7044461647488751,
+        "precision": 0.9976068921506063,
+        "recall": 0.28148622677770657,
+        "f1": 0.439080776408503,
+        "roc_auc": 0.757552155698734,
+        "confusion_matrix": [
+          [
+            413738,
+            195
+          ],
+          [
+            207496,
+            81289
+          ]
+        ],
+        "train_time_s": 20.849,
+        "inference_time_s": 1.861,
+        "scaler_fit": false
+      },
+      "multiclass": {
+        "n": 702718,
+        "accuracy": 0.5887482603263329,
+        "macro_precision": 0.044279054236286815,
+        "macro_recall": 0.06663300582461412,
+        "macro_f1": 0.05320334826014118,
+        "weighted_precision": 0.39123578214565957,
+        "weighted_recall": 0.5887482603263329,
+        "weighted_f1": 0.47008803436154367,
+        "per_class": {
+          "BENIGN": {
+            "precision": 0.6641858135443022,
+            "recall": 0.9994950873692119,
+            "f1": 0.7980502239021177,
+            "support": 413933
+          },
+          "Bot": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 1956
+          },
+          "DDoS": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 128025
+          },
+          "DoS GoldenEye": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS Hulk": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS Slowhttptest": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS slowloris": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "FTP-Patator": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Heartbleed": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Infiltration": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "PortScan": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 158804
+          },
+          "SSH-Patator": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - Brute Force": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - Sql Injection": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - XSS": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": [
+          [
+            413724,
+            0,
+            0,
+            13,
+            149,
+            15,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            4,
+            1,
+            24
+          ],
+          [
+            1956,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            48571,
+            0,
+            0,
+            0,
+            79454,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            158653,
+            0,
+            0,
+            28,
+            113,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            7,
+            0,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "train_time_s": 23.794,
+        "inference_time_s": 6.137,
+        "scaler_fit": false
+      }
+    },
+    "xgb": {
+      "model": "xgb",
+      "binary": {
+        "n": 702718,
+        "accuracy": 0.7039737134953139,
+        "precision": 0.9917555652978713,
+        "recall": 0.28200564433748293,
+        "f1": 0.4391414420559664,
+        "roc_auc": 0.73321849257546,
+        "confusion_matrix": [
+          [
+            413256,
+            677
+          ],
+          [
+            207346,
+            81439
+          ]
+        ],
+        "train_time_s": 3.647,
+        "inference_time_s": 0.342,
+        "scaler_fit": false
+      },
+      "multiclass": {
+        "n": 702718,
+        "accuracy": 0.588909064518057,
+        "macro_precision": 0.04442766120764156,
+        "macro_recall": 0.06665120522725497,
+        "macro_f1": 0.05331630147041535,
+        "weighted_precision": 0.39254882655622936,
+        "weighted_recall": 0.588909064518057,
+        "weighted_f1": 0.4710860533646521,
+        "per_class": {
+          "BENIGN": {
+            "precision": 0.6664149181146234,
+            "recall": 0.9997680784088246,
+            "f1": 0.7997445220562303,
+            "support": 413933
+          },
+          "Bot": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 1956
+          },
+          "DDoS": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 128025
+          },
+          "DoS GoldenEye": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS Hulk": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS Slowhttptest": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "DoS slowloris": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "FTP-Patator": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Heartbleed": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Infiltration": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "PortScan": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 158804
+          },
+          "SSH-Patator": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - Brute Force": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - Sql Injection": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "Web Attack - XSS": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": [
+          [
+            413837,
+            0,
+            0,
+            9,
+            59,
+            17,
+            1,
+            0,
+            2,
+            0,
+            0,
+            2,
+            5,
+            1,
+            0
+          ],
+          [
+            1956,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            46707,
+            0,
+            0,
+            0,
+            81318,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            158490,
+            0,
+            0,
+            0,
+            113,
+            2,
+            0,
+            73,
+            0,
+            0,
+            0,
+            101,
+            12,
+            0,
+            13
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "train_time_s": 38.836,
+        "inference_time_s": 2.773,
+        "scaler_fit": false
+      }
+    }
+  }
+}
