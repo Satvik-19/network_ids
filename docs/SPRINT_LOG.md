@@ -1414,3 +1414,34 @@ matches; missing saved run shows 404 and clears prior assessment; missed web flo
 and benign anomaly SHAP inspected. Screenshot saved outside repo. One transient
 HMR missing-module error occurred while adding files; final compile/build succeeds.
 Task 9 complete. Task 10 full-suite, invariant review and final docs/push pending.
+
+## [2026-10-31] Batch 10 - Milestone 4 Task 10 final gates and current documentation
+
+Completed approved scope without Phase5 expansion. Reconciled README, compact
+context, status/handoff and Phase4 with implemented APIs/UI, scoring, reporting and
+retained scientific limits; historical logs/JSON remain. Final test review found
+fixture parity glob still asserted original16 detections after scenario expansion.
+Kept original-four16 regression and added explicit all-seven36 population. Added
+64-flow bound and historical scoring immutability tests. No runtime/model fix was
+needed for stale test expectation (BUG-018).
+
+Initial full suite138 passed/1 failed; final full command python -m pytest ml/tests
+backend/tests -q -p no:cacheprovider --tb=short ->142 passed in203.45s. Frontend5 Node
+checks, TypeScript and production build PASS; original replay HTTP/sequential gate
+PASS with temporary evidence. Fresh browser all7 scenarios52 flows:36 detected,
+4 missed,4FP,78.33; Home/Web covered previous batch. Normal Monitor unchanged after
+Playground. Readiness offline disables run; backend restart restores readiness and
+saved result. Fresh console clean before deliberate offline check. A short locator
+wait expired while full suite request ran; subsequent inspection confirmed complete
+assessment. Invariant assertions verify unchanged models/preprocessing/labels/
+77-feature order/original config sections/hybrid/risk/SHAP and original4 vectors,
+truth/sidecars/order. No retraining, tuning, new dependencies or deferred features.
+
+Files: README.md, docs/{PROJECT_CONTEXT,IMPLEMENTATION_STATUS,HANDOFF,TESTING,
+BUG_LOG,SPRINT_LOG}.md, docs/PHASES/PHASE_4.md; ml/tests/test_evaluation.py and
+backend/tests/test_playground_api.py. Existing model hashes recorded in HANDOFF.
+Remote/main fetched:0 remote-only commits,10 verified local commits before this
+final batch. Existing human author/committer identity confirmed. Unrelated untracked
+.freebuff/ and shot*.png excluded. Final focused commit and authorized normal push
+follow only after staged content/diff/history checks; no force push/reconciliation.
+Remaining limitations are deliberate; no outstanding approved implementation task.

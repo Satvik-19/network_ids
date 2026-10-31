@@ -1,6 +1,6 @@
 # AI-Powered Network Intrusion Detection & Security Evaluation System
 
-An explainable, CPU-only network intrusion detection prototype: a supervised XGBoost classifier and a benign-only Isolation Forest feed a deterministic hybrid decision layer with transparent risk scoring, and a React monitoring UI replays recorded CICIDS2017 traffic scenarios so every verdict — known attack, unknown suspicious, or benign — can be inspected as grouped incidents with SHAP-based model explanations. Built as a student-scale academic project (Phases 1–3 complete and frozen).
+An explainable, CPU-only network intrusion detection prototype: a supervised XGBoost classifier and a benign-only Isolation Forest feed a deterministic hybrid decision layer with transparent risk scoring, and a React monitoring UI replays recorded CICIDS2017 traffic scenarios so every verdict — known attack, unknown suspicious, or benign — can be inspected as grouped incidents with SHAP-based model explanations. Built as a student-scale academic project (approved Phase-4 first version implemented; final verification evidence is in docs/TESTING.md).
 
 ![Python 3.10.11](https://img.shields.io/badge/Python-3.10.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688)
@@ -8,7 +8,7 @@ An explainable, CPU-only network intrusion detection prototype: a supervised XGB
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6)
 ![SQLite](https://img.shields.io/badge/SQLite-3-003b57)
 
-> **What this is not:** a production SOC tool, a live-packet-capture IDS, or a zero-day detector. It replays **recorded, labelled CICIDS2017 flows** through a frozen ML pipeline. "Unknown suspicious" means *anomalous unseen behaviour in a generalisation experiment*, not real-world zero-day detection (see [Detection Pipeline](#detection--decision-pipeline) and [Limitations](#limitations)).
+> **What this is not:** a production SOC tool, a live-packet-capture IDS, or a zero-day detector. It replays **recorded, labelled CICIDS2017 flows** through a frozen ML pipeline. "Unknown suspicious" means *a hybrid anomaly alert*, not real-world zero-day detection (see [Detection Pipeline](#detection--decision-pipeline) and [Limitations](#limitations)).
 
 ---
 
@@ -59,7 +59,7 @@ An explainable, CPU-only network intrusion detection prototype: a supervised XGB
 | Term | Means here |
 |---|---|
 | *Known attack* | Supervised prediction is non-BENIGN with confidence ≥ 0.75 |
-| *Unknown suspicious* | Isolation Forest score falls below the calibrated threshold (−0.0928), regardless of the classifier's opinion |
+| *Unknown suspicious* | No confident known-attack decision, then Isolation Forest score below −0.0928; may be a benign false alert |
 | *Replay* | Deterministic streaming of recorded flows at selectable speed (1×/5×/20×) — **not** live capture, **not** attack generation |
 | *Incident* | Rule-grouped set of related suspicious flows (family + source + destination + time window; port excluded for scanning families) |
 
@@ -67,7 +67,7 @@ An explainable, CPU-only network intrusion detection prototype: a supervised XGB
 
 ## Key Features
 
-All features below exist in the code and were validated as of 2026-08-13.
+Current implementation includes the approved reliability, evaluation and Playground work of 2026-10-31; historical ML experiments retain their original dates and qualifications.
 
 **ML / detection**
 - XGBoost multiclass supervised model (15 classes, 77 canonical features) — `ml/artifacts/supervised_model_metadata.json`
@@ -86,8 +86,8 @@ All features below exist in the code and were validated as of 2026-08-13.
 - Behaviour-vs-benign-baseline comparison per flow (median/p25/p75 of 10 key features) — `ml/artifacts/benign_baselines.json`
 
 **Backend / API**
-- FastAPI + SQLAlchemy + SQLite; 12 JSON endpoints (replay control, live evidence feed, incident list/detail, baselines, single-flow predict, health)
-- In-process replay engine with IDLE/RUNNING/PAUSED/COMPLETED/STOPPED lifecycle and per-run `run_id` evidence scoping
+- FastAPI + SQLAlchemy + SQLite; JSON endpoints (replay control, live evidence feed, incident list/detail, baselines, single-flow predict, health)
+- In-process replay engine with IDLE/RUNNING/PAUSED/COMPLETED/STOPPED/FAILED lifecycle and per-run `run_id` evidence scoping
 - Deterministic incident grouping with persisted aggregates — `backend/app/services/incidents.py`
 
 **Monitoring UI (React + TypeScript + Vite + Tailwind)**
@@ -156,7 +156,7 @@ severity = 60.0 if UNKNOWN_SUSPICIOUS
 BENIGN flows:                    score = severity × 0.5            (→ 2.5, always LOW)
 suspicious flows:                score = severity × (0.5 + 0.5·confidence) + 15 × anomaly_signal
   anomaly_signal = 0 when anomaly_score ≥ 0, else
-                   min(1, (threshold − score) / max(0.1, −threshold))
+                   max(0, min(1, (threshold − score) / max(0.1, −threshold)))
 
 level: ≥85 CRITICAL · ≥65 HIGH · ≥40 MEDIUM · else LOW
 ```
@@ -215,7 +215,7 @@ All numbers below are quoted from the committed artifacts in `ml/evaluation/resu
 
 Selection was made on the documented PRD criteria, **not accuracy alone** (DEC-007): `xgb_200` beat the RF candidate on macro-F1 (0.8898 vs 0.8156), separately trained binary-model FP rate (0.0014 vs 0.0017; not the deployed hybrid), rare-class recall (SQL-Injection 0.667 vs 0.0), and inference cost (3.9–4.2 s vs 7.0 s per full test set).
 
-**Evaluation qualification:** six supervised variants were selected using `random/test`, and the final artifact was reported on that same split. These are development benchmark results, not an untouched final assessment. The 0.1433% FPR (651 benign false alerts) belongs to the separate binary classifier; the deployed multiclass classifier has 0.11865% derived binary FPR before confidence gating and IF rescue. Complete hybrid rates require the shared-cohort evaluation described in `docs/EVALUATION_PROTOCOL.md`.
+**Evaluation qualification:** six supervised variants were selected using `random/test`, and the final artifact was reported on that same split. These are development benchmark results, not an untouched final assessment. The 0.1433% FPR (651 benign false alerts) belongs to the separate binary classifier; the deployed multiclass classifier has 0.11865% derived binary FPR before confidence gating and IF rescue. The executed shared-cohort comparison is documented in `docs/EVALUATION_PROTOCOL.md` and `locked_hybrid_random.json`.
 
 **Temporal experiment (Mon–Thu train → Friday test, n = 702,718)** — `baseline_metrics_temporal.json` — is kept deliberately separate and used **only as a generalisation diagnostic**: all models degrade to ≈0.59 multiclass accuracy / ≈0.05 macro-F1 on unseen-day traffic (macro-F1 is deflated because 11 train-only classes score with zero support). This gap is the scientific reason the anomaly branch exists.
 
@@ -241,7 +241,7 @@ For `UNKNOWN_SUSPICIOUS`, the classifier either predicted BENIGN or lacked suffi
 
 ## Backend Architecture
 
-FastAPI app `backend/app/main.py`; SQLAlchemy models in `backend/app/db/models.py`; SQLite database auto-created at `data/network_ids.db` (override with env var `NETWORK_IDS_DB`). Tables: `predictions` (one Phase-2 verdict per flow, incl. persisted SHAP and full feature dict), `incidents`, `incident_flows`, plus three `playground_*` tables that are **schema placeholders for Phase 4 and are never written by current code**.
+FastAPI app `backend/app/main.py`; SQLAlchemy models in `backend/app/db/models.py`; SQLite database auto-created at `data/network_ids.db` (override with env var `NETWORK_IDS_DB`). Tables: `predictions` (one Phase-2 verdict per flow, incl. persisted SHAP and full feature dict), `incidents`, `incident_flows`, plus `playground_profiles`, `playground_runs` and `playground_results` for separate saved scenario assessments. Playground never writes Monitor predictions or incidents. The additive migration records inference-time anomaly thresholds; old rows retain null rather than guessed thresholds.
 
 ### API endpoints (complete, verified against registered routes)
 
@@ -259,6 +259,9 @@ FastAPI app `backend/app/main.py`; SQLAlchemy models in `backend/app/db/models.p
 | GET | `/api/incidents` | Grouped incidents, newest-first (filters: `source`, `destination`, `family`, `classification`, `run_id`) |
 | GET | `/api/incidents/{id}` | Incident detail: evidence flows + persisted SHAP top features + baseline feature subset |
 | GET | `/api/baselines/benign` | Static benign-baseline artifact (median/mean/p25/p75/std per feature, 88,314 benign flows) |
+| POST | `/api/playground/profile` | Validate/save environment profile and preview deterministic prepared suite |
+| POST | `/api/playground/run` | Evaluate saved profile ID synchronously (at most 64 flows), persist assessment |
+| GET | `/api/playground/results/{run_id}` | Retrieve saved evidence/context without recomputation |
 
 Additionally FastAPI serves `/docs` (Swagger UI) and `/openapi.json`. The replay engine is a single in-process worker thread with polling status — **no WebSockets** (ARCHITECTURE_LOCK #15).
 
@@ -266,7 +269,7 @@ Additionally FastAPI serves `/docs` (Swagger UI) and `/openapi.json`. The replay
 
 ## Frontend
 
-React 18 + TypeScript + Vite + Tailwind CSS; charts via Recharts; graph via Cytoscape.js; typed API client (`frontend/src/api/client.ts`) + 1.5 s polling hook. Two screens total, matching the locked module set:
+React 18 + TypeScript + Vite + Tailwind CSS; charts via Recharts; graph via Cytoscape.js; typed API client (`frontend/src/api/client.ts`) + 1.5 s polling hook. Existing Monitor/Incidents views plus the approved Playground:
 
 **Security Monitor** (`frontend/src/pages/SecurityMonitor.tsx`)
 - Replay controls: scenario picker with human-readable labels, Start/Pause/Resume/Stop, speed 1×/5×/20×, clear state indicator
@@ -285,7 +288,7 @@ React 18 + TypeScript + Vite + Tailwind CSS; charts via Recharts; graph via Cyto
 - Hybrid decision breakdown (supervised vs anomaly vs final decision, separate rows)
 - Evidence table with per-flow predictions
 
-Benign (Normal scenario) runs render a deliberately calm healthy state; unfinished Phase-4/5 surfaces (Playground, Model Lab) are **not present in navigation**, and the Phase-1 `/api/predict` engineering harness has no product screen.
+Benign (Normal scenario) runs render a calm healthy state. Security Playground is available in navigation. The Model Evaluation Lab remains deferred; `/api/predict` remains an engineering interface.
 
 ```mermaid
 flowchart LR
@@ -300,16 +303,45 @@ flowchart LR
 
 ---
 
+## Personalized Security Playground
+
+Choose environment (Home/Lab/Small Organisation/Web Server), scale, exposure and
+services. Preview deterministic rules, then run the selected prepared suite through
+the same frozen predictor. Database/file-sharing coverage is explicitly unsupported.
+Normal and benign anomaly controls are always included. No targets or network scans
+are accepted. Runs are synchronous and bounded to 64 flows (current maximum 52).
+
+Readiness = 100 × (0.5 × mean attack-scenario recall + 0.5 × pooled benign specificity).
+Weights are configurable under `playground:` without changing inference. Missing
+selected scenarios suppress the score; no attack or benign evidence makes it not
+applicable. This is a scenario-specific educational summary, not a certified real
+network rating. The report shows counts, result matrix, risk distribution, coverage,
+weakest/strongest tested areas and actual flow explanations. Unknown-attack detection
+is not established by the benign anomaly challenge.
+
+Saved runs retain features, truth, outputs, SHAP for suspicious decisions, provenance,
+profile/suite, model hashes/metadata and threshold/risk/scoring snapshots. Retrieval
+uses the stored result. Failed/interrupted runs have no success score; restart marks
+interrupted requests failed. SQLite unavailability can prevent durable failure writes.
+Monitor evidence remains separate. See `docs/EVALUATION_PROTOCOL.md` for the stronger
+shared-cohort comparison: hybrid rescue adds 2 detections and 5011 benign false alerts
+on 282,788 reused random-test records, rather than improving every metric.
+
+---
+
 ## Scenario / Replay Workflow
 
-Four committed fixtures live in `data/scenarios/` (schema `scenario/v1`). Each flow carries real 77-feature rows taken from held-out CICIDS2017 test data (built by `ml/evaluation/build_scenarios.py`) plus **synthetic side-car metadata** (`source`, `destination`, `service_port`, `seq`) used only for display/graphing — never fed to the model. Expected outcomes below are enforced by the live E2E gate.
+Seven committed fixtures (52 flows) live in `data/scenarios/` (schema `scenario/v1`). Original four vectors and sidecars are preserved. All use real 77-feature CICIDS2017 rows plus synthetic communication metadata, used only for presentation. `prepare_scenarios.py` records pinned-source row locators and hashes. Original PortScan 5/8 and DoS/DDoS 1/8 vectors exactly match deployed-training features; legacy row identity is uncertain. Three new sets exclude exact training-feature matches and were selected without predictions. These tiny fixtures demonstrate behavior, not unbiased detection rates. The original four outcomes below remain the live replay regression gate.
 
 | Scenario | Flows | Pattern | Expected result |
 |---|---|---|---|
 | `normal` | 8 | real BENIGN flows, benign IP pair | 0 suspicious, 0 incidents |
 | `portscan` | 8 | `10.0.0.50` → `10.0.0.9`, 8 distinct ports | 8 KNOWN_ATTACK → **one** Reconnaissance incident (MEDIUM, 50.0) — port excluded from grouping key for scanning families |
 | `dos_or_ddos` | 8 | DoS Hulk + DDoS, `10.0.1.7` → `10.0.0.20:80` | 8 KNOWN_ATTACK → one Denial of Service incident (CRITICAL, ≈92.7) |
-| `unknown` | 4 | flows with ground truth BENIGN that the Isolation Forest flags | 4 UNKNOWN_SUSPICIOUS → one HIGH-risk anomaly incident |
+| `unknown` | 4 | BENIGN anomaly challenge | 4 UNKNOWN_SUSPICIOUS false alerts → one HIGH-risk incident; no attack-detection credit |
+| `ssh_bruteforce` | 8 | held-out SSH-Patator | 8 detected |
+| `ftp_bruteforce` | 8 | held-out FTP-Patator | 8 detected |
+| `web_attack` | 8 | brute force 3, SQL injection 2, XSS 3 | 4 detected, 4 missed (retained) |
 
 Replay pacing is deterministic: `sleep = logical_interval / speed` with logical interval 1.0 s, so speeds 1×/5×/20× change presentation timing only, never ordering or results.
 
@@ -331,7 +363,7 @@ Replay pacing is deterministic: `sleep = logical_interval / speed` with logical 
 │   ├── artifacts/      feature/label/family schema + trained models (see below)
 │   └── tests/          pytest suites
 ├── data/
-│   ├── scenarios/      4 committed replay fixtures
+│   ├── scenarios/      7 committed fixtures with provenance
 │   └── processed/      dev-subset parquet (gitignored; .meta.json committed)
 ├── config/config.yaml  thresholds, severities, replay/incident settings
 └── docs/               PRD-adjacent governance: phases, decisions, bugs, testing,
@@ -397,7 +429,7 @@ The dev-subset build steps are documented in `docs/DATA_ML_CONTRACT.md` §§1–
 ## Manual Testing Checklist
 
 1. Start backend + frontend (above); open http://localhost:5173.
-2. Confirm header "System ready" and two tabs: Security Monitor, Incidents.
+2. Confirm header "System ready" and tabs Security Monitor, Incidents, Security Playground.
 3. **Normal:** run *Normal Traffic* at 20× → verdict "No suspicious activity detected" (green), tiny green timeline bars, "No incidents detected".
 4. **PortScan:** run *Port Scan* → "Reconnaissance detected" + MEDIUM; one incident card `10.0.0.50 → 10.0.0.9`; graph shows one host fanning into multiple `:port` nodes with readable labels.
 5. **DoS:** run *Denial of Service* → "Denial of Service detected" + CRITICAL; tall red timeline bars over the green background traffic.
@@ -407,23 +439,28 @@ The dev-subset build steps are documented in `docs/DATA_ML_CONTRACT.md` §§1–
 9. For a DoS incident, the graph should show repeated traffic into one service port; for Unknown, the hybrid breakdown block should be present.
 10. Check the browser console — the validated pass produced zero app errors.
 11. Pause mid-replay, resume, stop — controls enable/disable with the replay state.
+12. Playground: Home/internal/no services → preview normal + unknown; run → 0 detected, 4 false alerts, score not applicable (no attack evidence).
+13. Playground: Web Server/public/Web → normal + unknown + web_attack + dos_or_ddos; run → 12 detected, 4 missed, 4 false alerts, score 70.83. Database is explicitly uncovered if selected.
+14. Change profile → previous preview/result clears. Reload saved run ID → historical results restored. Check a missed web flow and a benign anomaly false alert in the evidence selector.
 
 ## Testing
 
-Current validated results (2026-08-13; how to run each gate in `docs/TESTING.md`):
+Current verification evidence and exact counts are recorded in `docs/TESTING.md` (2026-10-31). Historical 92-test results below were superseded by the approved implementation regression run:
 
 ```powershell
-# Full ML + backend suite — 92 passed (52 backend + 40 ML)
+# Full ML + backend suite (requires local artifacts and pinned dataset access)
 python -m pytest ml/tests backend/tests -q
 
 # Live replay E2E gate (boots its own uvicorn; writes ml/evaluation/results/e2e_replay_phase3.json)
 python -m backend.tests.e2e_replay_phase3
 
-# Frontend type-check + production build — PASS
-cd frontend; npm run build
+# Frontend logic tests, type-check and production build
+cd frontend
+npm test
+npm run build
 ```
 
-Plus: headless-browser scenario passes over all four scenarios + Incident Detail with zero console errors (evidence in `docs/TESTING.md` §"Phase-3 Frontend UX Pass (2026-08-13)"). Known non-defect: the production bundle warns >500 kB (cytoscape + recharts).
+Browser gates include the original replay/detail checks and current Home/Web/Lab Playground workflows, readiness loss/recovery, saved-result retrieval, actual misses/false alerts and Monitor isolation. The existing production bundle >500 kB warning (Cytoscape + Recharts) remains.
 
 ## Reproducibility
 
@@ -431,7 +468,7 @@ Plus: headless-browser scenario passes over all four scenarios + Incident Detail
 - **Dataset revision pinned** to `d071fd53782d9ca7cdc15173b8ceb858fea04628`; loader, schema, and metadata all record provenance.
 - **Random vs temporal splits are never mixed** within an experiment; preprocessing fits (scaler) use training data only.
 - **Scenario fixtures are committed**, so replay + E2E + UI tests need no dataset download and no network.
-- **Every reported metric** exists as a JSON artifact in `ml/evaluation/results/` (14 files) written by the training/evaluation modules.
+- **Every reported metric** exists as a JSON artifact in `ml/evaluation/results/` written by the training/evaluation modules.
 - Intentionally excluded from git: raw/parquet datasets, dev parquets, `ml/artifacts/baselines/**` (~140 MB), SQLite DBs, model binaries other than the explicit allow-list, venvs, `node_modules`.
 
 ## Scientific Integrity Safeguards
@@ -457,10 +494,12 @@ Supported by the repository's own evidence:
 
 ## Roadmap — Future Phases (Not Implemented)
 
-The following are **planned only** — `docs/PHASES/PHASE_4.md` and `PHASE_5.md` both record status `NOT STARTED`, and the frozen Phase-3 handoff explicitly marks them *not authorized*. No Playground or Model Lab code exists in the repository today (the `playground_*` SQLite tables are unused schema placeholders).
-
-- **Phase 4 — Security Playground:** rule-based environment questionnaire → personalised scenario suite → readiness score 0–100 → blind-spot report. Explicitly *no LLM personalisation, no real scanning*.
-- **Phase 5 — Evaluation & Presentation Hardening:** consolidated evaluation report, Model Evaluation Lab UI (model comparison, confusion matrices, random-vs-temporal visuals), documentation/demo polish; optional static-analysis "App Security Quick Check" gated behind all core gates.
+The approved first Playground version is implemented. Phase 5 remains deferred:
+full Model Evaluation Lab, expanded incident investigation, presentation polish and
+optional PDF export. Live ingestion, mitigation/firewalls, drift monitoring,
+enterprise deployment, external alerting/SIEM, advanced threat intelligence,
+multi-dataset generalization and stronger unknown/zero-day research remain future
+work. They are not prerequisites for this phase.
 
 ## Documentation
 

@@ -153,3 +153,24 @@ def test_unavailable_predictor_returns_503_without_creating_run(monkeypatch):
         assert response.status_code == 503
     with SessionLocal() as db:
         assert db.query(PlaygroundRun).count() == before
+
+
+def test_execution_bound_rejects_oversized_suite_before_creating_run(monkeypatch):
+    from types import SimpleNamespace
+    import backend.app.services.playground as service
+    monkeypatch.setattr(service, 'select_suite', lambda *args: {'suite':[{'name':'normal','available':True}]})
+    monkeypatch.setattr(service, 'load_scenario', lambda *args: SimpleNamespace(total=65))
+    profile = SimpleNamespace(config={'environment':'home'})
+    with pytest.raises(ValueError, match='64-flow'):
+        service.run_profile(None, profile, None)
+
+
+def test_saved_assessment_is_not_reinterpreted_using_current_weights(monkeypatch):
+    from backend.app.api.predict import get_predictor
+    with TestClient(app) as client:
+        result = client.post('/api/playground/run', json={'profile_id':create_web(client)}).json()
+        assert result['assessment']['score'] == 70.83
+        monkeypatch.setitem(get_predictor().config, 'playground', {'detection_weight':1.,'false_alert_weight':0.})
+        saved = client.get(f"/api/playground/results/{result['run_id']}").json()
+        assert saved == result
+        assert saved['assessment']['weights'] == {'detection_weight':.5,'false_alert_weight':.5}

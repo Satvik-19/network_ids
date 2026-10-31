@@ -1,134 +1,68 @@
-# Phase 4 — Personalised Security Playground
+# Phase 4 - Personalized Security Playground
 
-Source: PRD §58 (Phase 4), §18–24, §44, §45. Active only after Phase 3 gate
-passes.
+Status: approved first version COMPLETE and VALIDATED, 2026-10-31.
+PRD: sections18-24,44-46,58. Scope is the reviewed implementation authorization;
+research limitations and Phase 5 expansions deliberately remain.
 
-## Goal
+## Delivered
 
-Build the differentiating interactive layer — personalised, rule-based
-security evaluation — WITHOUT increasing ML complexity.
+- [x] Short questionnaire: environment, scale, exposure and five service options.
+- [x] Validated deterministic relevance rules and saved profile preview.
+- [x] Existing scenario infrastructure reused; original vectors preserved, provenance
+      added; prediction-independent SSH/FTP/web sets added (8 each).
+- [x] Existing hybrid predictor, thresholds, risk formula and SHAP semantics reused.
+- [x] Bounded synchronous runner (<=64 flows) and separate saved Playground evidence.
+- [x] Configurable outcome score, missed/false-alert counts, weakest/strongest areas.
+- [x] UI scenario matrix, risk chart, coverage, flow decisions and explanations.
+- [x] Saved ID retrieval, inference/database failure handling, restart interruption.
+- [x] Explicit simulation boundary and unsupported/unknown coverage.
+- [ ] Optional PDF export - deferred, not a completion dependency.
+- [ ] Stronger unknown-attack experiment and fully independent larger scenario suite -
+      retained research, not claimed complete by this first version.
 
-## PRD Scope
+## Rules and scoring
 
-**Questionnaire (PRD §19):** deliberately short.
-- Environment Type: Personal/Home, College/Lab, Small Organisation,
-  Web Application/Server Environment.
-- Approximate Scale: 1–10, 10–50, 50+ devices.
-- Internet Exposure: internal only / some public services / public-facing.
-- Services: Web/HTTP(S), SSH, FTP, Database, File sharing.
+Always normal + unknown benign anomaly control. SSH/FTP enabled select corresponding
+brute-force fixtures. Web + non-internal exposure selects web attacks. Non-internal
+or50+ scale selects DoS/DDoS. Lab/small organisation or >10 scale selects PortScan.
+Database/file sharing have no prepared coverage. Unknown-attack detection remains
+not established; its benign challenge contributes false alerts only.
 
-**Rule-based scenario generation (PRD §20, §44):** no LLM.
-- SSH enabled → SSH brute-force scenario.
-- FTP enabled → FTP brute-force scenario.
-- Public web → web-attack scenario.
-- Public-facing / larger network → DDoS scenario.
-- Multi-device → Port Scan / reconnaissance.
-- Always → unknown anomaly scenario.
+Score100*(detection_weight*mean attack-scenario recall +
+false_alert_weight*pooled benign specificity); defaults .5/.5 sum1. No score if
+selected fixtures are missing or attack/benign support absent. Coverage counts
+execution, not real-network completeness. Weakest/strongest per-scenario quality
+uses mean recall and specificity where supported; counts/matrix remain visible.
 
-**Scenario library (PRD §45):** `data/scenarios/{ddos,port_scan,
-ssh_bruteforce,ftp_bruteforce,web_attack,botnet,benign,unknown_anomaly}/`
-with held-out representative flows + expected metadata. The unknown scenario
-must be built via a controlled experiment, NOT fake "zero-day" claims
-(PRD §45, §46).
+Examples verified: Home/internal/no services ->2 scenarios,4 false alerts,no attack
+score. Web/public/web ->4 scenarios,12 detections,4 misses,4 false alerts,70.83.
+Lab/50+/public/web+ssh+ftp ->7 scenarios,36 detections,4 misses,4 false alerts,78.33.
 
-**Execution (PRD §21):** prepared scenario flows pass through the exact same
-final hybrid pipeline.
+## Files
 
-**Readiness report (PRD §22, §23, §24):**
-- Readiness score (0–100) derived primarily from actual test outcomes; exact
-  weights configurable.
-- Blind-spot detection = weakest tested area, derived from results.
-- Visuals: readiness score, scenario result matrix, risk distribution,
-  known-vs-unknown coverage, strongest area, blind spot.
-- PDF export optional — must not block completion.
+backend/app/{api,schemas,services}/playground.py, main.py startup hook;
+existing db/models.py PlaygroundProfile/Run/Result; config/config.yaml playground;
+frontend/src/pages/Playground.tsx, App.tsx, api client/types and shared risk chart;
+data/scenarios/*.json, data/processed/scenario_provenance.json;
+ml/evaluation/{prepare_scenarios,evaluate_hybrid}.py and locked report.
 
-## Explicitly Out of Scope During This Phase
+## Gate evidence
 
-- LLM-based personalisation (PRD §20).
-- Any scanning or attack generation against user-supplied IPs/networks
-  (PRD §18, §54).
-- Model Evaluation Lab UI (Phase 5).
-- App Security Quick Check (stretch, after all core gates — PRD §53).
+Different profiles produce different logical suites and complete the same frozen
+pipeline. Full142 Python tests PASS (203.45s);5 Node tests,TypeScript/build PASS;
+original replay real HTTP gate PASS. Live browser verifies Home/Web/Lab, outcomes,
+profile invalidation, persisted reload/restart, readiness controls, missing-ID error,
+flow explanations and Monitor isolation. See TESTING.md final batch and sprint log.
 
-## Required Deliverables (PRD §58 Phase 4)
+## Qualifications and retained scope
 
-- Playground page.
-- Scenario generator.
-- Personalised test results.
+Prepared examples are tiny demonstrations, not an unbiased held-out performance
+estimate. Original PortScan5/8 and DoS/DDoS1/8 vectors match deployed-training
+features, retained per explicit user invariant; legacy identity uncertain. New
+fixtures exclude exact matches. Unknown is benign, not a novel attack experiment.
+Thus stronger PRD research aspirations are not claimed validated by this scope.
+Historical temporal experiment remains separate. DEC-020..022 document choices.
 
-## Implementation Tasks
-
-- [ ] Build the environment questionnaire UI.
-- [ ] Implement rule-based scenario selector (PRD §20).
-- [ ] Prepare held-out scenario sample sets with expected metadata.
-- [ ] Build the controlled unknown-anomaly scenario (per PRD §46 choice).
-- [ ] Implement the test runner (reuse the final hybrid pipeline).
-- [ ] Implement readiness scoring (configurable weights).
-- [ ] Implement blind-spot detection from results.
-- [ ] Build the visual readiness report (Recharts).
-- [ ] (Optional) PDF export — do not let it block the gate.
-
-## Dependencies / Prerequisites
-
-- Phase 3 complete (final hybrid pipeline + incident/visual infrastructure).
-- Held-out scenario data not contaminating training/test sets (PRD §45, §46).
-
-## Files / Components Expected (PRD §55)
-
-- `data/scenarios/<scenario>/`.
-- `backend/app/services/playground/`.
-- `backend/app/api/` (`/api/playground/*`).
-- `frontend/src/pages/` (Playground).
-
-## Validation Plan
-
-- Different profiles produce different logical suites (Phase-4 gate).
-- Readiness score and blind spot are derived from actual outcomes (no fake
-  metrics).
-- Scenario flows are truly held-out (no train/test leakage).
-- Playground tests in `docs/TESTING.md` §9.
-
-## Completion Gate (PRD §58)
-
-Different profiles produce different logical test suites.
-
-```text
-College Lab → SSH + Port Scan + DDoS + anomaly
-Web Server  → Web Attack + DDoS + brute force + anomaly
-```
-
-## Completion Gate Evidence
-
-`TBD — fill when gate passes`.
-
-## Current Status
-
-AUTHORIZED - prerequisites complete; profile/rule implementation begins next (2026-10-31).
-
-## Blockers
-
-None. Approved reliability/evaluation prerequisites passed; no Playground code yet.
-
-## Decisions Made During This Phase
-
-(Record: scenario selection rules, readiness weights, blind-spot logic,
-unknown-anomaly experiment choice, held-out data provenance.)
-
-## Task 7 implementation - 2026-10-31
-
-Validated profile schemas, rule selector and profile preview/save endpoint exist.
-30 related tests PASS. No test runner/readiness/UI yet. Rule boundaries and missing
-coverage explicit; unknown fixture is a benign anomaly challenge. Task 8 next.
-
-## Task 8 implementation - 2026-10-31
-
-Backend runner and saved outcome assessment complete. 46 related tests and original
-replay HTTP gate PASS. See DEC-022 for formula and incomplete/failure semantics.
-Milestone 3 complete; Task 9 frontend and Task 10 final gates still pending.
-
-## Task 9 implementation - 2026-10-31
-
-Playground questionnaire/preview/run/history retrieval and visual assessment now
-implemented and browser-tested. 5 Node tests, TypeScript and production build PASS.
-Home and public web workflows, actual misses/false alerts, unsupported services,
-flow explanation and 404 handling verified. Final project gates remain Task 10.
+No live capture, scanning, mitigation, drift, enterprise/alerting/intelligence
+integrations, extra models/datasets, LLM personalization, full Model Lab or expanded
+investigation. Phase 5 remains deferred. No active implementation blocker.

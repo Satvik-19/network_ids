@@ -1021,3 +1021,21 @@ Legacy PortScan 5/8 and DoS/DDoS 1/8 vectors match deployed training features.
 Published split membership does not establish feature independence or original
 row identity. New fixtures exclude matches; originals remain demo evidence, never
 an unbiased estimate. See data/processed/scenario_provenance.json.
+
+## BUG-018 - Fixture parity assertion assumed the original scenario population
+
+Status: FIXED and final full suite PASS (2026-10-31)
+Severity: LOW (test coverage, no runtime defect)
+The evaluator parity test globbed all fixtures but asserted16 detections after the
+three new fixtures raised the full-suite total to36. Split into explicit original
+four and all-seven populations; original16 requirement retained and expanded36
+verified. Initial full result138 PASS/1 FAIL; final142 PASS. No model or runtime
+logic was changed to satisfy the assertion.
+
+## Retained local demonstration limits - final approved scope
+
+Graph re-layout on polling makes pointer inspection less stable; selector/evidence
+mapping is unit-tested and risk colors verified. Graph polish remains deferred.
+Vite reports >500kB bundle. Playground is synchronous <=64 flows, single-process
+SQLite; permanent DB failure can prevent durable failure writes. These limits do
+not block the authorized academic workflow; production infrastructure is excluded.

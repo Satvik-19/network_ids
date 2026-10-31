@@ -318,3 +318,37 @@ PASS. Browser: Home and public web different suites; scores/counts match backend
 profile edits clear state; database unsupported; 404 clears old assessment; saved
 result reload; missed web prediction and benign anomaly SHAP explanation PASS.
 Final clean-session browser/error and full Python regression checks remain Task 10.
+
+## Final approved-scope gate - 2026-10-31 (supersedes prior current counts)
+
+Commands executed using Python3.10.11 and existing installed dependencies:
+
+```text
+python -m pytest ml/tests backend/tests -q -p no:cacheprovider --tb=short
+142 passed in203.45s (network-enabled pinned dataset checks)
+frontend: node --test tests/*.test.mjs ->5 passed
+frontend: node node_modules/typescript/bin/tsc --noEmit --incremental false ->PASS
+frontend: node node_modules/vite/bin/vite.js build ->PASS (>500kB warning retained)
+backend.tests.e2e_replay_phase3.main with temporary OUT ->PASS
+```
+
+Initial full run138 passed/1 failed: stale all-fixture detection expectation. Final
+parity has explicit original-four16 and all-seven36 checks, keeping both standards.
+Added bounded65-flow rejection and saved assessment unchanged under changed weights.
+No test was skipped or weakened and no runtime logic changed for this failure.
+
+Fresh live browser: Normal Monitor8 benign/0 incidents; Home2 scenarios no score;
+public Web4 scenarios70.83 with12 detected/4 missed/4FP; Lab all7/52 flows78.33 with
+36 detected/4 missed/4FP. Actual missed web and benign-anomaly SHAP viewed. Unsupported
+database, profile edit invalidation, historical reload,404 no stale assessment,
+backend readiness loss (run disabled), recovery and persisted result after process
+restart PASS. Monitor afterward retained its normal-only8-flow evidence. Fresh
+session console had no errors before intentionally stopping backend; offline network
+errors then expected. Default short locator wait expired on full-suite request;
+completed assessment was observed on next inspection, no application failure.
+
+Invariant assertions against f84fb71 and original hashes PASS: original4 vectors,
+truth/sequence/sidecars, existing config sections, all preprocessing/label/schema,
+hybrid/risk/TreeSHAP code, artifact metadata and model bytes unchanged. Only additive
+playground weights and threshold-history schema introduced. Git diff --check PASS.
+Clean-environment dependency installation and production deployment NOT executed.

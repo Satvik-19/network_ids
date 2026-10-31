@@ -133,8 +133,9 @@ reinforcement learning, federated learning, agentic security automation.
 
 ## Current Active Phase
 
-Approved Phase-4 prerequisites: Milestone 1 reliability complete; Milestone 2
-evaluation credibility/provenance active. Playground follows these gates.
+Approved Phase-4 first Playground workflow implemented after reliability and
+evaluation/provenance prerequisites. Final verification is recorded in TESTING.md.
+Phase 5 and advanced/live/enterprise functionality remain deferred.
 See `docs/IMPLEMENTATION_STATUS.md` and `docs/HANDOFF.md`.
 
 ---

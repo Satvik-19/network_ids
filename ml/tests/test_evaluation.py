@@ -45,12 +45,16 @@ def test_mismatched_populations_rejected():
         evaluator().evaluate_outputs(['BENIGN'], [], np.array([1.]), np.array([.1]), .75, -.0928)
 
 
-def test_batch_scoring_matches_real_predictor_on_fixtures():
+@pytest.mark.parametrize('names, expected_tp', [
+    (['normal', 'portscan', 'dos_or_ddos', 'unknown'], 16),
+    (['normal', 'portscan', 'dos_or_ddos', 'unknown', 'ssh_bruteforce', 'ftp_bruteforce', 'web_attack'], 36),
+])
+def test_batch_scoring_matches_real_predictor_on_fixtures(names, expected_tp):
     from backend.app.services.predictor import Phase2Predictor
     ev = evaluator()
     predictor = Phase2Predictor()
-    flows = [f for p in (Path(__file__).resolve().parents[2]/'data/scenarios').glob('*.json')
-             for f in json.loads(p.read_text())['flows']]
+    directory = Path(__file__).resolve().parents[2]/'data/scenarios'
+    flows = [f for name in names for f in json.loads((directory/f'{name}.json').read_text())['flows']]
     matrix = np.array([[f['features'][c] for c in predictor.feature_order] for f in flows])
     labels, confidence, scores = ev.score_rows(predictor, matrix)
     report = ev.evaluate_outputs([f['ground_truth_label'] for f in flows], labels, confidence, scores,
@@ -60,5 +64,5 @@ def test_batch_scoring_matches_real_predictor_on_fixtures():
         assert labels[i] == out['label']
         assert confidence[i] == pytest.approx(out['confidence'])
         assert scores[i] == pytest.approx(out['anomaly_score'], abs=1e-6)
-    assert report['methods']['hybrid']['true_positive'] == 16
+    assert report['methods']['hybrid']['true_positive'] == expected_tp
     assert report['methods']['hybrid']['false_positive'] == 4
