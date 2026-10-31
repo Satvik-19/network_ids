@@ -931,3 +931,13 @@ Prediction carries nullable anomaly_threshold; additive migration preserves old
 records with NULL. API fields are additive. UI uses recorded threshold, never a
 duplicated constant. No historical threshold is invented. Model decisions, risk
 and thresholds themselves remain unchanged. See Batch 3 tests/evidence.
+
+## DEC-019 - Correct historical reporting; retain frozen experiment outputs
+
+Date: 2026-10-31
+Status: ACCEPTED (approved Milestone 2 Task 4)
+Scripts and saved confusion matrices establish actual populations. Current docs
+distinguish binary/multiclass/hybrid, correct split labels and sensitivity recall,
+and acknowledge selection/test reuse. Historical JSON and append-only entries are
+retained; this correction supersedes conflicting prose in DEC-007/010. No data,
+models or decision logic changed. See EVALUATION_PROTOCOL.md.

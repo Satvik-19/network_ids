@@ -242,3 +242,9 @@ sequential replay isolation (table repaints to current-run rows).
 4. Any governance write MUST use the UTF-8 atomic rule (AGENTS.md §2). Verify
    by re-read that no mangled signs exist.
 5. Phase 2 is FROZEN — do not retrain or re-pick models.
+
+## Next after Batch 4 (2026-10-31)
+
+Task 4 reporting complete; read EVALUATION_PROTOCOL.md before Task 5 evaluator.
+No retraining/tuning. Keep existing JSON historical outputs; write a new report.
+Need actual shared-cohort metrics, then provenance + at most 3 scenario types.

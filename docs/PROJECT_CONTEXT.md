@@ -133,8 +133,9 @@ reinforcement learning, federated learning, agentic security automation.
 
 ## Current Active Phase
 
-Phase 1 — Dataset, Research Baseline and Project Foundation.
-See `docs/PHASES/PHASE_1.md` and `docs/IMPLEMENTATION_STATUS.md`.
+Approved Phase-4 prerequisites: Milestone 1 reliability complete; Milestone 2
+evaluation credibility/provenance active. Playground follows these gates.
+See `docs/IMPLEMENTATION_STATUS.md` and `docs/HANDOFF.md`.
 
 ---
 

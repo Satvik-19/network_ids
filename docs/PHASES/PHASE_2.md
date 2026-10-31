@@ -143,7 +143,7 @@ Evidence:
    contributions (`test_shap_explainer_uses_predicted_class`).
 5. Isolation Forest sensitivity audit (`ml/training/if_sensitivity.py`): 4
    configs varying n_estimators / max_samples / max_features, seed 42 fixed,
-   same FPR<=5% calibration. Aggregate unseen recall 0.1685-0.1716 across
+   same FPR<=5% calibration. DDoS-class recall 0.1685-0.1716 across
    configs; deployed config kept -- the low unseen recall is structural, not
    a tuning artifact. Threshold trade-off table in `if_sensitivity.json`.
 6. Unit/contract test coverage:
@@ -178,3 +178,12 @@ None.
 - Unknown experiment: temporal Option B (Friday-only classes) — PRD §46.
 - Benign baseline features: the 10 runtime baseline features in config.
 See docs/DECISIONS.md DEC-004–DEC-010 for rationale and consequences.
+
+## Evaluation clarification - 2026-10-31
+
+Aggregate unseen IF recall across the sensitivity variants is 0.074955–0.076569;
+0.1685–0.1716 is DDoS-class recall. Two variants are equivalent. Supervised
+selection used random/test and reused it for reporting. Frozen results are kept
+as development evidence; see DEC-019 and EVALUATION_PROTOCOL.md. Friday labeled
+validation includes the attack classes later evaluated, and no row timestamps
+establish chronological ordering within its two halves. No retraining/tuning.

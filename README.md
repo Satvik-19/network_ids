@@ -141,7 +141,7 @@ return BENIGN
 Key semantics, verified against code and regression tests:
 
 - **The anomaly rescue is not gated on classifier confidence.** A high-confidence BENIGN prediction whose flow is abnormal enough per the Isolation Forest is still surfaced as `UNKNOWN_SUSPICIOUS` (regression: `test_high_confidence_benign_rescued_by_anomaly`, DEC-010/BUG-007). This is what makes the UI show "classifier said benign, anomaly detector said abnormal" without contradiction.
-- **Thresholds are config-driven**, read at predictor load from `config/config.yaml` → `inference.known_confidence_threshold: 0.75` (validated: acc 0.9991 at conf ≥ 0.75 on random_3way/test) and `inference.anomaly_threshold: -0.0928` (calibrated to max F1 subject to FPR ≤ 5%; the raw sweep value is −0.092803, stored rounded).
+- **Thresholds are config-driven**, read at predictor load from `config/config.yaml` → `inference.known_confidence_threshold: 0.75` (validated: acc 0.9991 at conf ≥ 0.75 on random/test; historical claims named the 3-way split inconsistently) and `inference.anomaly_threshold: -0.0928` (calibrated to max F1 subject to FPR ≤ 5%; the raw sweep value is −0.092803, stored rounded).
 - **`anomaly_score` is the Isolation Forest `decision_function`** — lower means more abnormal; it is not a probability.
 
 Risk score (`ml/hybrid/risk.py`, all constants from `config/config.yaml` → `risk:`):
@@ -209,17 +209,19 @@ All numbers below are quoted from the committed artifacts in `ml/evaluation/resu
 | Accuracy | 0.9987 |
 | Macro-F1 | 0.8898 |
 | Weighted-F1 | 0.9988 |
-| Binary FP rate | 0.0014 |
+| Derived binary FP rate of deployed multiclass classifier (before hybrid) | 0.001187 (539 / 454,265 benign records) |
 | Train time | 78.5 s |
 | Inference time | 3.9 s / 565,576 flows |
 
-Selection was made on the documented PRD criteria, **not accuracy alone** (DEC-007): `xgb_200` beat the RF candidate on macro-F1 (0.8898 vs 0.8156), binary FP rate (0.0014 vs 0.0017), rare-class recall (SQL-Injection 0.667 vs 0.0), and inference cost (3.9–4.2 s vs 7.0 s per full test set).
+Selection was made on the documented PRD criteria, **not accuracy alone** (DEC-007): `xgb_200` beat the RF candidate on macro-F1 (0.8898 vs 0.8156), separately trained binary-model FP rate (0.0014 vs 0.0017; not the deployed hybrid), rare-class recall (SQL-Injection 0.667 vs 0.0), and inference cost (3.9–4.2 s vs 7.0 s per full test set).
+
+**Evaluation qualification:** six supervised variants were selected using `random/test`, and the final artifact was reported on that same split. These are development benchmark results, not an untouched final assessment. The 0.1433% FPR (651 benign false alerts) belongs to the separate binary classifier; the deployed multiclass classifier has 0.11865% derived binary FPR before confidence gating and IF rescue. Complete hybrid rates require the shared-cohort evaluation described in `docs/EVALUATION_PROTOCOL.md`.
 
 **Temporal experiment (Mon–Thu train → Friday test, n = 702,718)** — `baseline_metrics_temporal.json` — is kept deliberately separate and used **only as a generalisation diagnostic**: all models degrade to ≈0.59 multiclass accuracy / ≈0.05 macro-F1 on unseen-day traffic (macro-F1 is deflated because 11 train-only classes score with zero support). This gap is the scientific reason the anomaly branch exists.
 
 **Isolation Forest** (`train_isolation_forest.py`, DEC-008): fit on 88,314 benign rows only, no scaling, `random_state=42`. Threshold calibrated to **max F1 subject to FPR ≤ 5%** on `random_3way/validation` → deployed value **−0.0928**. Reported on the disjoint `random_3way/test` (n = 282,788) — `anomaly_evaluation_random.json`: precision 0.7662, recall 0.2951, F1 0.4261, FPR 0.0221.
 
-**Unknown/unseen experiment** — `unknown_experiment_temporal.json`, `unknown_rescue_summary.json`: on Friday-only traffic, the detector flags a **7.5% aggregate recall** of unseen malicious flows (Bot 1.4%, DDoS 16.9%, PortScan 0.01%) at FPR 3.5%; the hybrid incrementally rescues only **24 of 103,601** flows the classifier had already missed. A four-config sensitivity audit (`if_sensitivity.json`) confirms this is structural, not a tuning artifact. The project's own artifact wording is preserved: *unseen / unknown anomaly simulation (**NOT zero-day detection**)*.
+**Unknown/unseen experiment** — `unknown_experiment_temporal.json`, `unknown_rescue_summary.json`: on Friday-only traffic, the detector flags a **7.5% aggregate recall** of unseen malicious flows (Bot 1.4%, DDoS 16.9%, PortScan 0.01%) at FPR 3.5%; the hybrid incrementally rescues only **24 of 103,601** flows the classifier had already missed. A four-config sensitivity audit (`if_sensitivity.json`) found aggregate temporal recall of 7.4955–7.6569%; two configurations are equivalent because auto resolves to 256 samples. These limited variations did not materially improve recall. The project's own artifact wording is preserved: *unseen / unknown anomaly simulation (**NOT zero-day detection**)*.
 
 ---
 
@@ -233,7 +235,7 @@ Implemented in `ml/hybrid/shap_explainer.py`:
 - **Feature mapping:** contributions are indexed against the canonical 77-feature order in `supervised_model_metadata.json`, hard-validated at predictor load.
 - **Verified:** `test_shap_additivity_across_all_classes` asserts bias + Σ contributions == model margin for every one of the 15 classes (atol 1e-4).
 
-For `UNKNOWN_SUSPICIOUS` incidents the UI explains the disagreement separately: the classifier predicted BENIGN; the anomaly detector flagged abnormal behaviour; SHAP still shows what drove the (benign) classifier prediction — which is itself informative evidence.
+For `UNKNOWN_SUSPICIOUS`, the classifier either predicted BENIGN or lacked sufficient confidence in a malicious prediction; anomaly detection then escalated the flow. SHAP explains that actual supervised prediction, not the anomaly verdict.
 
 ---
 
@@ -435,7 +437,7 @@ Plus: headless-browser scenario passes over all four scenarios + Incident Detail
 ## Scientific Integrity Safeguards
 
 - Ground truth is separated from runtime: scenario `ground_truth_label` is evaluation metadata only; `predict()` receives features only (enforced by three BUG-005 regression tests).
-- Hybrid thresholds were calibrated on validation partitions and are reported with the exact protocol used (FPR ≤ 5% constraint; DEC-008/DEC-010).
+- The IF threshold was calibrated on validation data under an FPR constraint. The 0.75 confidence gate was checked on reused test data; it is not a separately calibrated probability guarantee.
 - Anomalous flags from the benign-only IF are reported with their measured false-positive and missed-detection behaviour — including the deliberately unflattering temporal numbers.
 - Incident grouping is deterministic rule-based grouping over a 30 s window (config-driven), so incident counts are reproducible, not clustering artifacts.
 - UI explanations never overstate: SHAP describes the supervised model only; the anomaly detector's role is described as anomaly detection, and replay timestamps are labelled synthetic.

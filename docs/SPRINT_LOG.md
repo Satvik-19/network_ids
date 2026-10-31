@@ -1286,3 +1286,12 @@ Model and config SHA256 unchanged from Batch 1; no retraining/tuning.
 Milestone 1 approved corrections complete. Next Milestone 2 reporting, locked-model
 comparison and provenance/small scenarios; Playground not yet started. Graph
 layout motion remains presentation polish, not a new redesign task. Nothing pushed.
+
+## [2026-10-31] Batch 4 - Milestone 2 Task 4 evaluation reporting
+
+Corrected current README/data contract/Phase-2/context reporting and added
+EVALUATION_PROTOCOL.md. Historical JSON/logs preserved. Verified source JSON
+assertions: final CM 539/454265, selection test n=565576, binary FP=651, sensitivity
+aggregate min/max=0.074955/0.076569. No application behavior or model changes.
+Validation: UTF-8 re-read of every document; numeric assertions PASS. Next Task 5
+implements the locked-artifact shared-cohort report; Playground not started.

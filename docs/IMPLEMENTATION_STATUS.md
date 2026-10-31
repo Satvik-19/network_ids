@@ -134,3 +134,8 @@ but is authorized after prerequisite gates. Phase 5 expansions remain deferred.
 Task 1 complete (commit 9a01453; full suite 106 passed plus final targeted 16).
 Task 2 readiness/run-scoped UI complete: 32 focused passes, TS/build and browser
 regressions passed. Current task next: Milestone 1 Task 3. Playground NOT STARTED.
+
+## Latest: Milestone 2 Task 4 complete - 2026-10-31
+
+Current evaluation reporting reconciled against scripts/JSON; numeric checks passed.
+Historical evidence retained. Next: Task 5 same-cohort locked-model evaluation.

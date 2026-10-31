@@ -473,14 +473,14 @@ Phase 2 (validated, implemented in `backend/app/schemas/predict.py`):
 {
   "prediction_id": "...",
   "classification": "BENIGN | KNOWN_ATTACK | UNKNOWN_SUSPICIOUS",
-  "label": "specific known attack label or null (UNKNOWN_SUSPICIOUS)",
-  "family": "attack family or null (UNKNOWN_SUSPICIOUS)",
+  "label": "supervised canonical label, including BENIGN for anomaly rescue",
+  "family": "family of the supervised label, retained for all hybrid outcomes",
   "confidence": 0.0,
   "anomaly_score": 0.0,
   "risk_level": "LOW | MEDIUM | HIGH | CRITICAL",
   "risk_score": 0.0,
   "top_features": [
-    {"feature": "...", "shap_value": 0.0, "direction": "increases | decreases | neutral"}
+    {"feature": "...", "shap_value": 0.0, "direction": "pushes_towards | pushes_against"}
   ]
 }
 ```
@@ -515,3 +515,12 @@ Any change to a `[SET]` value requires:
 2. an appended `docs/SPRINT_LOG.md` entry with evidence,
 3. an update to this file, and
 4. (if it affects the API) an update to the inference output contract.
+
+## Reporting correction and evidence threshold - 2026-10-31
+
+DEC-019 and EVALUATION_PROTOCOL.md supersede inconsistent historical split/FPR
+claims; no data or experiment outputs were replaced. The selection script used
+random/test, not random_3way/test. Effective anomaly_threshold is now recorded
+with new prediction/feed/incident evidence (DEC-018); legacy values remain NULL.
+Supervised and IF metadata do not by themselves contain every claimed calibration
+field: configuration and result reports supply the remaining provenance.
