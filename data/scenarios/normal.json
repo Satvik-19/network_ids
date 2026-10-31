@@ -3,7 +3,7 @@
   "name": "normal",
   "description": "8 real BENIGN flows from held-out test that replay as strictly BENIGN (no incident expected)",
   "logical_interval_seconds": 1.0,
-  "note": "features = 77 canonical CICIDS2017 flow features (Phase-2 predict input). source/destination/service_port/seq are SYNTHETIC side-car replay metadata for replay + incident grouping + UI ONLY — they are never part of the model feature vector and predictor.predict() never receives them (BUG-005 runtime purity). ground_truth_label is an evaluation note ONLY; it is never consumed at inference time.",
+  "note": "features = 77 canonical CICIDS2017 flow features (Phase-2 predict input). source/destination/service_port/seq are SYNTHETIC side-car replay metadata for replay + incident grouping + UI ONLY \u2014 they are never part of the model feature vector and predictor.predict() never receives them (BUG-005 runtime purity). ground_truth_label is an evaluation note ONLY; it is never consumed at inference time.",
   "flows": [
     {
       "seq": 0,
@@ -89,6 +89,13 @@
         "Idle Std": 0.0,
         "Idle Max": 0.0,
         "Idle Min": 0.0
+      },
+      "provenance": {
+        "source_row_index": 0,
+        "feature_sha256": "404574c9129ed3fabceaee58c902110104620a14127f5b19b0621e8329e422eb",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -175,6 +182,13 @@
         "Idle Std": 0.0,
         "Idle Max": 0.0,
         "Idle Min": 0.0
+      },
+      "provenance": {
+        "source_row_index": 2,
+        "feature_sha256": "52257b0c17bc86c60f8c9ebd967737f71b17b7aae38e138a6ecbe777ee5c07ac",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -261,6 +275,13 @@
         "Idle Std": 0.0,
         "Idle Max": 5047867.0,
         "Idle Min": 5047867.0
+      },
+      "provenance": {
+        "source_row_index": 3,
+        "feature_sha256": "2955e1c5228f89ee18780b4253147be34f4059104583672d2f505755c39a0e7f",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -347,6 +368,13 @@
         "Idle Std": 0.0,
         "Idle Max": 0.0,
         "Idle Min": 0.0
+      },
+      "provenance": {
+        "source_row_index": 4,
+        "feature_sha256": "d394df6c4b59e1ea3c609d5a038b0817e4a8b2ab530596265e6444354a39c0ad",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -433,6 +461,13 @@
         "Idle Std": 0.0,
         "Idle Max": 5155426.0,
         "Idle Min": 5155426.0
+      },
+      "provenance": {
+        "source_row_index": 5,
+        "feature_sha256": "8211bec2e247222ab83155e6d9fda0d3b10dfdc7e37bc93afb4aab8a1fa2c5f3",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -519,6 +554,13 @@
         "Idle Std": 0.0,
         "Idle Max": 0.0,
         "Idle Min": 0.0
+      },
+      "provenance": {
+        "source_row_index": 6,
+        "feature_sha256": "5f9666510fd5d45ce0517f2537bcb41e700677988d438e19e61c5b7454eb9dba",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -605,6 +647,13 @@
         "Idle Std": 0.0,
         "Idle Max": 0.0,
         "Idle Min": 0.0
+      },
+      "provenance": {
+        "source_row_index": 7,
+        "feature_sha256": "540d2fbc23f312a8d9a89aa49820702acf5a8c5455d9b6d856533d57ad4f2aeb",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     },
     {
@@ -691,7 +740,113 @@
         "Idle Std": 0.0,
         "Idle Max": 0.0,
         "Idle Min": 0.0
+      },
+      "provenance": {
+        "source_row_index": 8,
+        "feature_sha256": "cece96f8d91ac3183df8e7e65c7cef916f93cca4e1a91d61bd3bc6c2c0a52332",
+        "equivalent_source_rows": 1,
+        "locator_basis": "first equivalent row; original row ID was not recorded",
+        "matches_deployed_training_features": false
       }
     }
-  ]
+  ],
+  "purpose": "benign_control",
+  "provenance": {
+    "dataset": "lacg030175/CICIDS2017",
+    "revision": "d071fd53782d9ca7cdc15173b8ceb858fea04628",
+    "config": "random_3way",
+    "split": "test",
+    "feature_order": [
+      "Destination Port",
+      "Flow Duration",
+      "Total Fwd Packets",
+      "Total Backward Packets",
+      "Total Length of Fwd Packets",
+      "Total Length of Bwd Packets",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Fwd Packet Length Std",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Std",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Flow IAT Mean",
+      "Flow IAT Std",
+      "Flow IAT Max",
+      "Flow IAT Min",
+      "Fwd IAT Total",
+      "Fwd IAT Mean",
+      "Fwd IAT Std",
+      "Fwd IAT Max",
+      "Fwd IAT Min",
+      "Bwd IAT Total",
+      "Bwd IAT Mean",
+      "Bwd IAT Std",
+      "Bwd IAT Max",
+      "Bwd IAT Min",
+      "Fwd PSH Flags",
+      "Bwd PSH Flags",
+      "Fwd URG Flags",
+      "Bwd URG Flags",
+      "Fwd Header Length",
+      "Bwd Header Length",
+      "Fwd Packets/s",
+      "Bwd Packets/s",
+      "Min Packet Length",
+      "Max Packet Length",
+      "Packet Length Mean",
+      "Packet Length Std",
+      "Packet Length Variance",
+      "FIN Flag Count",
+      "SYN Flag Count",
+      "RST Flag Count",
+      "PSH Flag Count",
+      "ACK Flag Count",
+      "URG Flag Count",
+      "CWE Flag Count",
+      "ECE Flag Count",
+      "Down/Up Ratio",
+      "Average Packet Size",
+      "Avg Fwd Segment Size",
+      "Avg Bwd Segment Size",
+      "Fwd Avg Bytes/Bulk",
+      "Fwd Avg Packets/Bulk",
+      "Fwd Avg Bulk Rate",
+      "Bwd Avg Bytes/Bulk",
+      "Bwd Avg Packets/Bulk",
+      "Bwd Avg Bulk Rate",
+      "Subflow Fwd Packets",
+      "Subflow Fwd Bytes",
+      "Subflow Bwd Packets",
+      "Subflow Bwd Bytes",
+      "Init_Win_bytes_forward",
+      "Init_Win_bytes_backward",
+      "act_data_pkt_fwd",
+      "min_seg_size_forward",
+      "Active Mean",
+      "Active Std",
+      "Active Max",
+      "Active Min",
+      "Idle Mean",
+      "Idle Std",
+      "Idle Max",
+      "Idle Min"
+    ],
+    "training_subset_sha256": "3a8643f8afa3791f5b82f4501518dee74e9017351ee8cb6929f35585c8de4756",
+    "training_check": "exact canonical float64 feature match against deployed dev_random_train; not proof of semantic independence",
+    "sampling": "preserved legacy demonstration selection; normal/unknown were selected using runtime verdicts",
+    "sampling_seed": null,
+    "seed_note": "deterministic pinned row order; no random sampling",
+    "synthetic_fields": [
+      "source",
+      "destination",
+      "service_port",
+      "seq",
+      "replay_time"
+    ],
+    "unknown_attack_detection_established": false
+  }
 }

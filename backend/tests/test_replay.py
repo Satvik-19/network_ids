@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 from backend.app.db.models import Incident, IncidentFlow, Prediction
+from ml.preprocessing.preprocess import CANONICAL_FEATURE_COLUMNS
 from backend.app.services.replay import (
     ReplayConflict,
     ReplayService,
@@ -31,13 +32,13 @@ UNKNOWN = 3.0
 
 
 class StubPredictor:
-    """Deterministic Phase-2-shaped predictor keyed on the f0 signal feature."""
+    """Deterministic stub keyed on the first canonical feature."""
 
     model_name = "stub-model"
     model_version = "test"
 
     def predict(self, features: dict, *, with_shap: bool = True) -> dict:
-        code = int(features["f0"])
+        code = int(features[CANONICAL_FEATURE_COLUMNS[0]])
         if code == BENIGN:
             classification, family, label = "BENIGN", "BENIGN", "BENIGN"
             risk, level = 5.0, "LOW"
@@ -71,7 +72,7 @@ class StubPredictor:
 
     def explain(self, features: dict, top_k: int = 5) -> dict:
         """Single-pass SHAP surrogate (mirrors Phase2Predictor.explain)."""
-        code = int(features["f0"])
+        code = int(features[CANONICAL_FEATURE_COLUMNS[0]])
         suspicious = code != BENIGN
         return {
             "predicted_class": "attacker" if suspicious else "benign",
@@ -85,7 +86,7 @@ class StubPredictor:
 
 
 def _feats(code: float) -> dict:
-    return {"f0": code, **{f"f{i}": 0.0 for i in range(1, 77)}}
+    return {c: code if i == 0 else 0.0 for i, c in enumerate(CANONICAL_FEATURE_COLUMNS)}
 
 
 def write_scenario(
@@ -417,7 +418,7 @@ def test_replay_truth_label_never_enters_inference(tmp_path):
     for seen in pred.seen + pred.shap_seen:
         assert set(seen) == set(_feats(0.0).keys()), "metadata leaked into inference"
         assert len(seen) == 77
-        assert all(k.startswith("f") for k in seen)
+        assert set(seen) == set(CANONICAL_FEATURE_COLUMNS)
 
 
 # ---------------------------------------------------------------------- #

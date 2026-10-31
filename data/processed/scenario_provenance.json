@@ -1,0 +1,71 @@
+{
+  "dataset": "lacg030175/CICIDS2017",
+  "revision": "d071fd53782d9ca7cdc15173b8ceb858fea04628",
+  "new_scenario_label_support": {
+    "ssh_bruteforce": {
+      "SSH-Patator": 8
+    },
+    "ftp_bruteforce": {
+      "FTP-Patator": 8
+    },
+    "web_attack": {
+      "Web Attack - Brute Force": 3,
+      "Web Attack - Sql Injection": 2,
+      "Web Attack - XSS": 3
+    }
+  },
+  "scenarios": {
+    "dos_or_ddos": {
+      "flows": 8,
+      "training_feature_matches": 1,
+      "truth_counts": {
+        "DoS Hulk": 4,
+        "DDoS": 4
+      }
+    },
+    "ftp_bruteforce": {
+      "flows": 8,
+      "training_feature_matches": 0,
+      "truth_counts": {
+        "FTP-Patator": 8
+      }
+    },
+    "normal": {
+      "flows": 8,
+      "training_feature_matches": 0,
+      "truth_counts": {
+        "BENIGN": 8
+      }
+    },
+    "portscan": {
+      "flows": 8,
+      "training_feature_matches": 5,
+      "truth_counts": {
+        "PortScan": 8
+      }
+    },
+    "ssh_bruteforce": {
+      "flows": 8,
+      "training_feature_matches": 0,
+      "truth_counts": {
+        "SSH-Patator": 8
+      }
+    },
+    "unknown": {
+      "flows": 4,
+      "training_feature_matches": 0,
+      "truth_counts": {
+        "BENIGN": 4
+      }
+    },
+    "web_attack": {
+      "flows": 8,
+      "training_feature_matches": 0,
+      "truth_counts": {
+        "Web Attack - Brute Force": 3,
+        "Web Attack - XSS": 3,
+        "Web Attack - Sql Injection": 2
+      }
+    }
+  }
+}

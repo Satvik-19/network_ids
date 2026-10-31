@@ -18,6 +18,7 @@ from fastapi.testclient import TestClient
 from backend.app.api.replay import get_replay_service
 from backend.app.db.database import SessionLocal, init_db
 from backend.app.main import app
+from ml.preprocessing.preprocess import CANONICAL_FEATURE_COLUMNS
 
 BENIGN = 0.0
 ATTACK = 1.0
@@ -29,7 +30,7 @@ class StubPredictor:
     model_version = "test"
 
     def predict(self, features: dict, *, with_shap: bool = True) -> dict:
-        code = int(features["f0"])
+        code = int(features[CANONICAL_FEATURE_COLUMNS[0]])
         if code == BENIGN:
             cls, fam, lab, risk, lvl = "BENIGN", "BENIGN", "BENIGN", 5.0, "LOW"
         elif code == SCAN:
@@ -44,7 +45,7 @@ class StubPredictor:
         }
 
     def explain(self, features: dict, top_k: int = 5) -> dict:
-        code = int(features["f0"])
+        code = int(features[CANONICAL_FEATURE_COLUMNS[0]])
         return {
             "predicted_class": "attacker" if code != BENIGN else "benign",
             "base_value": 0.0,
@@ -57,7 +58,7 @@ class StubPredictor:
 
 
 def _feats(code: float) -> dict:
-    return {"f0": code, **{f"f{i}": 0.0 for i in range(1, 77)}}
+    return {c: code if i == 0 else 0.0 for i, c in enumerate(CANONICAL_FEATURE_COLUMNS)}
 
 
 _service_holder = {}

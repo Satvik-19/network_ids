@@ -260,7 +260,7 @@ class ReplayService:
     # ------------------------------------------------------------------ #
     def _load_scenario(self, name: str) -> Scenario:
         path = self._scenarios_dir / f"{name}.json"
-        if not path.exists():
+        if name not in {p.stem for p in self._scenarios_dir.glob("*.json")}:
             known = ", ".join(sorted(p.stem for p in self._scenarios_dir.glob("*.json")))
             raise ScenarioError(
                 f"unknown scenario {name!r} (available: {known or 'none'})"

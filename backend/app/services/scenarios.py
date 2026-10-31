@@ -18,9 +18,11 @@ Schema (scenario/v1):
 from __future__ import annotations
 
 import json
+import math
+from numbers import Real
 from pathlib import Path
 
-from backend.app.services.predictor import PredictorError
+from ml.preprocessing.preprocess import CANONICAL_FEATURE_COLUMNS
 
 ROOT = Path(__file__).resolve().parents[3]
 SCENARIOS_DIR = ROOT / "data" / "scenarios"
@@ -42,6 +44,8 @@ class Scenario:
         self.description = doc.get("description", "")
         self.logical_interval_seconds = float(doc.get("logical_interval_seconds", 1.0))
         self.flows = doc["flows"]
+        self.provenance = doc.get("provenance", {})
+        self.purpose = doc.get("purpose", "unspecified")
         if not self.flows:
             raise ScenarioError(f"scenario {self.name!r} has no flows")
 
@@ -107,12 +111,20 @@ def validate_scenario_doc(doc: dict) -> None:
     flows = doc.get("flows")
     if not flows:
         raise ScenarioError("empty flows list")
+    interval = doc.get("logical_interval_seconds", 1.0)
+    if not isinstance(interval, Real) or not math.isfinite(interval) or interval < 0:
+        raise ScenarioError("logical interval must be finite and nonnegative")
     seqs = [f.get("seq") for f in flows]
     if seqs != list(range(len(flows))):
         raise ScenarioError("flows must have contiguous 0-based seq order")
     for f in flows:
         feats = f.get("features")
-        if not isinstance(feats, dict) or len(feats) != FEATURE_COUNT:
+        if not isinstance(feats, dict) or set(feats) != set(CANONICAL_FEATURE_COLUMNS):
             raise ScenarioError(
                 f"flow seq {f.get('seq')} must carry exactly {FEATURE_COUNT} features"
             )
+        if any(isinstance(v, bool) or not isinstance(v, Real) or not math.isfinite(v) for v in feats.values()):
+            raise ScenarioError("feature values must be finite numbers")
+        port = f.get("service_port")
+        if port is not None and (isinstance(port, bool) or not isinstance(port, int) or not 0 <= port <= 65535):
+            raise ScenarioError("service_port must be an integer in 0..65535")
