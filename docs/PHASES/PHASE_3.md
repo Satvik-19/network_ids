@@ -235,3 +235,8 @@ Task 3 remains pending; Milestone 1 is not yet complete. See latest sprint entry
 Tasks 1-3 complete within approved scope. See Batch 1-3 sprint entries for exact
 validation. Next is evaluation credibility/provenance, then Playground; expanded
 investigation and Model Lab remain Phase 5. Original successful scenarios retained.
+
+## Evaluation prerequisite update - 2026-10-31
+
+Approved Milestone 2 Tasks 4-5 completed; see EVALUATION_PROTOCOL.md and new frozen
+comparison. Remaining prerequisite Task 6 scenario provenance, then Playground.

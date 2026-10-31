@@ -1295,3 +1295,23 @@ assertions: final CM 539/454265, selection test n=565576, binary FP=651, sensiti
 aggregate min/max=0.074955/0.076569. No application behavior or model changes.
 Validation: UTF-8 re-read of every document; numeric assertions PASS. Next Task 5
 implements the locked-artifact shared-cohort report; Playground not started.
+
+## [2026-10-31] Batch 5 - Milestone 2 Task 5 frozen hybrid comparison
+
+Added ml/evaluation/evaluate_hybrid.py and ml/tests/test_evaluation.py. Same full
+random_3way/test rows scored by frozen XGBoost, supervised gate, IF and shared
+hybrid function. Records metrics, supports, per-class detection/name correctness,
+rescue/false-alert costs, cohort/model/config hashes, parameters, seed, versions.
+No full-cohort SHAP; fixture batch output parity verified against real predictor.
+Binary confusion matrices now explicitly retain [0,1] on single-class input;
+all callers inspected and use that canonical binary contract.
+
+TDD: 4 evaluator tests failed before module; single-class warning regression
+failed before fixed labels. 21 related tests passed (7.62s, no warnings).
+Executed python -m ml.evaluation.evaluate_hybrid with network permission twice
+(second run adds complete parameter provenance): n=282788, hybrid FPR .0231363,
+recall .9975564; rescue 2 malicious / 138 gate misses, +5011 benign alerts.
+Report is new locked_hybrid_random.json; all historical JSON retained. Artifact
+and threshold hashes verified unchanged. Numeric assertions and UTF-8 docs pass.
+No UI/runtime model changes. Next: scenario provenance and at most SSH/FTP/web
+fixtures. Nothing pushed; current limitations intentionally retained.

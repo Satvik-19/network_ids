@@ -50,3 +50,21 @@ selected scenario suite; coverage and false alerts remain visible.
 Weak unseen recall, tiny minority support, prior test reuse, derivative provenance
 and benchmark-era limitations remain. New datasets, retraining, threshold search,
 stronger unknown-attack research and full Model Lab are outside this batch.
+
+## Locked-artifact comparison executed - 2026-10-31
+
+Entire random_3way/test, n=282788. No fit/tuning. Report:
+ml/evaluation/results/locked_hybrid_random.json (hashes, params, seed, versions).
+
+| Method | Precision | Recall | F1 | Benign FPR |
+|---|---:|---:|---:|---:|
+| XGBoost raw multiclass -> binary | .995172 | .999874 | .997517 | .001189 |
+| Confidence-gated supervised | .995624 | .997520 | .996571 | .001074 |
+| Standalone IF | .766202 | .295063 | .426053 | .022062 |
+| Hybrid | .913534 | .997556 | .953698 | .023136 |
+
+IF rescue adds 2 malicious detections among 138 missed by the confidence gate,
+and 5011 benign false alerts. Relative to raw XGBoost, hybrid also loses recall
+through confidence gating. This is a measured limitation, not justification to
+silently change the approved thresholds or models. These figures describe one
+reused random cohort, not temporal novelty or live-network performance.

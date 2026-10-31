@@ -30,7 +30,7 @@ def evaluate_binary(
     *,
     positive_label: int = 1,
 ) -> dict:
-    """Binary metrics. ``y_prob_positive`` = P(positive) for ROC-AUC."""
+    """Binary 0/1 targets (BENIGN/attack); probabilities support ROC-AUC."""
     out: dict = {
         "n": int(len(y_true)),
         "accuracy": float(accuracy_score(y_true, y_pred)),
@@ -51,7 +51,7 @@ def evaluate_binary(
             out["roc_auc"] = None
     else:
         out["roc_auc"] = None
-    out["confusion_matrix"] = confusion_matrix(y_true, y_pred).tolist()
+    out["confusion_matrix"] = confusion_matrix(y_true, y_pred, labels=[0, 1]).tolist()
     return out
 
 

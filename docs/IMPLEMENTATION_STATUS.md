@@ -139,3 +139,8 @@ regressions passed. Current task next: Milestone 1 Task 3. Playground NOT STARTE
 
 Current evaluation reporting reconciled against scripts/JSON; numeric checks passed.
 Historical evidence retained. Next: Task 5 same-cohort locked-model evaluation.
+
+## Latest: Milestone 2 Task 5 complete - 2026-10-31
+
+Shared-cohort locked-artifact report generated and tested (21 related passes).
+Current next Task 6 provenance and small scenario additions. Playground not started.

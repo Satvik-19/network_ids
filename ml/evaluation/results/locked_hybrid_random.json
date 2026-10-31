@@ -1,0 +1,716 @@
+{
+  "n": 282788,
+  "methods": {
+    "xgboost": {
+      "n": 282788,
+      "accuracy": 0.999020467629461,
+      "precision": 0.9951715874747402,
+      "recall": 0.9998742273968665,
+      "f1": 0.9975173650011203,
+      "roc_auc": null,
+      "confusion_matrix": [
+        [
+          226862,
+          270
+        ],
+        [
+          7,
+          55649
+        ]
+      ],
+      "true_positive": 55649,
+      "false_positive": 270,
+      "true_negative": 226862,
+      "false_negative": 7,
+      "fpr": 0.001188736065371678
+    },
+    "supervised_gate": {
+      "n": 282788,
+      "accuracy": 0.9986491647453216,
+      "precision": 0.995624260248915,
+      "recall": 0.9975204829667961,
+      "f1": 0.9965714696009621,
+      "roc_auc": null,
+      "confusion_matrix": [
+        [
+          226888,
+          244
+        ],
+        [
+          138,
+          55518
+        ]
+      ],
+      "true_positive": 55518,
+      "false_positive": 244,
+      "true_negative": 226888,
+      "false_negative": 138,
+      "fpr": 0.0010742651850025537
+    },
+    "isolation_forest": {
+      "n": 282788,
+      "accuracy": 0.843540037059564,
+      "precision": 0.7662016516586572,
+      "recall": 0.2950625269512721,
+      "f1": 0.42605300367108145,
+      "roc_auc": null,
+      "confusion_matrix": [
+        [
+          222121,
+          5011
+        ],
+        [
+          39234,
+          16422
+        ]
+      ],
+      "true_positive": 16422,
+      "false_positive": 5011,
+      "true_negative": 222121,
+      "false_negative": 39234,
+      "fpr": 0.022062060828064736
+    },
+    "hybrid": {
+      "n": 282788,
+      "accuracy": 0.9809362490629022,
+      "precision": 0.9135335252982312,
+      "recall": 0.9975564179962627,
+      "f1": 0.9536978983260472,
+      "roc_auc": null,
+      "confusion_matrix": [
+        [
+          221877,
+          5255
+        ],
+        [
+          136,
+          55520
+        ]
+      ],
+      "true_positive": 55520,
+      "false_positive": 5255,
+      "true_negative": 221877,
+      "false_negative": 136,
+      "fpr": 0.023136326013067293
+    }
+  },
+  "multiclass_xgboost": {
+    "n": 282788,
+    "accuracy": 0.9987128166683169,
+    "macro_precision": 0.8208625876074349,
+    "macro_recall": 0.8115469629248994,
+    "macro_f1": 0.808255425609624,
+    "weighted_precision": 0.9988408770759708,
+    "weighted_recall": 0.9987128166683169,
+    "weighted_f1": 0.9987506473442774,
+    "per_class": {
+      "BENIGN": {
+        "precision": 0.9999691451895146,
+        "recall": 0.9988112639346283,
+        "f1": 0.9993898691853101,
+        "support": 227132
+      },
+      "Bot": {
+        "precision": 0.6488294314381271,
+        "recall": 0.9897959183673469,
+        "f1": 0.7838383838383839,
+        "support": 196
+      },
+      "DDoS": {
+        "precision": 0.9987394626959741,
+        "recall": 0.9999211232055529,
+        "f1": 0.9993299436364353,
+        "support": 12678
+      },
+      "DoS GoldenEye": {
+        "precision": 0.9912280701754386,
+        "recall": 0.9980372914622179,
+        "f1": 0.9946210268948655,
+        "support": 1019
+      },
+      "DoS Hulk": {
+        "precision": 0.9978836435883038,
+        "recall": 0.9996538594669436,
+        "f1": 0.9987679671457905,
+        "support": 23112
+      },
+      "DoS Slowhttptest": {
+        "precision": 0.9872727272727273,
+        "recall": 0.9926873857404022,
+        "f1": 0.9899726526891522,
+        "support": 547
+      },
+      "DoS slowloris": {
+        "precision": 0.992818671454219,
+        "recall": 0.992818671454219,
+        "f1": 0.992818671454219,
+        "support": 557
+      },
+      "FTP-Patator": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 860
+      },
+      "Heartbleed": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "Infiltration": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "support": 2
+      },
+      "PortScan": {
+        "precision": 0.9939302922220137,
+        "recall": 0.9998111663624347,
+        "f1": 0.9968620559809213,
+        "support": 15887
+      },
+      "SSH-Patator": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 587
+      },
+      "Web Attack - Brute Force": {
+        "precision": 0.7615894039735099,
+        "recall": 0.782312925170068,
+        "f1": 0.7718120805369127,
+        "support": 147
+      },
+      "Web Attack - Sql Injection": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "support": 2
+      },
+      "Web Attack - XSS": {
+        "precision": 0.4406779661016949,
+        "recall": 0.41935483870967744,
+        "f1": 0.4297520661157025,
+        "support": 62
+      }
+    },
+    "confusion_matrix": [
+      [
+        226862,
+        105,
+        16,
+        3,
+        44,
+        5,
+        0,
+        0,
+        0,
+        0,
+        96,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        2,
+        194,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        12677,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1017,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        5,
+        23104,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        543,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        1,
+        0,
+        2,
+        553,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        860,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0,
+        0,
+        15884,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        587,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        115,
+        0,
+        32
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        36,
+        0,
+        26
+      ]
+    ]
+  },
+  "incremental": {
+    "malicious_not_already_known": 138,
+    "malicious_rescued": 2,
+    "rescue_rate": 0.014492753623188406,
+    "additional_benign_alerts": 5011
+  },
+  "per_class": {
+    "BENIGN": {
+      "support": 227132,
+      "xgboost_detected": 270,
+      "supervised_gate_detected": 244,
+      "isolation_forest_detected": 5011,
+      "hybrid_detected": 5255,
+      "supervised_correct_label": 226862,
+      "confident_correct_label": 0
+    },
+    "Bot": {
+      "support": 196,
+      "xgboost_detected": 194,
+      "supervised_gate_detected": 191,
+      "isolation_forest_detected": 6,
+      "hybrid_detected": 191,
+      "supervised_correct_label": 194,
+      "confident_correct_label": 191
+    },
+    "DDoS": {
+      "support": 12678,
+      "xgboost_detected": 12677,
+      "supervised_gate_detected": 12677,
+      "isolation_forest_detected": 2235,
+      "hybrid_detected": 12677,
+      "supervised_correct_label": 12677,
+      "confident_correct_label": 12677
+    },
+    "DoS GoldenEye": {
+      "support": 1019,
+      "xgboost_detected": 1019,
+      "supervised_gate_detected": 1017,
+      "isolation_forest_detected": 7,
+      "hybrid_detected": 1018,
+      "supervised_correct_label": 1017,
+      "confident_correct_label": 1016
+    },
+    "DoS Hulk": {
+      "support": 23112,
+      "xgboost_detected": 23110,
+      "supervised_gate_detected": 23098,
+      "isolation_forest_detected": 13809,
+      "hybrid_detected": 23098,
+      "supervised_correct_label": 23104,
+      "confident_correct_label": 23097
+    },
+    "DoS Slowhttptest": {
+      "support": 547,
+      "xgboost_detected": 547,
+      "supervised_gate_detected": 543,
+      "isolation_forest_detected": 101,
+      "hybrid_detected": 544,
+      "supervised_correct_label": 543,
+      "confident_correct_label": 541
+    },
+    "DoS slowloris": {
+      "support": 557,
+      "xgboost_detected": 556,
+      "supervised_gate_detected": 554,
+      "isolation_forest_detected": 253,
+      "hybrid_detected": 554,
+      "supervised_correct_label": 553,
+      "confident_correct_label": 552
+    },
+    "FTP-Patator": {
+      "support": 860,
+      "xgboost_detected": 860,
+      "supervised_gate_detected": 860,
+      "isolation_forest_detected": 0,
+      "hybrid_detected": 860,
+      "supervised_correct_label": 860,
+      "confident_correct_label": 860
+    },
+    "Infiltration": {
+      "support": 2,
+      "xgboost_detected": 1,
+      "supervised_gate_detected": 1,
+      "isolation_forest_detected": 1,
+      "hybrid_detected": 1,
+      "supervised_correct_label": 1,
+      "confident_correct_label": 1
+    },
+    "PortScan": {
+      "support": 15887,
+      "xgboost_detected": 15887,
+      "supervised_gate_detected": 15884,
+      "isolation_forest_detected": 7,
+      "hybrid_detected": 15884,
+      "supervised_correct_label": 15884,
+      "confident_correct_label": 15883
+    },
+    "SSH-Patator": {
+      "support": 587,
+      "xgboost_detected": 587,
+      "supervised_gate_detected": 587,
+      "isolation_forest_detected": 0,
+      "hybrid_detected": 587,
+      "supervised_correct_label": 587,
+      "confident_correct_label": 587
+    },
+    "Web Attack - Brute Force": {
+      "support": 147,
+      "xgboost_detected": 147,
+      "supervised_gate_detected": 83,
+      "isolation_forest_detected": 0,
+      "hybrid_detected": 83,
+      "supervised_correct_label": 115,
+      "confident_correct_label": 81
+    },
+    "Web Attack - Sql Injection": {
+      "support": 2,
+      "xgboost_detected": 2,
+      "supervised_gate_detected": 0,
+      "isolation_forest_detected": 0,
+      "hybrid_detected": 0,
+      "supervised_correct_label": 1,
+      "confident_correct_label": 0
+    },
+    "Web Attack - XSS": {
+      "support": 62,
+      "xgboost_detected": 62,
+      "supervised_gate_detected": 23,
+      "isolation_forest_detected": 3,
+      "hybrid_detected": 23,
+      "supervised_correct_label": 26,
+      "confident_correct_label": 8
+    }
+  },
+  "provenance": {
+    "dataset": "lacg030175/CICIDS2017",
+    "revision": "d071fd53782d9ca7cdc15173b8ceb858fea04628",
+    "config": "random_3way",
+    "split": "test",
+    "sampling": "entire published partition; no resampling",
+    "rows": 282788,
+    "ordered_cohort_sha256": "9c25ca0a1e19e0379fbb4b2f4be3cf601070626107d20fe5f5748dd2bbe89528",
+    "feature_order": [
+      "Destination Port",
+      "Flow Duration",
+      "Total Fwd Packets",
+      "Total Backward Packets",
+      "Total Length of Fwd Packets",
+      "Total Length of Bwd Packets",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Fwd Packet Length Std",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Std",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Flow IAT Mean",
+      "Flow IAT Std",
+      "Flow IAT Max",
+      "Flow IAT Min",
+      "Fwd IAT Total",
+      "Fwd IAT Mean",
+      "Fwd IAT Std",
+      "Fwd IAT Max",
+      "Fwd IAT Min",
+      "Bwd IAT Total",
+      "Bwd IAT Mean",
+      "Bwd IAT Std",
+      "Bwd IAT Max",
+      "Bwd IAT Min",
+      "Fwd PSH Flags",
+      "Bwd PSH Flags",
+      "Fwd URG Flags",
+      "Bwd URG Flags",
+      "Fwd Header Length",
+      "Bwd Header Length",
+      "Fwd Packets/s",
+      "Bwd Packets/s",
+      "Min Packet Length",
+      "Max Packet Length",
+      "Packet Length Mean",
+      "Packet Length Std",
+      "Packet Length Variance",
+      "FIN Flag Count",
+      "SYN Flag Count",
+      "RST Flag Count",
+      "PSH Flag Count",
+      "ACK Flag Count",
+      "URG Flag Count",
+      "CWE Flag Count",
+      "ECE Flag Count",
+      "Down/Up Ratio",
+      "Average Packet Size",
+      "Avg Fwd Segment Size",
+      "Avg Bwd Segment Size",
+      "Fwd Avg Bytes/Bulk",
+      "Fwd Avg Packets/Bulk",
+      "Fwd Avg Bulk Rate",
+      "Bwd Avg Bytes/Bulk",
+      "Bwd Avg Packets/Bulk",
+      "Bwd Avg Bulk Rate",
+      "Subflow Fwd Packets",
+      "Subflow Fwd Bytes",
+      "Subflow Bwd Packets",
+      "Subflow Bwd Bytes",
+      "Init_Win_bytes_forward",
+      "Init_Win_bytes_backward",
+      "act_data_pkt_fwd",
+      "min_seg_size_forward",
+      "Active Mean",
+      "Active Std",
+      "Active Max",
+      "Active Min",
+      "Idle Mean",
+      "Idle Std",
+      "Idle Max",
+      "Idle Min"
+    ],
+    "artifact_config_sha256": {
+      "ml\\artifacts\\supervised_model.joblib": "9067a808b7159a87918571f74cde1ccb54cbd652818c3816c10f6e66be85bd41",
+      "ml\\artifacts\\isolation_forest.joblib": "89efc5a382c97e55aa40d0bd714e3cbd4511f7fa08312dcf0a09f36e3724c176",
+      "config\\config.yaml": "3f2cb6bc3bda22134b51bdf475316006686e2341898c4f04bef8ae4cfd00496d"
+    },
+    "supervised_parameters": {
+      "n_estimators": 200,
+      "max_depth": 6,
+      "learning_rate": 0.1,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "random_state": 42,
+      "n_jobs": -1,
+      "tree_method": "hist",
+      "verbosity": 0
+    },
+    "isolation_forest_parameters": {
+      "bootstrap": false,
+      "contamination": "auto",
+      "max_features": 1.0,
+      "max_samples": "auto",
+      "n_estimators": 200,
+      "n_jobs": -1,
+      "random_state": 42,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "random_seed": 42,
+    "known_confidence_threshold": 0.75,
+    "anomaly_threshold": -0.0928,
+    "versions": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.2",
+      "scikit-learn": "1.7.1",
+      "xgboost": "3.2.0"
+    },
+    "qualification": "Previously used evaluation cohort; not an untouched post-selection benchmark. No fitting or tuning.",
+    "definitions": "BENIGN truth alerts are false positives; non-BENIGN truth alerts are detections, not necessarily correct attack names. roc_auc null for hard verdicts."
+  }
+}

@@ -248,3 +248,11 @@ sequential replay isolation (table repaints to current-run rows).
 Task 4 reporting complete; read EVALUATION_PROTOCOL.md before Task 5 evaluator.
 No retraining/tuning. Keep existing JSON historical outputs; write a new report.
 Need actual shared-cohort metrics, then provenance + at most 3 scenario types.
+
+## Next after Batch 5 (2026-10-31)
+
+Evaluator complete, 21 related tests PASS. Read locked_hybrid_random.json and
+EVALUATION_PROTOCOL.md. Hybrid adds only 2 malicious rescues and 5011 benign false
+alerts on random_3way/test; do not tune/retrain. Next Task 6: enrich existing
+scenario provenance without altering feature vectors and add up to three types.
+Original runtime artifacts/config hashes remain unchanged. No push yet.
