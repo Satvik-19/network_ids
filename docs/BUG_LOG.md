@@ -1012,3 +1012,12 @@ thresholds and showed benign risk zero. Corrected with boolean selectors, tested
 flow selection, actual label wording, persisted thresholds and recorded risk.
 Validation: 69 Python checks, 4 frontend tests, build/TS, real replay gate and
 browser risk-color/detail checks passed. Legacy threshold remains unavailable.
+
+## BUG-017 - Legacy demo vectors overlap deployed training features
+
+Status: WONTFIX (preserve approved demo behavior; disclose limitation)
+Detected: 2026-10-31 provenance check
+Legacy PortScan 5/8 and DoS/DDoS 1/8 vectors match deployed training features.
+Published split membership does not establish feature independence or original
+row identity. New fixtures exclude matches; originals remain demo evidence, never
+an unbiased estimate. See data/processed/scenario_provenance.json.

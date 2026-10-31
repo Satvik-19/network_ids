@@ -941,3 +941,13 @@ distinguish binary/multiclass/hybrid, correct split labels and sensitivity recal
 and acknowledge selection/test reuse. Historical JSON and append-only entries are
 retained; this correction supersedes conflicting prose in DEC-007/010. No data,
 models or decision logic changed. See EVALUATION_PROTOCOL.md.
+
+## DEC-020 - Provenance-backed small scenario library
+
+Date: 2026-10-31
+Status: ACCEPTED (approved Task 6)
+Preserve original demo vectors and disclose exact-feature overlap separately from
+source-row identity. Legacy locators identify first equivalent pinned rows. Three
+new 8-row SSH/FTP/web fixtures exclude exact deployed-training matches and are
+selected without predictions. Unknown remains a benign anomaly challenge.
+Provenance is evaluation metadata and never enters model inputs.

@@ -256,3 +256,12 @@ EVALUATION_PROTOCOL.md. Hybrid adds only 2 malicious rescues and 5011 benign fal
 alerts on random_3way/test; do not tune/retrain. Next Task 6: enrich existing
 scenario provenance without altering feature vectors and add up to three types.
 Original runtime artifacts/config hashes remain unchanged. No push yet.
+
+## Next after Batch 6 (2026-10-31)
+
+Milestones 1-2 complete. Start approved Task 7 profiles/rules. Seven scenarios,
+52 flows; original vectors unchanged. New SSH/FTP detect 8 each; web misses 4/8.
+Unknown is a benign anomaly challenge (false alerts). Exact training-feature
+matches: original PortScan 5/8, DoS/DDoS 1/8, new sets 0; disclose this in reports.
+57 targeted tests and original live gate passed. Source commit 3c4aef4. No models,
+thresholds or preprocessing changed. No push before full-scope final validation.

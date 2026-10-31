@@ -144,3 +144,9 @@ Historical evidence retained. Next: Task 5 same-cohort locked-model evaluation.
 
 Shared-cohort locked-artifact report generated and tested (21 related passes).
 Current next Task 6 provenance and small scenario additions. Playground not started.
+
+## Latest: Milestones 1-2 complete - 2026-10-31
+
+Task 6 passed 57 focused tests, preparation/repeatability checks and the original
+live gate. Seven fixture types, 52 records; 4 web misses kept. Next: approved
+Phase-4 Playground profile/rule implementation. Playground not implemented yet.

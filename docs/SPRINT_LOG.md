@@ -1315,3 +1315,31 @@ Report is new locked_hybrid_random.json; all historical JSON retained. Artifact
 and threshold hashes verified unchanged. Numeric assertions and UTF-8 docs pass.
 No UI/runtime model changes. Next: scenario provenance and at most SSH/FTP/web
 fixtures. Nothing pushed; current limitations intentionally retained.
+
+## [2026-10-31] Batch 6 - Milestone 2 Task 6 scenario provenance/library
+
+Code commit: 3c4aef4. Added prepare_scenarios.py, scenario tests/manifest and 8-row
+SSH/FTP/web fixtures. Original four fixture vectors, side-cars, sequence and truth
+preserved by explicit before/after equality assertions. Per-record pinned row
+locator, feature SHA256, equivalent-row count and exact training-feature matches
+are disclosed. Legacy locators explicitly mean first equivalent row, not a
+recovered original ID. New selection excludes exact deployed-training/within-set
+feature matches and uses no predictions. Loader validates canonical keys, finite
+numbers, ports and pacing; replay lookup rejects unregistered paths. Test stubs
+now use canonical keys; truth-isolation assertion was strengthened accordingly.
+
+TDD: 7 new tests failed before changes. Final focused scenario/replay/API/failure
+suite 57 passed (9.62s). Pinned dataset preparation and deterministic-order rerun
+passed. Original Uvicorn replay gate PASS (temporary evidence). Real new inference:
+SSH 8 known; FTP 8 known; web 4 known and 4 benign misses retained. New fixtures
+have no exact training matches. Legacy PortScan 5/8 and DoS/DDoS 1/8 match training
+features; these are preserved demo fixtures, not independent performance evidence.
+
+Files: backend services/scenarios.py and replay.py, tests/test_scenarios.py,
+test_replay.py, test_replay_api.py; ml/evaluation/prepare_scenarios.py;
+data/scenarios/*.json, data/processed/scenario_provenance.json; current docs.
+Initial documentation command had a quoting SyntaxError before any write; fixed
+with complete UTF-8 content prepared before atomic replacement/re-read. Historical
+logs kept. No models, thresholds, preprocessing or inference semantics changed.
+Milestone 2 complete within agreed scope. Next approved Task 7 Playground profile
+rules, then execution/scoring/UI. Nothing pushed.

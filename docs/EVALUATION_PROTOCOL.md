@@ -68,3 +68,12 @@ and 5011 benign false alerts. Relative to raw XGBoost, hybrid also loses recall
 through confidence gating. This is a measured limitation, not justification to
 silently change the approved thresholds or models. These figures describe one
 reused random cohort, not temporal novelty or live-network performance.
+
+## Scenario provenance execution - 2026-10-31
+
+prepare_scenarios enriches legacy fixtures without changing vectors; new SSH/FTP/
+web sets have 8 records each. Web supports brute force 3, SQL injection 2, XSS 3;
+actual frozen inference misses 4/8. Original PortScan 5 and DoS/DDoS 1 feature
+vectors match deployed training; all other original and new sets have zero exact
+matches. Legacy locators identify first equivalent rows, not recovered original
+IDs. Feature overlap is disclosed; it does not prove the same row crossed splits.

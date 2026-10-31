@@ -487,3 +487,17 @@ No license file is present in this repository, so no usage rights are currently 
 ---
 
 *Status: Phases 1–3 complete and frozen (2026-08-13, after the Phase-3 frontend UX validation pass). Phases 4–5 are planned but not started.*
+
+## Scenario-library update (2026-10-31)
+
+Seven prepared scenarios now include SSH brute force, FTP brute force and web
+attacks (8 records each). Original replay vectors and side-cars are unchanged.
+Run `python -m ml.evaluation.prepare_scenarios` after original fixture regeneration
+to restore/check provenance. Preparation needs pinned evaluation data and the
+existing dev training subset; replay does not.
+
+`data/processed/scenario_provenance.json` discloses exact training-feature matches
+in 5 original PortScan and 1 DoS/DDoS records. Legacy row locators identify first
+equivalent rows, not recovered original IDs. New scenarios exclude exact training
+matches and are selected without predictions. Four of eight web records are missed
+by the frozen hybrid; those failures are deliberately retained.

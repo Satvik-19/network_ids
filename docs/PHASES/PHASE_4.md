@@ -103,11 +103,11 @@ Web Server  → Web Attack + DDoS + brute force + anomaly
 
 ## Current Status
 
-NOT STARTED.
+AUTHORIZED - prerequisites complete; profile/rule implementation begins next (2026-10-31).
 
 ## Blockers
 
-None (awaiting Phase 3 completion).
+None. Approved reliability/evaluation prerequisites passed; no Playground code yet.
 
 ## Decisions Made During This Phase
 
