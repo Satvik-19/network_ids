@@ -1246,3 +1246,43 @@ or fault hooks added to production. No model/threshold changes. Nothing pushed.
 ### Remaining
 Task 3 graph/semantics/threshold evidence. Then Milestones 2-4. Phase 1/2 model
 research remains frozen; approved reliability and Playground work remains active.
+
+## [2026-10-31] Batch 3 - Milestone 1 Task 3 graph and evidence semantics
+
+### Changes
+Boolean Cytoscape selectors now match actual edge attributes. Host/service/edge
+selection resolves actual flow identifiers. Unknown explanations distinguish
+benign predictions from low-confidence malicious predictions. Risk chart values
+match persisted risk; benign baseline is labeled middle-50% reference band,
+with undefined zero-median ratios. Synthetic scenario metadata is visibly labeled.
+Prediction.anomaly_threshold is an additive nullable column, snapshotted at
+inference, exposed in prediction/feed/incident evidence, and consumed by UI.
+Legacy missing thresholds remain NULL/unavailable, never guessed/backfilled.
+Shared display helpers and a Node built-in frontend test command added; no deps.
+
+### Files
+backend app api/{predict,replay,incidents}.py, db/{database,models}.py,
+schemas/{predict,replay,incidents}.py, services/replay.py; tests/test_replay_api.py,
+tests/test_threshold_history.py; frontend package.json, api/types.ts,
+components/{CommGraph,AttackTimeline,SecurityStatus,TrafficTable,ui}.tsx,
+lib/{graph,detection}.ts, pages/{SecurityMonitor,IncidentDetail}.tsx,
+tests/{graph,detection}.test.mjs; governance.
+
+### Validation
+New graph/selection and threshold API tests failed before implementation;
+new anomaly/unknown helpers were test-first. Node test transpilation target
+corrected to ES2020 to match project tsconfig (default ES5 lost Map iterators).
+67 related Python tests PASS (9.99s); 2 migration/real-predict tests PASS (5.83s).
+4 frontend logic/Cytoscape tests PASS; TypeScript PASS; production build PASS
+(12.33s; existing bundle-size warning). Live Uvicorn original four-scenario and
+sequential-run gate PASS with temporary evidence output. Browser: high-risk edge
+visibly red, synthetic metadata label visible, UNKNOWN detail shows supervised
+BENIGN SHAP correctly, reference-band copy and recorded anomaly flags render;
+zero console errors. Pointer-based service selection was inconclusive while the
+existing graph re-layouts on polls; service/edge counting verified by unit tests.
+Model and config SHA256 unchanged from Batch 1; no retraining/tuning.
+
+### Remaining
+Milestone 1 approved corrections complete. Next Milestone 2 reporting, locked-model
+comparison and provenance/small scenarios; Playground not yet started. Graph
+layout motion remains presentation polish, not a new redesign task. Nothing pushed.

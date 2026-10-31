@@ -70,6 +70,7 @@ def _migrate_schema() -> None:
             "risk_score FLOAT",
         ],
         "predictions": [
+            "anomaly_threshold FLOAT",
             "source VARCHAR(64)",
             "destination VARCHAR(64)",
             "service_port INTEGER",

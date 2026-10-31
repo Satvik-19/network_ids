@@ -391,6 +391,7 @@ class ReplayService:
             classification=prediction["classification"],
             confidence=prediction["confidence"],
             anomaly_score=prediction.get("anomaly_score"),
+            anomaly_threshold=prediction.get("anomaly_threshold"),
             risk_level=prediction["risk_level"],
             risk_score=prediction["risk_score"],
             top_features=prediction.get("top_features") or [],

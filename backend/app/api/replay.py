@@ -114,6 +114,7 @@ def recent_flows(
                 classification=r.classification,
                 confidence=r.confidence,
                 anomaly_score=r.anomaly_score,
+                anomaly_threshold=r.anomaly_threshold,
                 risk_level=r.risk_level,
                 risk_score=r.risk_score,
                 replay_time=(r.replay_time.isoformat() if r.replay_time else None),

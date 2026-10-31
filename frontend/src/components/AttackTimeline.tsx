@@ -17,22 +17,16 @@ const CLS_COLORS: Record<string, string> = {
   UNKNOWN_SUSPICIOUS: "#8b5cf6",
 };
 
-// Benign flows carry risk 0; give them a minimal visible bar so a fully
-// benign run (Normal scenario) still communicates "traffic analysed, all
-// healthy" instead of an empty chart.
-const BENIGN_BASE_HEIGHT = 0.15;
-
 export function AttackTimeline({ flows }: { flows: ReplayFlow[] }) {
   const rows = [...flows]
     .sort((a, b) => (a.seq ?? 0) - (b.seq ?? 0))
     .slice(-200)
     .map((f) => {
-      const benign = (f.classification ?? "BENIGN") === "BENIGN";
       return {
         seq: f.seq ?? f.id,
         at: format(f.replay_time),
-        score: benign ? BENIGN_BASE_HEIGHT : Math.max(1, f.risk_score ?? 0),
-        risk: benign ? 0 : f.risk_score ?? 0,
+        score: f.risk_score ?? 0,
+        risk: f.risk_score,
         cls: f.classification ?? "BENIGN",
         fill: CLS_COLORS[f.classification ?? "BENIGN"] ?? "#64748b",
       };
@@ -56,7 +50,7 @@ export function AttackTimeline({ flows }: { flows: ReplayFlow[] }) {
           <BarChart data={rows} margin={{ top: 4, right: 8, bottom: 0, left: -8 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
             <XAxis dataKey="seq" tick={{ fontSize: 10, fill: "#64748b" }} tickFormatter={fmtTick} />
-            {/* Floor the axis at 1 so benign base-height bars always read as tiny. */}
+            {/* Keep a nonzero axis even when every recorded score is zero. */}
             <YAxis
               tick={{ fontSize: 10, fill: "#64748b" }}
               domain={[0, (dataMax: number) => Math.max(1, dataMax)]}
@@ -65,7 +59,7 @@ export function AttackTimeline({ flows }: { flows: ReplayFlow[] }) {
               contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
               formatter={(_v, _n, item) => {
                 const p = item?.payload as (typeof rows)[number] | undefined;
-                return [p?.cls === "BENIGN" ? "0 · benign" : `${p?.risk ?? 0}`, "risk score"];
+                return [p?.risk == null ? "unavailable" : `${p.risk}`, "risk score"];
               }}
               labelFormatter={(label, payload) => {
                 const p = payload?.[0]?.payload;

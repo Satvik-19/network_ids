@@ -1001,3 +1001,14 @@ Header ignored model_loaded; no-run queries returned history; empty flow lists
 retained old graph; late requests could restore a prior run. Health/UI now check
 inference readiness and invalidate/clear run-scoped snapshots. See Batch 2 sprint
 entry for missing-model, delayed-response, restart/history and recovery evidence.
+
+## BUG-016 - Graph risk selectors and evidence display semantics
+
+Status: FIXED (2026-10-31)
+Severity: MEDIUM
+String true selectors never matched boolean edge fields; service/edge selection
+looked up wrong relations; UNKNOWN text always assumed BENIGN; UI guessed anomaly
+thresholds and showed benign risk zero. Corrected with boolean selectors, tested
+flow selection, actual label wording, persisted thresholds and recorded risk.
+Validation: 69 Python checks, 4 frontend tests, build/TS, real replay gate and
+browser risk-color/detail checks passed. Legacy threshold remains unavailable.

@@ -57,6 +57,7 @@ class PredictResponse(BaseModel):
     anomaly_score: float = Field(
         ..., description="IsolationForest decision_function (lower = more abnormal)"
     )
+    anomaly_threshold: Optional[float] = None
     risk_level: str = Field(
         ..., description="LOW | MEDIUM | HIGH | CRITICAL (PRD §11)"
     )

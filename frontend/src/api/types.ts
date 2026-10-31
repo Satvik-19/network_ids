@@ -41,6 +41,7 @@ export interface ReplayStatus {
 }
 
 export interface ReplayFlow {
+  anomaly_threshold: number | null;
   id: number;
   flow_id: string | null;
   scenario: string | null;
@@ -92,6 +93,7 @@ export interface TopFeature {
 }
 
 export interface IncidentFlowOut {
+  anomaly_threshold: number | null;
   id: number;
   flow_id: string | null;
   prediction_id: number | null;

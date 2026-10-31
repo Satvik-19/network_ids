@@ -51,6 +51,7 @@ class ReplayFlowOut(BaseModel):
     classification: Optional[str] = None
     confidence: Optional[float] = None
     anomaly_score: Optional[float] = None
+    anomaly_threshold: Optional[float] = None
     risk_level: Optional[str] = None
     risk_score: Optional[float] = None
     replay_time: Optional[str] = None

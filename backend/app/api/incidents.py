@@ -104,6 +104,7 @@ def _flow_out(flow, prediction: Prediction | None, baseline_names: list[str]) ->
         service_port=flow.service_port,
         replay_time=flow.replay_time,
         anomaly_score=prediction.anomaly_score if prediction else None,
+        anomaly_threshold=prediction.anomaly_threshold if prediction else None,
         top_features=list(prediction.top_features or []) if prediction else [],
         baseline_features=baseline_features,
     )

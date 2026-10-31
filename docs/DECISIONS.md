@@ -922,3 +922,12 @@ cancelled; restart is rejected while its worker remains alive.
 
 Files: services/replay.py, api/replay.py, schemas/replay.py, main.py,
 backend/tests/test_replay_failures.py. PRD-compatible reliability hardening.
+
+## DEC-018 - Persist effective anomaly thresholds with evidence
+
+Date: 2026-10-31
+Status: ACCEPTED (approved plan Task 3)
+Prediction carries nullable anomaly_threshold; additive migration preserves old
+records with NULL. API fields are additive. UI uses recorded threshold, never a
+duplicated constant. No historical threshold is invented. Model decisions, risk
+and thresholds themselves remain unchanged. See Batch 3 tests/evidence.

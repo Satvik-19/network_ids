@@ -10,6 +10,16 @@ interface SrcFlow {
   risk_score: number | null;
 }
 
+export const SUSPICIOUS_EDGE_SELECTOR = 'edge[?suspicious]';
+export const HIGH_RISK_EDGE_SELECTOR = 'edge[?high_risk]';
+
+export function relatedFlows<T extends SrcFlow>(flows: T[], id: string): T[] {
+  return flows.filter((f) => {
+    const target = f.service_port == null ? f.destination : `${f.destination}:${f.service_port}`;
+    return f.source === id || f.destination === id || target === id || `${f.source}->${target}` === id;
+  });
+}
+
 /**
  * Build a communication-graph model from observed flows (PRD §15). Nodes are
  * the source/destination hosts; a service/port node is added per destination

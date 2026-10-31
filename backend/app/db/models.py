@@ -51,6 +51,7 @@ class Prediction(Base):
 
     # Phase-2 fields.
     anomaly_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    anomaly_threshold: Mapped[float | None] = mapped_column(Float, nullable=True)
     risk_level: Mapped[str | None] = mapped_column(String(16), nullable=True)
     risk_score: Mapped[float | None] = mapped_column(Float, nullable=True)
     top_features: Mapped[list | None] = mapped_column(JSON, nullable=True)

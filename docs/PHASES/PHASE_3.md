@@ -229,3 +229,9 @@ See DEC-017, BUG-014 and latest sprint entry. Phase 3 is not re-declared complet
 Readiness and run-scoped UI tested: 32 focused tests, TypeScript/build, browser
 missing-model/failure/restart/sequential and delayed-response cases passed.
 Task 3 remains pending; Milestone 1 is not yet complete. See latest sprint entry.
+
+## Approved reliability milestone completed - 2026-10-31
+
+Tasks 1-3 complete within approved scope. See Batch 1-3 sprint entries for exact
+validation. Next is evaluation credibility/provenance, then Playground; expanded
+investigation and Model Lab remain Phase 5. Original successful scenarios retained.

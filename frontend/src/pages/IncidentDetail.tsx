@@ -11,6 +11,7 @@ import {
   isAnomalyFlagged,
 } from "../components/ui";
 import { fromIncidentFlows } from "../lib/graph";
+import { unknownExplanation } from "../lib/detection";
 
 interface Props {
   incidentId: number;
@@ -105,8 +106,7 @@ function HeroBlock({ detail }: { detail: IncidentDetailType }) {
       </div>
       {isUnknown && (
         <div className="border-t border-slate-800 px-6 py-3 text-sm text-violet-300">
-          The supervised classifier predicted benign traffic, but the anomaly detector found this
-          flow outside the learned normal pattern. The hybrid IDS escalated it as suspicious.
+          {unknownExplanation(detail.label)}
         </div>
       )}
       {isAttack && (
@@ -125,7 +125,7 @@ function IncidentGraphBlock({ detail }: { detail: IncidentDetailType }) {
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <h2 className="text-sm font-semibold text-slate-200">Observed Communications</h2>
       <p className="text-xs text-slate-500">
-        Evidence flows for this incident (observed communication, not reconstructed topology)
+        Scenario relationships with synthetic addresses, display ports and replay times; not physical topology.
       </p>
       <div className="mt-2">
         <CommGraph data={graph} height={280} />
@@ -209,7 +209,7 @@ function BaselineBlock({ detail }: { detail: IncidentDetailType }) {
       const base = baselines.baselines[name];
       if (base === undefined) return null;
       const median = base.median ?? 0;
-      const ratio = median > 0 ? current / median : 0;
+      const ratio = median > 0 ? current / median : null;
       // Within/outside judgement uses the benign p25–p75 band, not a guess.
       const within = current >= base.p25 && current <= base.p75;
       const below = current < base.p25;
@@ -219,7 +219,7 @@ function BaselineBlock({ detail }: { detail: IncidentDetailType }) {
     name: string;
     current: number;
     median: number;
-    ratio: number;
+    ratio: number | null;
     within: boolean;
     below: boolean;
   }[];
@@ -228,7 +228,7 @@ function BaselineBlock({ detail }: { detail: IncidentDetailType }) {
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <h2 className="text-sm font-semibold text-slate-200">Behaviour vs Normal Baseline</h2>
       <p className="text-xs text-slate-500">
-        Dominant evidence flow compared to typical benign traffic patterns
+        Dominant flow versus the benign middle-50% reference band (p25–p75), not a security boundary
         {baselines.unit_note ? ` · ${baselines.unit_note}` : ""}
       </p>
       <div className="mt-3 space-y-3">
@@ -253,10 +253,8 @@ function BaselineBlock({ detail }: { detail: IncidentDetailType }) {
                 }`}
               >
                 {r.within
-                  ? "within normal range"
-                  : r.below
-                    ? `≈${r.ratio > 0 ? r.ratio.toFixed(1) : "0"}× of normal · below normal range`
-                    : `≈${r.ratio.toFixed(1)}× of normal · above normal range`}
+                  ? "within benign reference band"
+                  : `${r.ratio == null ? "ratio unavailable (zero median)" : `≈${r.ratio.toFixed(1)}× median`} · ${r.below ? "below" : "above"} reference band`}
               </div>
             </div>
           </div>
@@ -272,11 +270,8 @@ function HybridDecisionBlock({ detail }: { detail: IncidentDetailType }) {
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <h2 className="text-sm font-semibold text-slate-200">Why Was It Flagged as Suspicious?</h2>
       <p className="mt-1 text-sm leading-relaxed text-slate-400">
-        The supervised classifier predicted this traffic was benign (confidence{" "}
-        {formatPercent(detail.confidence)}). However, the anomaly detector flagged it as outside
-        the learned normal pattern (anomaly score {formatScore(detail.anomaly_score, 4)}). The
-        hybrid IDS treats disagreement from the anomaly detector as a signal: the flow is
-        escalated to{" "}
+        {unknownExplanation(detail.label)} Supervised confidence {formatPercent(detail.confidence)};
+        anomaly score {formatScore(detail.anomaly_score, 4)}. Final decision:{" "}
         <span className="font-medium text-violet-400">unknown suspicious</span> with elevated risk.
       </p>
     </div>
@@ -311,7 +306,7 @@ function EvidenceBlock({ detail }: { detail: IncidentDetailType }) {
           </thead>
           <tbody className="divide-y divide-slate-800">
             {rows.map((f) => {
-              const anomalyFlag = isAnomalyFlagged(f.anomaly_score);
+              const anomalyFlag = isAnomalyFlagged(f.anomaly_score, f.anomaly_threshold);
               return (
                 <tr key={f.id} className="hover:bg-slate-800/50">
                   <td className="px-3 py-1.5 font-mono text-xs text-slate-400">
@@ -338,12 +333,12 @@ function EvidenceBlock({ detail }: { detail: IncidentDetailType }) {
                   <td className="px-3 py-1.5">
                     <span
                       className={`inline-block rounded px-1.5 py-0.5 text-xs font-medium ${
-                        anomalyFlag
+                        anomalyFlag == null ? "bg-slate-700 text-slate-300" : anomalyFlag
                           ? "bg-violet-500/20 text-violet-400"
                           : "bg-emerald-500/20 text-emerald-400"
                       }`}
                     >
-                      {anomalyFlag ? "Abnormal" : "Normal"}
+                      {anomalyFlag == null ? "Threshold unavailable" : anomalyFlag ? "Abnormal" : "Normal"}
                     </span>
                   </td>
                   <td className="px-3 py-1.5">

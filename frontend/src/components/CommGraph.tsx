@@ -1,6 +1,7 @@
 import cytoscape, { type CytoscapeOptions, type ElementDefinition } from "cytoscape";
 import { useEffect, useRef } from "react";
 import { EmptyState } from "./ui";
+import { SUSPICIOUS_EDGE_SELECTOR, HIGH_RISK_EDGE_SELECTOR } from "../lib/graph";
 
 export interface GraphNode {
   id: string;
@@ -97,11 +98,11 @@ export function CommGraph({ data, height = 320, onSelect }: Props) {
           },
         },
         {
-          selector: 'edge[suspicious = "true"]',
+          selector: SUSPICIOUS_EDGE_SELECTOR,
           style: { "line-color": "#f97316", "target-arrow-color": "#f97316", width: 2 },
         },
         {
-          selector: 'edge[high_risk = "true"]',
+          selector: HIGH_RISK_EDGE_SELECTOR,
           style: { "line-color": "#ef4444", "target-arrow-color": "#ef4444", width: 2.5 },
         },
         {

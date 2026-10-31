@@ -52,6 +52,7 @@ class IncidentFlowOut(BaseModel):
     prediction_id: Optional[int] = None
     label: Optional[str] = None
     confidence: Optional[float] = None
+    anomaly_threshold: Optional[float] = None
     classification: Optional[str] = None
     family: Optional[str] = None
     risk_level: Optional[str] = None

@@ -1,3 +1,11 @@
+## Latest: Milestone 1 complete (2026-10-31)
+
+Tasks 1-3 tested in focused batches; models/config unchanged. Current next task:
+Milestone 2 evaluation reporting, shared-cohort comparison, scenario provenance.
+Playground still NOT STARTED. Batch 3: 69 Python checks, 4 Node tests, TS/build
+and real replay gate PASS; browser red edges and UNKNOWN/detail semantics PASS.
+See latest sprint entry; no push until full scope passes.
+
 # IMPLEMENTATION_STATUS.md — What Actually Exists Right Now
 
 This file answers, in under a few minutes: **what actually exists right now?**

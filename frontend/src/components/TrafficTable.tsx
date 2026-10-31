@@ -31,7 +31,7 @@ export function TrafficTable({ flows }: { flows: ReplayFlow[] }) {
             </thead>
             <tbody className="divide-y divide-slate-800">
               {rows.map((f) => {
-                const anomalyFlag = isAnomalyFlagged(f.anomaly_score);
+                const anomalyFlag = isAnomalyFlagged(f.anomaly_score, f.anomaly_threshold);
                 return (
                   <tr key={f.id} className="hover:bg-slate-800/50">
                     <td className="px-3 py-1.5 font-mono text-xs text-slate-400">
@@ -61,12 +61,12 @@ export function TrafficTable({ flows }: { flows: ReplayFlow[] }) {
                     <td className="px-3 py-1.5">
                       <span
                         className={`inline-block rounded px-1.5 py-0.5 text-xs font-medium ${
-                          anomalyFlag
+                          anomalyFlag == null ? "bg-slate-700 text-slate-300" : anomalyFlag
                             ? "bg-violet-500/20 text-violet-400"
                             : "bg-emerald-500/20 text-emerald-400"
                         }`}
                       >
-                        {anomalyFlag ? "Abnormal" : "Normal"}
+                        {anomalyFlag == null ? "Threshold unavailable" : anomalyFlag ? "Abnormal" : "Normal"}
                       </span>
                     </td>
                     <td className="px-3 py-1.5">

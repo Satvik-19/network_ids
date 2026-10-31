@@ -1,5 +1,6 @@
 import type { IncidentSummary, ReplayStatus } from "../api/types";
 import { RiskBadge } from "./ui";
+import { unknownExplanation } from "../lib/detection";
 
 interface Props {
   status: ReplayStatus | null;
@@ -92,8 +93,7 @@ function derive(
     return {
       tone: "unknown",
       title: "Unrecognized suspicious behavior",
-      body:
-        "The supervised classifier considered this traffic benign, but anomaly detection identified behavior outside the learned normal pattern.",
+      body: unknownExplanation(head.label),
       meta,
       risk,
     };

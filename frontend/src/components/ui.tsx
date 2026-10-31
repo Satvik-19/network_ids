@@ -1,15 +1,6 @@
 import type { Classification, RiskLevel } from "../api/types";
-
-/**
- * Isolation Forest decision threshold. Mirrors `inference.anomaly_threshold`
- * in config/config.yaml (calibrated FPR<=5%). Single source for the UI;
- * if the config value changes, update here to match.
- */
-export const ANOMALY_THRESHOLD = -0.0928;
-
-export function isAnomalyFlagged(score: number | null | undefined): boolean {
-  return score != null && !Number.isNaN(score) && score < ANOMALY_THRESHOLD;
-}
+import { isAnomalyFlagged } from "../lib/detection";
+export { isAnomalyFlagged } from "../lib/detection";
 
 export function formatReplayTime(iso: string | null): string {
   if (!iso) return "—";
@@ -37,10 +28,9 @@ export function formatAnomaly(v: number | null | undefined): string {
   return v.toFixed(4);
 }
 
-export function formatAnomalyFlag(v: number | null | undefined): { label: string; flagged: boolean } {
-  if (v === null || v === undefined || Number.isNaN(v)) return { label: "—", flagged: false };
-  const flagged = isAnomalyFlagged(v);
-  return { label: flagged ? "Abnormal" : "Normal", flagged };
+export function formatAnomalyFlag(v: number | null | undefined, threshold: number | null | undefined): { label: string; flagged: boolean | null } {
+  const flagged = isAnomalyFlagged(v, threshold);
+  return { label: flagged == null ? "Unavailable" : flagged ? "Abnormal" : "Normal", flagged };
 }
 
 const RISK_STYLES: Record<RiskLevel, string> = {

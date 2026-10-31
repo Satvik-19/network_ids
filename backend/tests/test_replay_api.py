@@ -302,6 +302,16 @@ def test_incident_detail_enriched_from_prediction(client):
         assert fl["anomaly_score"] is not None
 
 
+def test_threshold_snapshot_reaches_feed_and_incident_detail(client):
+    client.post('/api/replay/start', json={'scenario': 'portscan', 'speed': 20})
+    done = _wait_state(client, 'COMPLETED')
+    feed = client.get('/api/replay/flows', params={'run_id': done['run_id']}).json()
+    assert all(f['anomaly_threshold'] == -0.0928 for f in feed['flows'])
+    incidents = client.get('/api/incidents', params={'run_id': done['run_id']}).json()
+    detail = client.get(f"/api/incidents/{incidents['incidents'][0]['id']}").json()
+    assert all(f['anomaly_threshold'] == -0.0928 for f in detail['flows'])
+
+
 def test_benign_baselines_endpoint(client):
     """A5: static benign baseline artifact is exposed for the Incident Detail
     UI behaviour-vs-normal comparison (PRD §13)."""

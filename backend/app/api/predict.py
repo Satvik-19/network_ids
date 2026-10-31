@@ -54,6 +54,7 @@ def predict(
         classification=result["classification"],
         confidence=result["confidence"],
         anomaly_score=result["anomaly_score"],
+        anomaly_threshold=result["anomaly_threshold"],
         risk_level=result["risk_level"],
         risk_score=result["risk_score"],
         top_features=result["top_features"],
@@ -70,6 +71,7 @@ def predict(
         family=result["family"],
         confidence=result["confidence"],
         anomaly_score=result["anomaly_score"],
+        anomaly_threshold=result["anomaly_threshold"],
         risk_level=result["risk_level"],
         risk_score=result["risk_score"],
         top_features=[

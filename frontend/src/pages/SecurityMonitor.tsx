@@ -10,7 +10,7 @@ import { SummaryCards } from "../components/SummaryCards";
 import { AttackTimeline } from "../components/AttackTimeline";
 import { TrafficTable } from "../components/TrafficTable";
 import type { IncidentSummary, ReplayFlow, ReplayStatus } from "../api/types";
-import { fromReplayFlows } from "../lib/graph";
+import { fromReplayFlows, relatedFlows } from "../lib/graph";
 
 const POLL_MS = 1500;
 
@@ -65,19 +65,18 @@ export function SecurityMonitor({ ready, onOpenIncident }: { ready: boolean; onO
   const selectionInfo = (() => {
     if (!selection) return null;
     const node = graphData.nodes.find((n) => n.id === selection);
-    if (node) {
-      const related = flows.filter(
-        (f) => f.source === node.label || f.destination === node.label,
-      );
+    const edge = graphData.edges.find((e) => e.id === selection);
+    if (node || edge) {
+      const related = relatedFlows(flows, selection);
       const risk = related.reduce((m, f) => Math.max(m, f.risk_score ?? 0), 0);
       const suspicious = related.filter((f) => f.classification !== "BENIGN").length;
       return {
-        title: node.label,
+        title: node?.label ?? edge!.label,
         lines: [
           `${related.length} observed communication${related.length !== 1 ? "s" : ""}`,
           `${suspicious} suspicious flow${suspicious !== 1 ? "s" : ""}`,
           `max risk: ${risk.toFixed(1)}`,
-          node.kind === "port" ? "service / port node" : "network host",
+          node ? (node.kind === "port" ? "service / port node" : "network host") : "observed scenario relationship",
         ],
       };
     }
@@ -124,6 +123,7 @@ export function SecurityMonitor({ ready, onOpenIncident }: { ready: boolean; onO
           <div className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-500">
             Communication Map
           </div>
+          <p className="mb-2 text-xs text-slate-500">Scenario addresses, display ports and replay times are synthetic.</p>
           <CommGraph data={graphData} height={360} onSelect={(s) => setSelection(s.id)} />
           {selectionInfo && (
             <div className="mt-2 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
