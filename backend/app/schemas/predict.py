@@ -78,3 +78,5 @@ class HealthResponse(BaseModel):
     feature_count: int
     phase: str = "phase-2"
     version: str = "0.2.0"
+    readiness: str = "unavailable"
+    message: Optional[str] = None

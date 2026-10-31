@@ -120,3 +120,9 @@ replay lifecycle; implemented and targeted/live-gate tested (62 related passes).
 Full regression: 106 passed in 250.99s with network access. Next: Task 2 readiness
 and frontend run state, only after Task 1 checks. Playground remains NOT STARTED,
 but is authorized after prerequisite gates. Phase 5 expansions remain deferred.
+
+## Latest batch - 2026-10-31
+
+Task 1 complete (commit 9a01453; full suite 106 passed plus final targeted 16).
+Task 2 readiness/run-scoped UI complete: 32 focused passes, TS/build and browser
+regressions passed. Current task next: Milestone 1 Task 3. Playground NOT STARTED.

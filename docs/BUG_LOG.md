@@ -992,3 +992,12 @@ suite initially blocked by sandbox sockets (WinError 10013); network-enabled ful
 Regression file: backend/tests/test_replay_failures.py.
 Limitation: failed runs retain already committed incidents; final end markers
 may remain unset when the finalization transaction fails. No history is deleted.
+
+## BUG-015 - False readiness and stale Monitor evidence
+
+Status: FIXED (2026-10-31)
+Severity: HIGH for misleading readiness; MEDIUM for stale evidence.
+Header ignored model_loaded; no-run queries returned history; empty flow lists
+retained old graph; late requests could restore a prior run. Health/UI now check
+inference readiness and invalidate/clear run-scoped snapshots. See Batch 2 sprint
+entry for missing-model, delayed-response, restart/history and recovery evidence.

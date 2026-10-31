@@ -223,3 +223,9 @@ Task 1 replay lifecycle implemented; 62 related tests and live four-scenario gat
 passed. Full dataset-backed suite: 106 passed in 250.99s with network access.
 Task 2 readiness/frontend state and Task 3 graph/semantics are still pending.
 See DEC-017, BUG-014 and latest sprint entry. Phase 3 is not re-declared complete.
+
+## Reliability Task 2 complete - 2026-10-31
+
+Readiness and run-scoped UI tested: 32 focused tests, TypeScript/build, browser
+missing-model/failure/restart/sequential and delayed-response cases passed.
+Task 3 remains pending; Milestone 1 is not yet complete. See latest sprint entry.

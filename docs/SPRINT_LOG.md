@@ -1210,3 +1210,39 @@ IF 89efc5a382c97e55aa40d0bd714e3cbd4511f7fa08312dcf0a09f36e3724c176.
 ### Remaining
 Task 2 readiness/frontend state; Task 3 graph/explanation corrections; evaluation,
 scenario provenance, Playground backend/UI. No push before complete verified scope.
+
+## [2026-10-31] Batch 2 - Milestone 1 Task 2 readiness and run-scoped UI
+
+### Changes and rationale
+Health retains prior fields and adds readiness/message; raw artifact paths are
+not exposed. Header checks model_loaded and refreshes health every 5 seconds.
+Start is disabled while inference is unavailable. FAILED has explicit UI copy
+and recovery controls. Monitor stores status/evidence together, clears on new
+or absent run_id, derives graph from current flows, invalidates late responses,
+and cancels stale updates on unmount. Incidents history remains unscoped.
+
+### Files
+backend/app/main.py, schemas/predict.py, tests/test_readiness.py;
+frontend/src/App.tsx, api/client.ts, api/types.ts, components/ReplayControls.tsx,
+components/SecurityStatus.tsx, pages/SecurityMonitor.tsx.
+
+### Validation
+Readiness tests failed before changes (missing fields), including schema round
+trip before schema fix. Final focused command: python -m pytest
+backend/tests/test_readiness.py backend/tests/test_replay_failures.py
+backend/tests/test_replay_api.py -q -p no:cacheprovider => 32 passed (5.85s).
+TypeScript: node node_modules/typescript/bin/tsc --noEmit --incremental false PASS.
+Production: node node_modules/vite/bin/vite.js build PASS (11.62s); existing
+>500 kB bundle warning retained. Browser via Vite :5174 + real Uvicorn :8000
+with disposable SQLite: missing models => actionable warning/disabled Start;
+ready recovery; PortScan -> Normal cleared old table/graph/incidents; backend
+restart => idle Monitor empty while Incidents history remained accessible;
+controlled inference failure => FAILED with enabled Start; subsequent Normal
+completed. Delayed-response probe held old PortScan /flows via temporary test
+middleware, started Normal, released old response => Normal evidence stayed
+isolated. No console errors in final successful recovery. No test middleware
+or fault hooks added to production. No model/threshold changes. Nothing pushed.
+
+### Remaining
+Task 3 graph/semantics/threshold evidence. Then Milestones 2-4. Phase 1/2 model
+research remains frozen; approved reliability and Playground work remains active.

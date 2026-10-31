@@ -1,3 +1,9 @@
+# Latest batch: Task 2 complete (2026-10-31)
+
+Readiness + run-scoped UI: 32 focused tests PASS, TS/build PASS, browser missing
+models, sequential runs, delayed old response, restart/history and FAILED/recovery
+PASS. Next: Task 3 graph/semantics. Do not redo Tasks 1-2; models unchanged.
+
 # HANDOFF.md — Current Operational Handoff
 
 Current operational handoff, refreshed continuously. Permanent history lives

@@ -34,6 +34,14 @@ function derive(
   const active = status.state === "RUNNING" || status.state === "PAUSED";
   const completed = status.state === "COMPLETED";
 
+  if (status.state === "FAILED") {
+    return {
+      tone: "suspicious",
+      title: "Replay failed",
+      body: `${status.processed}/${status.total} flows analysed. ${status.error ?? "Check the backend and start a new run."}`,
+    };
+  }
+
   if (active && status.processed < status.total) {
     return {
       tone: "info",

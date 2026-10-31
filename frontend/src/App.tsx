@@ -3,8 +3,9 @@ import { api } from "./api/client";
 import { IncidentDetail } from "./pages/IncidentDetail";
 import { IncidentsPage } from "./pages/IncidentsPage";
 import { SecurityMonitor } from "./pages/SecurityMonitor";
+import { usePolling } from "./api/usePolling";
+import type { Health } from "./api/types";
 
-type Health = { status: string; model_loaded: boolean; feature_count: number };
 type View = { name: "monitor" } | { name: "incidents"; openId: number | null };
 
 const NAV = [
@@ -16,12 +17,14 @@ export default function App() {
   const [view, setView] = useState<View>({ name: "monitor" });
   const [health, setHealth] = useState<Health | null>(null);
 
-  useEffect(() => {
-    api
+  function refreshHealth() {
+    return api
       .health()
       .then(setHealth)
       .catch(() => setHealth(null));
-  }, []);
+  }
+  useEffect(() => { void refreshHealth(); }, []);
+  usePolling(refreshHealth, 5000, true);
 
   function navTo(id: string) {
     if (id === "monitor") setView({ name: "monitor" });
@@ -47,12 +50,15 @@ export default function App() {
           <div className="flex items-center gap-2 text-xs text-slate-500">
             <span
               className={`inline-block h-2 w-2 rounded-full ${
-                health ? "bg-emerald-400" : "bg-red-400"
+                health?.model_loaded ? "bg-emerald-400" : "bg-red-400"
               }`}
             />
-            {health ? "System ready" : "Backend unreachable"}
+            {health?.model_loaded ? "System ready" : health ? "Model unavailable" : "Backend unreachable"}
           </div>
         </header>
+        {health && !health.model_loaded && (
+          <p role="alert" className="mb-4 text-sm text-amber-300">{health.message}</p>
+        )}
 
         <nav className="mb-6 flex gap-1">
           {NAV.map((item) => (
@@ -72,7 +78,7 @@ export default function App() {
 
         <main>
           {view.name === "monitor" && (
-            <SecurityMonitor onOpenIncident={(id) => setView({ name: "incidents", openId: id })} />
+            <SecurityMonitor ready={health?.model_loaded === true} onOpenIncident={(id) => setView({ name: "incidents", openId: id })} />
           )}
           {view.name === "incidents" &&
             (view.openId == null ? (

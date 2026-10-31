@@ -4,13 +4,14 @@ import type { ReplayStatus, ScenarioInfo } from "../api/types";
 import { scenarioDescription, scenarioDisplayName } from "./ui";
 
 interface Props {
+  ready: boolean;
   status: ReplayStatus | null;
   onStarted: (s: ReplayStatus) => void;
   speed: number;
   onSpeed: (s: number) => void;
 }
 
-export function ReplayControls({ status, onStarted, speed, onSpeed }: Props) {
+export function ReplayControls({ ready, status, onStarted, speed, onSpeed }: Props) {
   const [scenarios, setScenarios] = useState<ScenarioInfo[]>([]);
   const [scenario, setScenario] = useState("portscan");
   const [busy, setBusy] = useState(false);
@@ -45,7 +46,7 @@ export function ReplayControls({ status, onStarted, speed, onSpeed }: Props) {
   }
 
   const canStart =
-    !busy && (activeState === "IDLE" || activeState === "COMPLETED" || activeState === "STOPPED");
+    ready && !busy && ["IDLE", "COMPLETED", "STOPPED", "FAILED"].includes(activeState);
   const canPause = !busy && activeState === "RUNNING";
   const canResume = !busy && activeState === "PAUSED";
   const canStop = !busy && (activeState === "RUNNING" || activeState === "PAUSED");
@@ -56,6 +57,7 @@ export function ReplayControls({ status, onStarted, speed, onSpeed }: Props) {
     PAUSED: "Paused",
     COMPLETED: "Completed",
     STOPPED: "Stopped",
+    FAILED: "Failed",
   };
 
   const stateColor =
@@ -112,7 +114,7 @@ export function ReplayControls({ status, onStarted, speed, onSpeed }: Props) {
         </div>
 
         <div className="flex items-end gap-2">
-          {(canStart || activeState === "COMPLETED" || activeState === "STOPPED") && (
+          {["IDLE", "COMPLETED", "STOPPED", "FAILED"].includes(activeState) && (
             <button
               onClick={() => run(() => api.starting(scenario, speed))}
               disabled={!canStart}
@@ -157,7 +159,7 @@ export function ReplayControls({ status, onStarted, speed, onSpeed }: Props) {
             }`}
           />
           <span className="text-xs font-medium text-slate-300">
-            {stateLabel[activeState] ?? activeState}
+            {!ready && activeState === "IDLE" ? "Model unavailable" : stateLabel[activeState] ?? activeState}
           </span>
         </div>
       </div>

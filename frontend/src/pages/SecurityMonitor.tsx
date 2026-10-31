@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../api/client";
 import { usePolling } from "../api/usePolling";
-import type { GraphData } from "../components/CommGraph";
 import { CommGraph } from "../components/CommGraph";
 import { IncidentList } from "../components/IncidentList";
 import { ReplayControls } from "../components/ReplayControls";
@@ -15,35 +14,47 @@ import { fromReplayFlows } from "../lib/graph";
 
 const POLL_MS = 1500;
 
-export function SecurityMonitor({ onOpenIncident }: { onOpenIncident: (id: number) => void }) {
-  const [status, setStatus] = useState<ReplayStatus | null>(null);
-  const [flows, setFlows] = useState<ReplayFlow[]>([]);
-  const [incidents, setIncidents] = useState<IncidentSummary[]>([]);
+export function SecurityMonitor({ ready, onOpenIncident }: { ready: boolean; onOpenIncident: (id: number) => void }) {
+  const [snapshot, setSnapshot] = useState<{
+    status: ReplayStatus | null; flows: ReplayFlow[]; incidents: IncidentSummary[];
+  }>({ status: null, flows: [], incidents: [] });
+  const { status, flows, incidents } = snapshot;
+  const request = useRef(0);
+  const currentRun = useRef<string | null>(null);
   const [speed, setSpeed] = useState(5);
-  const [graphData, setGraphData] = useState<GraphData>({ nodes: [], edges: [] });
+  const graphData = useMemo(() => fromReplayFlows(flows), [flows]);
   const [selection, setSelection] = useState<string | null>(null);
   const [monitorError, setMonitorError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
+    const version = ++request.current;
     try {
       const st = await api.replayStatus();
-      setStatus(st);
-      const runId = st.run_id ?? undefined;
+      if (version !== request.current) return;
+      if (currentRun.current !== st.run_id || !st.run_id) {
+        currentRun.current = st.run_id;
+        setSelection(null);
+        setSnapshot({ status: st, flows: [], incidents: [] });
+      }
+      if (!st.run_id) {
+        setMonitorError(null);
+        return;
+      }
       const [fl, inc] = await Promise.all([
-        api.recentFlows(100, runId),
-        api.incidents(runId),
+        api.recentFlows(100, st.run_id),
+        api.incidents(st.run_id),
       ]);
-      setFlows(fl.flows);
-      setIncidents(inc.incidents);
-      if (fl.flows.length) setGraphData(fromReplayFlows(fl.flows));
+      if (version !== request.current) return;
+      setSnapshot({ status: st, flows: fl.flows, incidents: inc.incidents });
       setMonitorError(null);
     } catch (e) {
-      setMonitorError(e instanceof Error ? e.message : String(e));
+      if (version === request.current) setMonitorError(e instanceof Error ? e.message : String(e));
     }
   }, []);
 
   useEffect(() => {
     void refresh();
+    return () => { request.current += 1; };
   }, [refresh]);
   usePolling(refresh, POLL_MS, true);
 
@@ -77,14 +88,22 @@ export function SecurityMonitor({ onOpenIncident }: { onOpenIncident: (id: numbe
     <div className="space-y-4">
       {monitorError && (
         <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
-          Backend unavailable: {monitorError}
+          Monitoring unavailable: {monitorError}
         </div>
       )}
 
       <ReplayControls
+        ready={ready}
         status={status}
         onStarted={(s) => {
-          setStatus(s);
+          request.current += 1;
+          if (currentRun.current !== s.run_id) {
+            currentRun.current = s.run_id;
+            setSelection(null);
+            setSnapshot({ status: s, flows: [], incidents: [] });
+          } else {
+            setSnapshot((previous) => ({ ...previous, status: s }));
+          }
           void refresh();
         }}
         speed={speed}

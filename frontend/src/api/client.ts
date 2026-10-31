@@ -6,6 +6,7 @@ import type {
   ReplayFlowsOut,
   ReplayStatus,
   ScenarioInfo,
+  Health,
 } from "./types";
 
 const BASE = "/api";
@@ -45,7 +46,7 @@ async function post<T>(path: string, body: unknown): Promise<T> {
 }
 
 export const api = {
-  health: () => get<{ status: string; model_loaded: boolean; feature_count: number }>("/health"),
+  health: () => get<Health>("/health"),
   scenarios: () => get<ScenarioInfo[]>("/replay/scenarios"),
   replayStatus: () => get<ReplayStatus>("/replay/status"),
   starting: (scenario: string, speed: number) =>

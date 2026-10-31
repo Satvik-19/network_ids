@@ -52,6 +52,8 @@ def health() -> dict:
             "feature_count": len(p.feature_order),
             "phase": "phase-2",
             "version": "0.2.0",
+            "readiness": "ready",
+            "message": None,
         }
     except Exception:  # artifacts not exported yet
         return {
@@ -60,4 +62,6 @@ def health() -> dict:
             "feature_count": 0,
             "phase": "phase-2",
             "version": "0.2.0",
+            "readiness": "unavailable",
+            "message": "Model artifacts could not be loaded. Check the runtime artifacts and configuration.",
         }

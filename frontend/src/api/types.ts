@@ -1,6 +1,13 @@
 /** Typed API contracts matching the FastAPI response models (backend/app/schemas). */
 
-export type ReplayState = "IDLE" | "RUNNING" | "PAUSED" | "COMPLETED" | "STOPPED";
+export type ReplayState = "IDLE" | "RUNNING" | "PAUSED" | "COMPLETED" | "STOPPED" | "FAILED";
+export interface Health {
+  status: string;
+  model_loaded: boolean;
+  feature_count: number;
+  readiness: "ready" | "unavailable";
+  message: string | null;
+}
 export type Classification = "BENIGN" | "KNOWN_ATTACK" | "UNKNOWN_SUSPICIOUS";
 export type RiskLevel = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 
