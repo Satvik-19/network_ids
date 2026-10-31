@@ -970,3 +970,25 @@ pass with zero console errors.
 Frontend-only presentation defect found during the Phase-3 UX pass browser
 validation. No backend/ML impact. Related lineage: BUG-009 (Cytoscape init
 lifetime).
+
+
+## BUG-014 - Replay errors retried forever; transactions and timed joins were unsafe
+
+Status: FIXED (targeted regressions and real replay gate passed)
+Detected: repository audit; implemented 2026-10-31
+Phase: approved reliability prerequisite
+Severity: HIGH
+
+Persistent prediction/SHAP/persistence failures retried the same sequence;
+session creation/final commit exceptions escaped the worker; a timed join could
+reset counters before the previous worker exited. Incident count also advanced
+before commit. The worker now reports FAILED, rolls back, closes, counts only
+committed evidence, and rejects restart while a prior worker is alive. Application
+shutdown wakes/drains paused workers. Unexpected API errors no longer become 409.
+
+Validation: 14 targeted failure/API/lifespan cases; 62 related backend tests
+passed; real Uvicorn gate over original four fixtures passed. Full dataset-backed
+suite initially blocked by sandbox sockets (WinError 10013); network-enabled full suite passed: 106 tests in 250.99s.
+Regression file: backend/tests/test_replay_failures.py.
+Limitation: failed runs retain already committed incidents; final end markers
+may remain unset when the finalization transaction fails. No history is deleted.

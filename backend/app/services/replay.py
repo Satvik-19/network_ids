@@ -6,8 +6,8 @@ incident grouping (IncidentGrouper). It is in-process (no cells/queues/Redis —
 ARCHITECTURE_LOCK) and polling-first: clients poll ``GET /api/replay/status``
 while a background worker thread advances the replay.
 
-State machine: IDLE -> RUNNING <-> PAUSED -> COMPLETED | STOPPED
-  - start():        IDLE/COMPLETED/STOPPED -> RUNNING   (rejects concurrent)
+State machine: IDLE -> RUNNING <-> PAUSED -> COMPLETED | STOPPED | FAILED
+  - start():        IDLE/COMPLETED/STOPPED/FAILED -> RUNNING (rejects concurrent)
   - pause():        RUNNING -> PAUSED
   - resume():       PAUSED -> RUNNING
   - stop():         RUNNING/PAUSED -> STOPPED
@@ -45,8 +45,8 @@ from backend.app.services.scenarios import (
 ROOT = Path(__file__).resolve().parents[3]
 CONFIG_PATH = ROOT / "config" / "config.yaml"
 
-STATE_IDLE, STATE_RUNNING, STATE_PAUSED, STATE_COMPLETED, STATE_STOPPED = (
-    "IDLE", "RUNNING", "PAUSED", "COMPLETED", "STOPPED",
+STATE_IDLE, STATE_RUNNING, STATE_PAUSED, STATE_COMPLETED, STATE_STOPPED, STATE_FAILED = (
+    "IDLE", "RUNNING", "PAUSED", "COMPLETED", "STOPPED", "FAILED",
 )
 
 
@@ -141,6 +141,8 @@ class ReplayService:
             stale_thread.join(timeout=10.0)
 
         with self._lock:
+            if self._thread is not None and self._thread.is_alive():
+                raise ReplayConflict("previous replay worker has not exited; try again later")
             if self._state in (STATE_RUNNING, STATE_PAUSED):
                 raise ReplayConflict(
                     "cannot start while a replay is active (concurrent start raced)"
@@ -202,8 +204,19 @@ class ReplayService:
                     f"cannot stop; state={self._state} (must be RUNNING or PAUSED)"
                 )
             self._state = STATE_STOPPED
-        self._stop_event.set()
-        self._pause_evt.set()
+            self._stop_event.set()
+            self._pause_evt.set()
+
+    def shutdown(self) -> None:
+        """Wake a paused/pacing worker and allow its current transaction to drain."""
+        with self._lock:
+            if self._state in (STATE_RUNNING, STATE_PAUSED):
+                self._state = STATE_STOPPED
+            self._stop_event.set()
+            self._pause_evt.set()
+            worker = self._thread
+        if worker is not None:
+            worker.join(timeout=10.0)
 
     # ------------------------------------------------------------------ #
     # status
@@ -262,10 +275,11 @@ class ReplayService:
 
     def _run(self) -> None:
         grouper = IncidentGrouper(window_seconds=self._window)
-        db = self._db_factory()
+        db = None
         incident_rows: dict[int, Incident] = {}
         closed: set[int] = set()
         try:
+            db = self._db_factory()
             while True:
                 with self._lock:
                     if self._state == STATE_STOPPED:
@@ -278,38 +292,34 @@ class ReplayService:
                 if next_seq >= self._total:
                     break
 
-                try:
-                    flow = self._player.flow(next_seq)
-                    prediction = self._predict_one(flow)
-                    self._persist(
-                        db, flow, prediction, grouper, next_seq,
-                        incident_rows, closed,
-                    )
-                    with self._lock:
-                        self._processed += 1
-                        self._seq = next_seq
-                        cls = prediction["classification"]
-                        if cls != "BENIGN":
-                            self._suspicious += 1
-                        if cls == "KNOWN_ATTACK":
-                            self._known += 1
-                        elif cls == "UNKNOWN_SUSPICIOUS":
-                            self._unknown += 1
-                        if prediction["risk_score"] > self._max_risk_score:
-                            self._max_risk_score = prediction["risk_score"]
-                            self._max_risk_level = prediction["risk_level"]
-                except Exception as exc:  # per-flow isolation; keep replay going
-                    with self._lock:
-                        self._errors += 1
-                        self._last_error = repr(exc)
-                    self._sleep(0.0)
+                flow = self._player.flow(next_seq)
+                prediction = self._predict_one(flow)
+                self._persist(
+                    db, flow, prediction, grouper, next_seq,
+                    incident_rows, closed,
+                )
+                with self._lock:
+                    self._processed += 1
+                    self._incidents = len(incident_rows)
+                    self._seq = next_seq
+                    cls = prediction["classification"]
+                    if cls != "BENIGN":
+                        self._suspicious += 1
+                    if cls == "KNOWN_ATTACK":
+                        self._known += 1
+                    elif cls == "UNKNOWN_SUSPICIOUS":
+                        self._unknown += 1
+                    if prediction["risk_score"] > self._max_risk_score:
+                        self._max_risk_score = prediction["risk_score"]
+                        self._max_risk_level = prediction["risk_level"]
 
                 # pacing (skip on the last flow to avoid a trailing wait)
                 if self._processed < self._total:
-                    self._sleep(
-                        self._scenario.logical_interval_seconds / self._speed
-                    )
-        finally:
+                    delay = self._scenario.logical_interval_seconds / self._speed
+                    if self._sleep is time.sleep:
+                        self._stop_event.wait(delay)
+                    else:
+                        self._sleep(delay)
             for gid, row in incident_rows.items():
                 if gid not in closed:
                     # close with the incident's own last activity (synthetic
@@ -317,10 +327,29 @@ class ReplayService:
                     # the last recorded flow.
                     row.ended_at = row.last_activity_at or _utcnow()
             db.commit()
-            db.close()
+        except Exception as exc:
+            self._fail(exc)
+            if db is not None:
+                try:
+                    db.rollback()
+                except Exception as rollback_error:
+                    self._fail(rollback_error)
+        finally:
+            if db is not None:
+                try:
+                    db.close()
+                except Exception as close_error:
+                    self._fail(close_error)
             with self._lock:
-                if self._state != STATE_STOPPED:
+                if self._state not in (STATE_STOPPED, STATE_FAILED):
                     self._state = STATE_COMPLETED
+
+    def _fail(self, error: Exception) -> None:
+        with self._lock:
+            self._state = STATE_FAILED
+            self._errors += 1
+            message = f"{type(error).__name__}: {error}"
+            self._last_error = f"{self._last_error}; {message}" if self._last_error else message
 
     def _predict_one(self, flow: dict) -> dict:
         """One scoring pass; SHAP attached only for suspicious flows.
@@ -417,8 +446,6 @@ class ReplayService:
             db.add(inc)
             db.flush()
             incident_rows[assign.incident.group_id] = inc
-            with self._lock:
-                self._incidents += 1
 
         inc = incident_rows[assign.incident.group_id]
         # keep aggregates fresh on every joined flow

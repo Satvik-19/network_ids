@@ -898,3 +898,27 @@ purity / explainability preserved).
 
 `backend/app/services/predictor.py`, `backend/app/services/replay.py`,
 `ml/tests/test_predictor.py`, `backend/tests/test_replay.py`.
+
+
+## DEC-017 - Approved controlled implementation and replay failure policy
+
+Date: 2026-10-31
+Status: ACCEPTED (user-approved implementation plan)
+Phase: Phase-4 prerequisites; targeted Phase-3 reliability defects reopened.
+
+The user authorized the reviewed four-milestone plan: reliability, evaluation
+credibility/provenance, Playground backend/assessment, Playground UI/completion.
+No retraining, model replacement, threshold changes, risk/SHAP changes, new
+infrastructure, or deferred Phase-5 features are authorized by this decision.
+
+Replay now fails terminally on inference/persistence errors instead of retrying
+one record forever. FAILED is an additive lifecycle outcome. Roll back the
+failed transaction, retain earlier committed evidence, close sessions, and allow
+restart only after the prior worker exits. Successful replay semantics remain.
+409 denotes lifecycle conflicts; unavailable inference is 503; unexpected control
+errors remain server errors. A shutdown hook drains the existing worker without
+loading artifacts merely for shutdown. A stuck native call cannot be forcibly
+cancelled; restart is rejected while its worker remains alive.
+
+Files: services/replay.py, api/replay.py, schemas/replay.py, main.py,
+backend/tests/test_replay_failures.py. PRD-compatible reliability hardening.

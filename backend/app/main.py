@@ -13,13 +13,17 @@ from backend.app.api.incidents import router as incidents_router
 from backend.app.api.incidents import baselines_router
 from backend.app.api.predict import router as predict_router
 from backend.app.api.replay import router as replay_router
+from backend.app.api.replay import shutdown_replay_service
 from backend.app.db.database import init_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    yield
+    try:
+        yield
+    finally:
+        shutdown_replay_service()
 
 
 app = FastAPI(

@@ -1172,3 +1172,41 @@ already absent from navigation. Remaining defects were fixed surgically.
 
 - None new. Vite >500 kB chunk warning remains cosmetic (cytoscape +
   recharts). Phase 4/5 not authorized.
+
+
+## [2026-10-31] Approved implementation - Milestone 1 Task 1 replay lifecycle
+
+### What and why
+Reopened only the approved Phase-3 reliability defects (DEC-017 / BUG-014).
+Terminal FAILED state replaces infinite retry; rollback/close covers session,
+inference, SHAP, flush, flow commit and final commit failures. Restart checks
+actual worker exit after timed join; shutdown wakes/drains the worker. Counters
+advance only after commit. API 409 is reserved for lifecycle conflicts.
+
+### Files
+backend/app/services/replay.py; backend/app/api/replay.py;
+backend/app/schemas/replay.py; backend/app/main.py;
+backend/tests/test_replay_failures.py; governance documents.
+
+### Commands and validation
+New tests run before implementation: 8 failed for the original lifecycle defects;
+then 6 API/lifespan cases failed before their fixes. Related suite command:
+python -m pytest backend/tests/test_replay_failures.py backend/tests/test_replay.py
+backend/tests/test_replay_api.py backend/tests/test_incidents.py -q -p no:cacheprovider
+=> 62 passed. Live gate: imported backend.tests.e2e_replay_phase3.main with OUT
+redirected to a temp path => PASS, all original scenarios and sequential isolation.
+Full suite attempted: 92 passed, 7 failed, 7 errors, exclusively dataset socket
+access blocked by sandbox; no tests altered/skipped to accommodate that failure.
+Network-enabled full regression: 106 passed in 250.99s. Two additional cleanup
+regressions were then added. A concurrent targeted run had two 2-second worker
+wait failures under dataset-load contention; the isolated targeted rerun verifies
+the worker behavior without overlapping the heavy suite. git diff --check passed.
+
+### Invariants
+No models, dataset/preprocessing, thresholds, risk, SHAP or fixture changes.
+Artifact SHA256: supervised 9067a808b7159a87918571f74cde1ccb54cbd652818c3816c10f6e66be85bd41;
+IF 89efc5a382c97e55aa40d0bd714e3cbd4511f7fa08312dcf0a09f36e3724c176.
+
+### Remaining
+Task 2 readiness/frontend state; Task 3 graph/explanation corrections; evaluation,
+scenario provenance, Playground backend/UI. No push before complete verified scope.

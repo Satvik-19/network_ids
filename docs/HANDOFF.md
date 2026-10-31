@@ -6,6 +6,23 @@ rebuild the whole session.
 
 ---
 
+## Current implementation authorization - 2026-10-31
+
+User approved actual implementation in tested, focused batches and local commits.
+Existing branch main; origin https://github.com/Satvik-19/network_ids.git;
+configured human identity Satvik-19. Do not add agent attribution. Push only when
+all approved scope and final checks pass; never force push or rewrite history.
+Pre-existing untracked .freebuff/ and shot1_setup.png/shot2_normal.png/
+shot3_portscan_monitor.png must remain untouched/uncommitted.
+
+Task 1 changes: terminal FAILED, rollback/cleanup, committed counters, restart
+worker guard, API error distinctions, shutdown hook. Targeted 62 passed and real
+four-scenario live gate PASS; network-enabled full suite passed (106 tests in 250.99s). See new backend/tests/test_replay_failures.py.
+Next batches: readiness/current-run UI, graph/semantics, reporting/evaluation,
+scenario provenance + at most SSH/FTP/web fixtures, Playground rules/backend,
+Playground UI and final gates. No retraining or threshold/model/risk changes.
+Previous historical freeze instructions below are superseded by user authorization.
+
 ## Most Recent Task
 
 **Phase-3 frontend UX pass — recovery reconciliation + completion (2026-08-13):

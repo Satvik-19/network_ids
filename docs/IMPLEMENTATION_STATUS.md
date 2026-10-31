@@ -111,3 +111,12 @@ Last Updated:               2026-08-13 (Phase-3 frontend UX pass completed + val
 - Phase-3 UI (Security Monitor, Communication Graph, Incident Detail) is now
   complete and validated (2026-08-10). Playground (Phase 4) and Model Lab UI
   (Phase 5) remain pending by design — Phase 4/5 not authorized.
+
+
+## Current authorized work - 2026-10-31 (supersedes prior freeze instructions)
+
+The reviewed implementation plan is approved. Active work: Milestone 1, Task 1
+replay lifecycle; implemented and targeted/live-gate tested (62 related passes).
+Full regression: 106 passed in 250.99s with network access. Next: Task 2 readiness
+and frontend run state, only after Task 1 checks. Playground remains NOT STARTED,
+but is authorized after prerequisite gates. Phase 5 expansions remain deferred.

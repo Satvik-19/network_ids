@@ -73,7 +73,7 @@ class ReplayStartRequest(BaseModel):
 class ReplayStatus(BaseModel):
     model_config = {"protected_namespaces": ()}
 
-    state: str = Field(..., description="IDLE | RUNNING | PAUSED | COMPLETED | STOPPED")
+    state: str = Field(..., description="IDLE | RUNNING | PAUSED | COMPLETED | STOPPED | FAILED")
     scenario: Optional[str] = None
     speed: int
     speeds: List[int]

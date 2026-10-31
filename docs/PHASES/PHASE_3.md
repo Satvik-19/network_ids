@@ -213,3 +213,13 @@ Model Lab surfaces exposed (backend `/api/predict` untouched).
 passed (frozen baseline); browser-tested Normal / PortScan / DoS / Unknown /
 Incident Detail / Incidents hub with zero console errors; graph labels
 readable; healthy state obvious; UNKNOWN semantics non-contradictory.
+
+
+## Approved reliability reopening - 2026-10-31
+
+User explicitly approved controlled implementation of the reviewed four-milestone
+plan. The historical freeze is superseded only for those scoped corrections.
+Task 1 replay lifecycle implemented; 62 related tests and live four-scenario gate
+passed. Full dataset-backed suite: 106 passed in 250.99s with network access.
+Task 2 readiness/frontend state and Task 3 graph/semantics are still pending.
+See DEC-017, BUG-014 and latest sprint entry. Phase 3 is not re-declared complete.

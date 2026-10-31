@@ -21,6 +21,8 @@ from backend.app.services.scenarios import (
     ScenarioError,
     load_scenarios_dir,
 )
+from backend.app.services.predictor import PredictorError
+from backend.app.services.replay import ReplayConflict
 
 router = APIRouter(prefix="/api/replay", tags=["replay"])
 
@@ -40,12 +42,20 @@ def get_replay_service():
         from backend.app.services.replay import ReplayService
 
         cfg = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8")) or {}
-        _replay_service = ReplayService(
-            predictor=get_predictor(),
-            replay_config=cfg.get("replay", {}),
-            incidents_config=cfg.get("incidents", {}),
-        )
+        try:
+            _replay_service = ReplayService(
+                predictor=get_predictor(),
+                replay_config=cfg.get("replay", {}),
+                incidents_config=cfg.get("incidents", {}),
+            )
+        except PredictorError as exc:
+            raise HTTPException(status_code=503, detail="Inference unavailable; check model artifacts") from exc
     return _replay_service
+
+
+def shutdown_replay_service() -> None:
+    if _replay_service is not None:
+        _replay_service.shutdown()
 
 
 @router.get("/scenarios", response_model=list[ScenarioInfo])
@@ -124,7 +134,7 @@ def start(
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except ScenarioError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    except Exception as exc:  # concurrent start -> 409
+    except ReplayConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     return ReplayStatus(**svc.status())
 
@@ -133,7 +143,7 @@ def start(
 def pause(svc=Depends(get_replay_service)) -> ReplayStatus:
     try:
         svc.pause()
-    except Exception as exc:
+    except ReplayConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     return ReplayStatus(**svc.status())
 
@@ -142,7 +152,7 @@ def pause(svc=Depends(get_replay_service)) -> ReplayStatus:
 def resume(svc=Depends(get_replay_service)) -> ReplayStatus:
     try:
         svc.resume()
-    except Exception as exc:
+    except ReplayConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     return ReplayStatus(**svc.status())
 
@@ -151,7 +161,7 @@ def resume(svc=Depends(get_replay_service)) -> ReplayStatus:
 def stop(svc=Depends(get_replay_service)) -> ReplayStatus:
     try:
         svc.stop()
-    except Exception as exc:
+    except ReplayConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     return ReplayStatus(**svc.status())
 
