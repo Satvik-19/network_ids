@@ -150,3 +150,8 @@ Current next Task 6 provenance and small scenario additions. Playground not star
 Task 6 passed 57 focused tests, preparation/repeatability checks and the original
 live gate. Seven fixture types, 52 records; 4 web misses kept. Next: approved
 Phase-4 Playground profile/rule implementation. Playground not implemented yet.
+
+## Latest: Phase 4 profile backend implemented - 2026-10-31
+
+Task 7 passed 30 related tests. Profiles persist and preview deterministic suites.
+Playground execution, readiness assessment and UI still pending (Task 8 next).

@@ -951,3 +951,13 @@ source-row identity. Legacy locators identify first equivalent pinned rows. Thre
 new 8-row SSH/FTP/web fixtures exclude exact deployed-training matches and are
 selected without predictions. Unknown remains a benign anomaly challenge.
 Provenance is evaluation metadata and never enters model inputs.
+
+## DEC-021 - Minimal profile relevance rules
+
+Date: 2026-10-31
+Status: ACCEPTED (approved Task 7)
+SSH/FTP follow enabled services; web attacks require web + public exposure.
+DoS follows public services or 50+ scale. PortScan follows lab/small organisation
+or non-small scale. Always include benign control and benign anomaly challenge.
+Database/file sharing remain uncovered; unknown-attack detection not established.
+Profile preview/persistence needs no model; strict inputs contain no network target.

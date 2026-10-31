@@ -1343,3 +1343,21 @@ with complete UTF-8 content prepared before atomic replacement/re-read. Historic
 logs kept. No models, thresholds, preprocessing or inference semantics changed.
 Milestone 2 complete within agreed scope. Next approved Task 7 Playground profile
 rules, then execution/scoring/UI. Nothing pushed.
+
+## [2026-10-31] Batch 7 - Milestone 3 Task 7 validated profiles and rules
+
+Added strict ProfileRequest/ScenarioPlan/ProfileOut schemas, deterministic suite
+selection, and POST /api/playground/profile with existing PlaygroundProfile table.
+No model required to preview/save profiles. Profiles reject extra target fields,
+normalize service duplicates/order, expose missing scenarios and unsupported DB/
+file-sharing services. Every suite includes benign control + benign anomaly
+challenge, explicitly not unknown-attack validation. Rules: SSH/FTP enabled;
+public web enabled; DoS for public services or 50+ scale; PortScan for lab/small
+organisation or >10 scale. These are scenario relevance rules, not real discovery.
+
+Files: backend/app/{schemas,services,api}/playground.py; main.py router registration;
+backend/tests/test_playground.py. Four tests failed before implementation. Targeted
+profiles/scenarios/replay API/readiness suite: 30 passed in 7.53s. Profile persisted
+through actual TestClient + isolated SQLite and matched canonical request. No new
+tables/dependencies; no Monitor/incident/model changes. No UI or run endpoint yet.
+Next: Task 8 bounded execution, persisted assessment, failure/interruption handling.

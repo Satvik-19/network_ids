@@ -113,3 +113,9 @@ None. Approved reliability/evaluation prerequisites passed; no Playground code y
 
 (Record: scenario selection rules, readiness weights, blind-spot logic,
 unknown-anomaly experiment choice, held-out data provenance.)
+
+## Task 7 implementation - 2026-10-31
+
+Validated profile schemas, rule selector and profile preview/save endpoint exist.
+30 related tests PASS. No test runner/readiness/UI yet. Rule boundaries and missing
+coverage explicit; unknown fixture is a benign anomaly challenge. Task 8 next.

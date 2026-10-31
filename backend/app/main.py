@@ -12,6 +12,7 @@ from fastapi import FastAPI
 from backend.app.api.incidents import router as incidents_router
 from backend.app.api.incidents import baselines_router
 from backend.app.api.predict import router as predict_router
+from backend.app.api.playground import router as playground_router
 from backend.app.api.replay import router as replay_router
 from backend.app.api.replay import shutdown_replay_service
 from backend.app.db.database import init_db
@@ -35,6 +36,7 @@ app = FastAPI(
 )
 
 app.include_router(predict_router)
+app.include_router(playground_router)
 app.include_router(replay_router)
 app.include_router(incidents_router)
 app.include_router(baselines_router)

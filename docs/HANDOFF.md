@@ -265,3 +265,10 @@ Unknown is a benign anomaly challenge (false alerts). Exact training-feature
 matches: original PortScan 5/8, DoS/DDoS 1/8, new sets 0; disclose this in reports.
 57 targeted tests and original live gate passed. Source commit 3c4aef4. No models,
 thresholds or preprocessing changed. No push before full-scope final validation.
+
+## Next after Batch 7 (2026-10-31)
+
+Task 7 complete: ProfileRequest, select_suite, POST /api/playground/profile.
+30 related tests PASS. Continue Task 8 bounded synchronous execution and scoring
+using existing PlaygroundRun/Result tables; keep Monitor evidence separate.
+Do not show unknown challenge as attack detection. No run endpoint/UI yet.
