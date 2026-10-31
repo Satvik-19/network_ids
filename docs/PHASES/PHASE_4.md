@@ -119,3 +119,9 @@ unknown-anomaly experiment choice, held-out data provenance.)
 Validated profile schemas, rule selector and profile preview/save endpoint exist.
 30 related tests PASS. No test runner/readiness/UI yet. Rule boundaries and missing
 coverage explicit; unknown fixture is a benign anomaly challenge. Task 8 next.
+
+## Task 8 implementation - 2026-10-31
+
+Backend runner and saved outcome assessment complete. 46 related tests and original
+replay HTTP gate PASS. See DEC-022 for formula and incomplete/failure semantics.
+Milestone 3 complete; Task 9 frontend and Task 10 final gates still pending.

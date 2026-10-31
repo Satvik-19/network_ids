@@ -15,12 +15,15 @@ from backend.app.api.predict import router as predict_router
 from backend.app.api.playground import router as playground_router
 from backend.app.api.replay import router as replay_router
 from backend.app.api.replay import shutdown_replay_service
-from backend.app.db.database import init_db
+from backend.app.db.database import init_db, SessionLocal
+from backend.app.services.playground import interrupt_runs
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    with SessionLocal() as db:
+        interrupt_runs(db)
     try:
         yield
     finally:

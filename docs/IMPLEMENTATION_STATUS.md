@@ -155,3 +155,9 @@ Phase-4 Playground profile/rule implementation. Playground not implemented yet.
 
 Task 7 passed 30 related tests. Profiles persist and preview deterministic suites.
 Playground execution, readiness assessment and UI still pending (Task 8 next).
+
+## Latest batch - 2026-10-31 Task 8
+
+Milestone 3 complete: profile preview/save, bounded runner, persisted assessments,
+failure/restart recovery and historical retrieval. 46 related tests + original
+replay HTTP gate PASS. Phase 4 active; frontend/final gates remain. No push yet.

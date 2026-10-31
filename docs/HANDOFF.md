@@ -272,3 +272,12 @@ Task 7 complete: ProfileRequest, select_suite, POST /api/playground/profile.
 30 related tests PASS. Continue Task 8 bounded synchronous execution and scoring
 using existing PlaygroundRun/Result tables; keep Monitor evidence separate.
 Do not show unknown challenge as attack detection. No run endpoint/UI yet.
+
+## Next after Batch 8 (2026-10-31)
+
+Milestone 3 complete. Task 9 frontend uses POST profile, POST run(profile_id), GET
+results/run_id. Saved result contains counts, score, coverage, scenarios/flows,
+context and notice. Weights .5/.5 configurable; score suppressed if missing or no
+attack evidence. Web profile real result 12 detected, 4 missed, 4 FP, 70.83 score.
+46 related tests and original replay HTTP gate PASS. No Monitor writes. Task 9 UI,
+then full final tests/docs/artifact checks before authorized push to existing main.

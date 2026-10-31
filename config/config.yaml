@@ -51,3 +51,7 @@ replay:
 development:
   subset_target: 300000              # target ~200k–500k (PRD §29)
   random_seed: 42
+
+playground:
+  detection_weight: 0.5
+  false_alert_weight: 0.5

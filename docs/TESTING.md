@@ -302,3 +302,11 @@ Console     : zero app errors across the whole session. PASS
 
 Commands: `npm run build` (frontend/); `python -m pytest ml/tests backend/tests -q`
 -> 92 passed.
+
+## Approved implementation Batch 8 - 2026-10-31
+
+46 tests PASS: playground_api, playground, replay_api, replay_failures, readiness.
+Includes real frozen pipeline, saved-result equality, no Monitor writes, commit
+rollback, inference failure, restart interruption, missing coverage and model 503.
+Original four-scenario live HTTP gate PASS with temporary evidence output.
+No frontend claim until Task 9 browser gate.

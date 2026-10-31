@@ -961,3 +961,14 @@ DoS follows public services or 50+ scale. PortScan follows lab/small organisatio
 or non-small scale. Always include benign control and benign anomaly challenge.
 Database/file sharing remain uncovered; unknown-attack detection not established.
 Profile preview/persistence needs no model; strict inputs contain no network target.
+
+## DEC-022 - Outcome-based bounded Playground assessment
+
+Date: 2026-10-31
+Status: ACCEPTED (approved Task 8)
+Use existing Playground tables and synchronous <=64-flow requests. Equal configurable
+weights combine macro attack-scenario recall and pooled benign specificity. Show raw
+counts, missing/unsupported coverage and fixed dataset limitations alongside score.
+No score with missing selected scenarios or no malicious/benign evidence. Store
+historical context and evidence separately from Monitor; never reinterpret old runs
+using new thresholds/weights. Failed/interrupted runs cannot have a success score.

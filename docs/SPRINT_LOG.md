@@ -1361,3 +1361,29 @@ profiles/scenarios/replay API/readiness suite: 30 passed in 7.53s. Profile persi
 through actual TestClient + isolated SQLite and matched canonical request. No new
 tables/dependencies; no Monitor/incident/model changes. No UI or run endpoint yet.
 Next: Task 8 bounded execution, persisted assessment, failure/interruption handling.
+
+## [2026-10-31] Batch 8 - Milestone 3 Task 8 persisted assessments
+
+Implemented bounded synchronous suites (maximum 64 flows), same frozen predictor,
+separate PlaygroundRun/Result persistence, saved profile/suite/artifact hashes and
+metadata/threshold/risk/scoring snapshots and per-flow truth/features/provenance/
+outputs. Truth is used for evaluation accounting only. No Monitor writes.
+Score = 100 * (0.5 mean attack-scenario recall + 0.5 pooled benign specificity).
+Weights live in config/config.yaml; inference config sections unchanged. Missing
+selected scenarios suppress score; no attack evidence makes it not applicable.
+Unknown benign challenge counts false alerts, never attack detection. Weakest and
+strongest tested areas use observed per-scenario recall/specificity averages.
+Failed inference/result commits produce failed persisted runs with no score;
+startup marks interrupted running records failed once. Permanent database failure
+returns 503; durability cannot be promised while SQLite is unavailable.
+
+Files: backend/app/{services,schemas,api}/playground.py, main.py startup hook,
+config/config.yaml; backend/tests/test_playground_api.py. Initial red tests: six
+failed, one passed. Final command: python -m pytest backend/tests/test_playground_api.py
+backend/tests/test_playground.py backend/tests/test_replay_api.py
+backend/tests/test_replay_failures.py backend/tests/test_readiness.py -q
+-p no:cacheprovider --tb=short -> 46 passed in 12.29s. Original HTTP replay gate
+backend.tests.e2e_replay_phase3 with temporary evidence path PASS. Web profile real
+model workflow: 12 detected, 4 missed, 4 false alerts, score 70.83. GET reproduces
+saved results, no Prediction/Incident changes. git diff --check PASS.
+Milestone 3 complete; frontend and final verification remain. No push yet.
