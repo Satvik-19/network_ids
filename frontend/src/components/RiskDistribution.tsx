@@ -3,10 +3,10 @@ import type { ReplayFlow } from "../api/types";
 import { EmptyState } from "./ui";
 
 const LEVEL_COLORS: Record<string, string> = {
-  LOW: "#10b981",
-  MEDIUM: "#f59e0b",
-  HIGH: "#f97316",
-  CRITICAL: "#ef4444",
+  LOW: "var(--text3)",
+  MEDIUM: "var(--warning)",
+  HIGH: "var(--high)",
+  CRITICAL: "var(--error)",
 };
 
 export function RiskDistribution({ flows }: { flows: Pick<ReplayFlow, "risk_level">[] }) {
@@ -19,7 +19,7 @@ export function RiskDistribution({ flows }: { flows: Pick<ReplayFlow, "risk_leve
 
   if (flows.length === 0) {
     return (
-      <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+      <div className="chart-section">
         <h2 className="text-sm font-semibold text-slate-200">Risk Distribution</h2>
         <EmptyState title="No flows replayed yet" description="Start a scenario to see risk levels" />
       </div>
@@ -27,17 +27,17 @@ export function RiskDistribution({ flows }: { flows: Pick<ReplayFlow, "risk_leve
   }
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+    <div className="chart-section">
       <h2 className="text-sm font-semibold text-slate-200">Risk Distribution</h2>
-      <p className="text-xs text-slate-500">Flows per severity level</p>
-      <div className="mt-3 h-40">
+      <p className="text-sm text-slate-500">Actual flow counts per severity level · n = {flows.length}</p>
+      <div className="mt-3 h-56">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 4, right: 8, bottom: 0, left: -8 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-            <XAxis dataKey="level" tick={{ fontSize: 10, fill: "#64748b" }} />
-            <YAxis allowDecimals={false} tick={{ fontSize: 10, fill: "#64748b" }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis dataKey="level" tick={{ fontSize: 12, fill: "var(--text3)" }} />
+            <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: "var(--text3)" }} />
             <Tooltip
-              contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ backgroundColor: "var(--surface2)", color: "var(--text1)", border: "1px solid var(--border-visible)", borderRadius: 4, fontSize: 14 }}
             />
             <Bar dataKey="count" name="Flows" radius={[2, 2, 0, 0]}>
               {data.map((d, i) => (

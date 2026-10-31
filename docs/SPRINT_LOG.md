@@ -1445,3 +1445,54 @@ final batch. Existing human author/committer identity confirmed. Unrelated untra
 .freebuff/ and shot*.png excluded. Final focused commit and authorized normal push
 follow only after staged content/diff/history checks; no force push/reconciliation.
 Remaining limitations are deliberate; no outstanding approved implementation task.
+
+## [2026-10-31] Approved Network IDS console redesign - implementation and validation
+
+Scope/why: User explicitly authorized finishing external design artifacts and
+transferring the approved monochrome language into the working frontend, followed
+by validation, commit and push. Correct misleading graph topology and visual
+magnitudes while preserving the completed academic IDS workflow. DEC-023 records
+the frontend-only boundary; no deferred Phase 5 work was introduced.
+
+Changed: self-contained approved tokens, Plex typography, both themes, rail/mobile
+navigation, flat metrics, graph-first Monitor, compact incident rows and readable
+evidence. Replaced force/service-node graph with fixed-lane host-only SVG and
+directed aggregated connections, associated ports, stable updates, filter and
+keyboard-readable evidence. Fixed0-100 risk axis and shared proportional signed
+SHAP with aligned zero/raw-margin units. Updated all nine external Hue outputs;
+visually iterated on overview gaps, graph/SHAP/count clipping, theme overlap,
+severity contrast, control sizing and incident spacing.
+
+Files: frontend/index.html, tailwind.config.js, src/{App.tsx,index.css,tokens.css},
+components/{AttackTimeline,CommGraph,IncidentList,ReplayControls,RiskDistribution,
+SecurityStatus,SummaryCards,TrafficTable,ui,SignedContributions}.tsx,
+lib/{graph,charts}.ts, pages/{SecurityMonitor,IncidentDetail,Playground}.tsx,
+tests/{graph,charts}.test.mjs; docs/{DESIGN_SYSTEM,DECISIONS,TESTING,BUG_LOG,HANDOFF,
+IMPLEMENTATION_STATUS,SPRINT_LOG}.md and PHASES/PHASE_4.md. External skill artifacts
+were edited in their existing location, never copied into Git as external files.
+
+Executed commands/results: npm test10PASS; standalone tsc --noEmit --incremental
+false PASS; npm run build PASS (existing >500kB warning); Python3.10.11 full pytest
+ml/tests backend/tests -q -p no:cacheprovider --tb=short142PASS in226.99s; original
+Uvicorn gate with temporary OUT PASS. Official Hue validator PASS0errors/0warnings,
+1Windows npx ENOENT YAML skip covered by independent strict duplicate-key PyYAML
+PASS. Nine UTF-8 outputs and body/risk invariants PASS. Git comparison confirms no
+changes to backend/ML/config/data from a597863. Initial new graph/SHAP tests failed
+as expected before implementation; one float-exact assertion corrected to1e-12
+tolerance. No runtime value was changed to satisfy tests.
+
+Visual/browser results: all four previews, desktop/narrow and both themes;
+actual Monitor/incident/Playground reviewed. PortScan8/8 and real host metadata;
+selection/filter/poll preserve transforms. Pause/resume/stop and new-run clearing
+verified. Normal8/8 benign risk2.50 occupies2.5% of fixed plot. Web suite70.83 with
+12 detections,4 misses,4 false alerts; saved reload and negative SHAP verified.
+Clean browser console. Non-focusable screenshot keyboard timeout resolved with
+focusable control; not an application failure. Screenshots outside repo.
+
+Retained limits: bundle-size warning, remote font loading with fallbacks, local
+scrolling for complex diagrams/evidence. No new dependencies, backend changes,
+model fitting, thresholds, fixtures, classifiers or incident-grouping changes.
+Governance files written via complete UTF-8 bytes, same-directory atomic replace
+and verified re-read. Intended diff/history/staging reviewed before authorized
+normal commit/push; unrelated .freebuff/ and shot*.png excluded. Git identity is
+unchanged, no Codex author/coauthor attribution and no history rewrite.

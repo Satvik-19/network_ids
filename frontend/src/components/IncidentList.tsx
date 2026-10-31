@@ -25,33 +25,31 @@ export function IncidentList({
             <button
               key={inc.id}
               onClick={() => onOpen(inc.id)}
-              className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-slate-800/50"
+              className="incident-row"
             >
               <SeverityBar level={inc.risk_level} />
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-semibold text-slate-100">
                     {formatFamily(inc.family, inc.classification)}
                   </span>
                   <RiskBadge level={inc.risk_level} />
                 </div>
-                <div className="mt-0.5 flex items-center gap-3 text-xs text-slate-400">
+                <div className="mt-2 text-sm text-slate-400">
                   <span className="font-mono">
                     {inc.source ?? "?"} → {inc.destination ?? "?"}
-                    {inc.service_port != null ? `:${inc.service_port}` : ""}
                   </span>
-                  <span>{inc.flow_count} related flows</span>
                 </div>
-                <div className="mt-0.5 flex items-center gap-3 text-xs text-slate-500">
-                  <span>
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+                  <span>{inc.flow_count} related flows</span>
+                  {inc.service_port != null && <span>Recorded service :{inc.service_port}</span>}
+                  <span className="meta">
                     {formatReplayTime(inc.started_at)} – {formatReplayTime(inc.ended_at)}
                   </span>
                   <ClassificationBadge value={inc.classification} />
                 </div>
               </div>
-              <div className="text-right text-xs text-slate-500">
-                {inc.risk_score != null ? inc.risk_score.toFixed(1) : ""}
-              </div>
+              <div className="shrink-0 text-right"><div className="font-mono text-sm">{inc.risk_score?.toFixed(1) ?? "—"}</div><span className="meta">Inspect →</span></div>
             </button>
           ))}
         </div>

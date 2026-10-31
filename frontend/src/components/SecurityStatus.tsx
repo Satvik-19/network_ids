@@ -13,7 +13,7 @@ const TONE_STYLES: Record<Tone, { bar: string; title: string; body: string }> = 
   healthy: { bar: "bg-emerald-500", title: "text-emerald-300", body: "text-slate-400" },
   info: { bar: "bg-blue-400", title: "text-blue-300", body: "text-slate-400" },
   suspicious: { bar: "bg-amber-500", title: "text-amber-300", body: "text-slate-300" },
-  attack: { bar: "bg-red-600", title: "text-red-400", body: "text-slate-300" },
+  attack: { bar: "bg-red-600", title: "text-slate-100", body: "text-slate-300" },
   unknown: { bar: "bg-violet-500", title: "text-violet-300", body: "text-slate-300" },
   neutral: { bar: "bg-slate-600", title: "text-slate-300", body: "text-slate-500" },
 };
@@ -133,7 +133,7 @@ export function SecurityStatus({ status, incidents }: Props) {
   const styles = TONE_STYLES[tone];
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
+    <div className="security-narrative relative overflow-hidden">
       <div className={`absolute inset-y-0 left-0 w-1 ${styles.bar}`} />
       <div className="flex flex-col gap-2 py-4 pl-5 pr-5 md:flex-row md:items-center md:justify-between">
         <div>

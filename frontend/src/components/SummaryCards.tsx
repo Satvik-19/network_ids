@@ -26,18 +26,18 @@ export function SummaryCards({ status }: { status: ReplayStatus | null }) {
     },
     {
       label: "Max Risk",
-      value: s && s.max_risk_score > 0 ? String(s.max_risk_score.toFixed(1)) : "—",
-      sub: s && s.max_risk_level ? <RiskBadge level={s.max_risk_level} /> : "",
+      value: s && s.processed > 0 ? s.max_risk_score.toFixed(2) : "—",
+      sub: s && s.processed > 0 && s.max_risk_level ? <RiskBadge level={s.max_risk_level} /> : "",
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="metric-band">
       {cards.map((c) => (
-        <div key={c.label} className="rounded-xl border border-slate-800 bg-slate-900 p-4">
-          <div className="text-xs font-medium text-slate-500">{c.label}</div>
-          <div className="mt-1 text-2xl font-bold text-white">{c.value}</div>
-          <div className="mt-1 text-xs text-slate-500">{c.sub}</div>
+        <div key={c.label} className="metric-cell">
+          <div className="text-sm font-medium text-slate-500">{c.label}</div>
+          <div className="metric-value">{c.value}</div>
+          <div className="mt-1 text-sm text-slate-500">{c.sub}</div>
         </div>
       ))}
     </div>

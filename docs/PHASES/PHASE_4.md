@@ -66,3 +66,20 @@ Historical temporal experiment remains separate. DEC-020..022 document choices.
 No live capture, scanning, mitigation, drift, enterprise/alerting/intelligence
 integrations, extra models/datasets, LLM personalization, full Model Lab or expanded
 investigation. Phase 5 remains deferred. No active implementation blocker.
+
+## Approved console redesign follow-up - validated 2026-10-31
+
+Explicit user authorization extended the completed Phase 4 UI polish through
+working frontend implementation, validation and commit/push; deferred Phase 5
+research/features remain excluded. Applied Network IDS/Hue tokens to Monitor,
+incident detail and Playground. Replaced unstable service-node graph with stable
+host-only SVG relationships and selectable connection evidence. Corrected fixed
+risk scale, signed SHAP geometry, responsive spacing and severity readability.
+
+Validation:142 Python tests in226.99s;10 Node tests; standalone TypeScript and
+production build; original real-Uvicorn gate; Hue plus strict duplicate-key YAML;
+desktop/narrow dark/light preview and application visual inspection. All PASS,
+with the existing bundle-size warning and Hue Windows YAML subprocess skip
+explicitly retained/documented. Backend/ML/config/data unchanged against a597863.
+Files and evidence: docs/DESIGN_SYSTEM.md, TESTING.md and DEC-023.
+Status: COMPLETE, TESTED and VALIDATED within the approved visual scope.

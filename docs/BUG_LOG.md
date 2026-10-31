@@ -1034,8 +1034,30 @@ logic was changed to satisfy the assertion.
 
 ## Retained local demonstration limits - final approved scope
 
-Graph re-layout on polling makes pointer inspection less stable; selector/evidence
-mapping is unit-tested and risk colors verified. Graph polish remains deferred.
+The former graph polling relayout limitation is resolved by the authorized
+host-only SVG redesign (BUG-019).
 Vite reports >500kB bundle. Playground is synchronous <=64 flows, single-process
 SQLite; permanent DB failure can prevent durable failure writes. These limits do
 not block the authorized academic workflow; production infrastructure is excluded.
+
+## BUG-019 - Service nodes and polling layout obscured actual host relationships
+
+Status: FIXED / TESTED / VALIDATED (2026-10-31)
+Source-to-service edges left destination host nodes disconnected; rebuilding a
+force layout each poll moved evidence during inspection. Graph now aggregates
+actual directed host pairs, retains host slots and selection, and lists ports as
+metadata. Responsive two-lane SVG, keyboard controls and connection rows verified
+in browser and unit tests. No protocol or physical topology is invented.
+
+## BUG-020 - Risk autoscaling and SHAP bar geometry distorted visual magnitude
+
+Status: FIXED / TESTED / VALIDATED (2026-10-31)
+Risk axes previously expanded to each run maximum. SHAP widths used abs(value)*40
+with clipping, so negative contributions had no negative axis. Fixed0-100 risk
+domain and common signed contribution geometry preserve actual values, signs and
+relative sizes. Raw-margin units/zero axis and exact-value evidence remain visible.
+Frontend tests plus actual low-risk and negative-SHAP browser checks PASS.
+
+Remaining visual limits: >500kB JS warning; Google-hosted Plex fonts use local
+fallbacks when unavailable; complex mixed-role graphs/tables scroll locally. No
+enterprise-scale graph layout, font vendoring or bundle splitting was added.

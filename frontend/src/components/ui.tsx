@@ -33,18 +33,11 @@ export function formatAnomalyFlag(v: number | null | undefined, threshold: numbe
   return { label: flagged == null ? "Unavailable" : flagged ? "Abnormal" : "Normal", flagged };
 }
 
-const RISK_STYLES: Record<RiskLevel, string> = {
-  LOW: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  MEDIUM: "bg-amber-50 text-amber-700 ring-amber-200",
-  HIGH: "bg-orange-50 text-orange-700 ring-orange-200",
-  CRITICAL: "bg-red-50 text-red-700 ring-red-200",
-};
-
 export function RiskBadge({ level }: { level: RiskLevel | null | undefined }) {
   if (!level) return <span className="text-slate-400">—</span>;
-  const cls = RISK_STYLES[level] ?? "bg-slate-100 text-slate-600 ring-slate-200";
+  const cls = level.toLowerCase();
   return (
-    <span className={`inline-block rounded px-1.5 py-0.5 text-xs font-semibold ring-1 ${cls}`}>
+    <span className={`risk-tag ${cls}`}>
       {level}
     </span>
   );
@@ -56,12 +49,6 @@ const CLASS_DISPLAY: Record<string, string> = {
   UNKNOWN_SUSPICIOUS: "Unknown Suspicious",
 };
 
-const CLASS_STYLES: Record<Classification, string> = {
-  BENIGN: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  KNOWN_ATTACK: "bg-red-50 text-red-700 ring-red-200",
-  UNKNOWN_SUSPICIOUS: "bg-violet-50 text-violet-700 ring-violet-200",
-};
-
 export function ClassificationBadge({
   value,
 }: {
@@ -71,16 +58,16 @@ export function ClassificationBadge({
   const key = (["BENIGN", "KNOWN_ATTACK", "UNKNOWN_SUSPICIOUS"].includes(value)
     ? value
     : "UNKNOWN_SUSPICIOUS") as Classification;
-  const cls = CLASS_STYLES[key] ?? "bg-slate-100 text-slate-600 ring-slate-200";
+  const cls = key.toLowerCase();
   return (
-    <span className={`inline-block rounded px-1.5 py-0.5 text-xs font-semibold ring-1 ${cls}`}>
+    <span className={`classification-tag ${cls}`}>
       {CLASS_DISPLAY[value] ?? value}
     </span>
   );
 }
 
 const SEVERITY_BG: Record<RiskLevel, string> = {
-  LOW: "bg-emerald-500",
+  LOW: "bg-slate-500",
   MEDIUM: "bg-amber-500",
   HIGH: "bg-orange-500",
   CRITICAL: "bg-red-600",
@@ -124,7 +111,7 @@ export function EmptyState({
     <div className="flex flex-col items-center justify-center py-12 text-center">
       {icon && <div className="mb-3 text-3xl opacity-40">{icon}</div>}
       <div className="text-sm font-medium text-slate-500">{title}</div>
-      {description && <div className="mt-1 text-xs text-slate-400">{description}</div>}
+      {description && <div className="mt-1 text-sm text-slate-400">{description}</div>}
     </div>
   );
 }

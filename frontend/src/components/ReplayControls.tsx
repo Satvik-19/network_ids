@@ -73,11 +73,13 @@ export function ReplayControls({ ready, status, onStarted, speed, onSpeed }: Pro
     "rounded-lg px-3 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40 transition-colors";
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+    <div className="replay-toolbar">
+      <p className="meta mb-4">{status?.scenario ? `Current evidence: ${scenarioDisplayName(status.scenario)} · run ${status.run_id}` : "Prepared scenario replay · no live network capture"}</p>
       <div className="flex flex-wrap items-end gap-4">
         <div className="flex-1 min-w-[180px]">
-          <label className="mb-1 block text-xs font-medium text-slate-400">Traffic Scenario</label>
+          <label htmlFor="replay-scenario" className="mb-1 block text-sm font-medium text-slate-400">Prepared scenario</label>
           <select
+            id="replay-scenario"
             value={scenario}
             onChange={(e) => setScenario(e.target.value)}
             disabled={!canStart}
@@ -90,16 +92,17 @@ export function ReplayControls({ ready, status, onStarted, speed, onSpeed }: Pro
             ))}
           </select>
           {scenarioDescription(scenario) && (
-            <p className="mt-1 text-xs text-slate-500">{scenarioDescription(scenario)}</p>
+            <p className="mt-1 text-sm text-slate-500">{scenarioDescription(scenario)}</p>
           )}
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Speed</label>
+          <label className="mb-1 block text-sm font-medium text-slate-400">Speed</label>
           <div className="flex gap-1">
             {(status?.speeds ?? [1, 5, 20]).map((spd) => (
               <button
                 key={spd}
+                aria-pressed={speed === spd}
                 onClick={() => onSpeed(spd)}
                 className={`${btnBase} ${
                   speed === spd
@@ -118,7 +121,7 @@ export function ReplayControls({ ready, status, onStarted, speed, onSpeed }: Pro
             <button
               onClick={() => run(() => api.starting(scenario, speed))}
               disabled={!canStart}
-              className={`${btnBase} bg-blue-600 text-white hover:bg-blue-700`}
+              className={`${btnBase} bg-white text-slate-900 hover:bg-slate-200`}
             >
               Start
             </button>
@@ -136,7 +139,7 @@ export function ReplayControls({ ready, status, onStarted, speed, onSpeed }: Pro
             <button
               onClick={() => run(() => api.resuming())}
               disabled={!canResume}
-              className={`${btnBase} bg-blue-600 text-white hover:bg-blue-700`}
+              className={`${btnBase} bg-white text-slate-900 hover:bg-slate-200`}
             >
               Resume
             </button>
@@ -154,11 +157,9 @@ export function ReplayControls({ ready, status, onStarted, speed, onSpeed }: Pro
 
         <div className="ml-auto flex items-center gap-2">
           <span
-            className={`inline-block h-2 w-2 rounded-full ${stateColor} ${
-              activeState === "RUNNING" ? "animate-pulse" : ""
-            }`}
+            className={`inline-block h-2 w-2 rounded-full ${stateColor}`}
           />
-          <span className="text-xs font-medium text-slate-300">
+          <span className="text-sm font-medium text-slate-300">
             {!ready && activeState === "IDLE" ? "Model unavailable" : stateLabel[activeState] ?? activeState}
           </span>
         </div>

@@ -15,8 +15,8 @@ Historical detail lives in SPRINT_LOG.md; next-agent orientation in HANDOFF.md.
 
 ## Validation (executed)
 
-- Full Python: 142 passed in 203.45s; command `python -m pytest ml/tests backend/tests -q -p no:cacheprovider --tb=short`.
-- Frontend: 5 Node tests PASS; TypeScript --noEmit --incremental false PASS; Vite production build PASS.
+- Full Python: 142 passed in 226.99s; command `python -m pytest ml/tests backend/tests -q -p no:cacheprovider --tb=short`.
+- Frontend: 10 Node tests PASS; TypeScript --noEmit --incremental false PASS; Vite production build PASS.
 - Original four-scenario real Uvicorn gate with sequential isolation PASS; evidence written to temporary paths to preserve historical artifacts.
 - Browser: Home, public Web and all-seven-scenario Lab suites; actual misses/false alerts; profile invalidation; uncovered database; saved ID reload; 404 state; readiness loss/recovery; process-restart persistence; Monitor isolation PASS.
 - Fresh browser completed 52-flow suite with no console errors before deliberate backend-offline test.
@@ -46,10 +46,24 @@ Unsupported services and unknown-attack coverage stay explicit.
 - Single-process local SQLite and bounded synchronous Playground execution; permanent
   database failure can prevent durable failure evidence. Replay failures preserve
   committed rows and may leave incident end markers unset on finalization failure.
-- Graph poll relayout polish and >500kB production bundle warning remain deferred.
+- Graph polling relayout is resolved by the approved SVG redesign; >500kB production bundle warning remains.
 - Fresh clone needs the existing supervised artifact supplied/regenerated separately;
   no model was retrained, replaced or added during this work.
 
 Live capture, mitigation, drift, external alerting, enterprise deployment, advanced
 threat intelligence, extra datasets/models, zero-day research, full Model Lab,
 expanded investigation and optional PDF export remain future work.
+
+## Approved visual follow-up - COMPLETE / TESTED / VALIDATED
+
+The user explicitly authorized full frontend implementation after design review,
+followed by commit and normal push. DEC-023 documents the boundary. Monitor,
+incident detail and Playground now share the Network IDS 1.1 language, both themes,
+readable typography, flat hierarchy and responsive controls. Host-only directed
+graphs retain positions and associated service evidence. Risk axes remain0-100;
+count charts and signed SHAP retain their original numerical meaning.
+All142 Python regressions,10 frontend tests, TypeScript, production build and
+original real-HTTP gate PASS. All four previews and actual application screens
+were inspected in desktop/narrow views. Hue PASS with strict independent YAML
+validation covering its Windows-only YAML subprocess skip. No backend, ML, API,
+config or fixture changes. See DESIGN_SYSTEM.md and TESTING.md for evidence.

@@ -1,0 +1,41 @@
+/* Network IDS design 1.1.0: approved Hue model, 2026-10-31. */
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0B0C0E;
+  --surface1: #121416;
+  --surface2: #1A1D20;
+  --surface3: #23272B;
+  --border: #30353A;
+  --border-visible: #737C87;
+  --text1: #F3F4F5;
+  --text2: #B5BAC1;
+  --text3: #959DA7;
+  --text4: #68717B;
+  --accent: #F3F4F5;
+  --accent-subtle: #23272B;
+  --on-accent: #0B0C0E;
+  --success: #4B8E69;
+  --warning: #A47A36;
+  --high: #B37449;
+  --error: #C4676B;
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --background: #F5F6F7;
+  --surface1: #FFFFFF;
+  --surface2: #EEF0F2;
+  --surface3: #E7EAED;
+  --border: #D0D5DB;
+  --border-visible: #7A838F;
+  --text1: #17191C;
+  --text2: #4D555F;
+  --text3: #606974;
+  --text4: #8A929C;
+  --accent: #17191C;
+  --accent-subtle: #E7EAED;
+  --on-accent: #FFFFFF;
+  --success: #4B8E69;
+  --warning: #A47A36;
+  --high: #B37449;
+  --error: #C4676B;
+}

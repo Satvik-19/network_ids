@@ -12,6 +12,7 @@ import {
 } from "../components/ui";
 import { fromIncidentFlows } from "../lib/graph";
 import { unknownExplanation } from "../lib/detection";
+import { SignedContributions } from "../components/SignedContributions";
 
 interface Props {
   incidentId: number;
@@ -97,7 +98,7 @@ function HeroBlock({ detail }: { detail: IncidentDetailType }) {
               {formatReplayTime(detail.started_at)} – {formatReplayTime(detail.ended_at)}
             </span>
           </div>
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <ClassificationBadge value={detail.classification} />
             {detail.label && <span>· {detail.label}</span>}
             {detail.risk_score != null && <span>· risk score {detail.risk_score.toFixed(1)}</span>}
@@ -124,7 +125,7 @@ function IncidentGraphBlock({ detail }: { detail: IncidentDetailType }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <h2 className="text-sm font-semibold text-slate-200">Observed Communications</h2>
-      <p className="text-xs text-slate-500">
+      <p className="text-sm text-slate-500">
         Scenario relationships with synthetic addresses, display ports and replay times; not physical topology.
       </p>
       <div className="mt-2">
@@ -144,7 +145,7 @@ function ShapBlock({ detail }: { detail: IncidentDetailType }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <h2 className="text-sm font-semibold text-slate-200">What Influenced the Model Prediction?</h2>
-      <p className="text-xs text-slate-500">
+      <p className="text-sm text-slate-500">
         Feature contributions of the supervised model for the dominant flow
         {dominant ? ` (${dominant.label ?? dominant.family ?? "flow"} #${parseSeq(dominant.flow_id)})` : ""}.
         These are model contributions — not causal explanations.
@@ -152,29 +153,7 @@ function ShapBlock({ detail }: { detail: IncidentDetailType }) {
       {features.length === 0 ? (
         <div className="mt-3 text-sm text-slate-500">No feature contributions persisted for this flow.</div>
       ) : (
-        <div className="mt-3 space-y-2">
-          {features.map((tf) => {
-            const magnitude = Math.abs(tf.shap_value);
-            const positive = tf.shap_value > 0 || tf.direction === "pushes_towards";
-            return (
-              <div key={tf.feature} className="flex items-center gap-2">
-                <span className="w-44 truncate text-xs text-slate-400" title={tf.feature}>
-                  {formatFeatureName(tf.feature)}
-                </span>
-                <div className="h-3 flex-1 overflow-hidden rounded bg-slate-800">
-                  <div
-                    className={`h-3 ${positive ? "bg-orange-500" : "bg-blue-500"}`}
-                    style={{ width: `${Math.min(100, magnitude * 40)}%` }}
-                  />
-                </div>
-                <span className="w-20 text-right font-mono text-xs text-slate-400">
-                  {positive ? "+" : ""}
-                  {tf.shap_value.toFixed(3)}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+        <SignedContributions features={features} label={dominant?.label ?? "unavailable class"} />
       )}
     </div>
   );
@@ -195,7 +174,7 @@ function BaselineBlock({ detail }: { detail: IncidentDetailType }) {
     return (
       <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
         <h2 className="text-sm font-semibold text-slate-200">Behaviour vs Normal Baseline</h2>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-sm text-slate-500">
           Baseline comparison data unavailable for this incident.
         </p>
       </div>
@@ -227,29 +206,29 @@ function BaselineBlock({ detail }: { detail: IncidentDetailType }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <h2 className="text-sm font-semibold text-slate-200">Behaviour vs Normal Baseline</h2>
-      <p className="text-xs text-slate-500">
+      <p className="text-sm text-slate-500">
         Dominant flow versus the benign middle-50% reference band (p25–p75), not a security boundary
         {baselines.unit_note ? ` · ${baselines.unit_note}` : ""}
       </p>
       <div className="mt-3 space-y-3">
         {rows.map((r) => (
-          <div key={r.name} className="flex items-center gap-4">
+          <div key={r.name} className="baseline-row flex items-center gap-4">
             <div className="w-40 shrink-0">
-              <div className="text-xs font-medium text-slate-300">{formatFeatureName(r.name)}</div>
+              <div className="text-sm font-medium text-slate-300">{formatFeatureName(r.name)}</div>
             </div>
             <div className="flex-1">
-              <div className="flex items-baseline gap-2">
+              <div className="flex flex-wrap items-baseline gap-2">
                 <span className="font-mono text-sm text-white">{formatNumber(r.current)}</span>
-                <span className="text-xs text-slate-500">vs normal</span>
-                <span className="font-mono text-xs text-slate-400">{formatNumber(r.median)}</span>
+                <span className="text-sm text-slate-500">vs normal</span>
+                <span className="font-mono text-sm text-slate-400">{formatNumber(r.median)}</span>
               </div>
               <div
-                className={`mt-0.5 text-xs ${
+                className={`mt-0.5 text-sm ${
                   r.within
-                    ? "text-emerald-400"
+                    ? "text-slate-200"
                     : r.below
                       ? "font-medium text-blue-400"
-                      : "font-medium text-orange-400"
+                      : "font-medium text-slate-200"
                 }`}
               >
                 {r.within
@@ -272,7 +251,7 @@ function HybridDecisionBlock({ detail }: { detail: IncidentDetailType }) {
       <p className="mt-1 text-sm leading-relaxed text-slate-400">
         {unknownExplanation(detail.label)} Supervised confidence {formatPercent(detail.confidence)};
         anomaly score {formatScore(detail.anomaly_score, 4)}. Final decision:{" "}
-        <span className="font-medium text-violet-400">unknown suspicious</span> with elevated risk.
+        <span className="font-medium text-slate-200">unknown suspicious</span> with elevated risk.
       </p>
     </div>
   );
@@ -287,11 +266,11 @@ function EvidenceBlock({ detail }: { detail: IncidentDetailType }) {
     <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
       <div className="border-b border-slate-800 px-4 py-3">
         <h2 className="text-sm font-semibold text-slate-200">Evidence Flows</h2>
-        <p className="text-xs text-slate-500">{rows.length} flows in this incident</p>
+        <p className="text-sm text-slate-500">{rows.length} flows in this incident</p>
       </div>
       <div className="max-h-96 overflow-auto">
         <table className="min-w-full text-left text-sm">
-          <thead className="sticky top-0 bg-slate-900 text-xs uppercase tracking-wide text-slate-500">
+          <thead className="sticky top-0 bg-slate-900 text-sm uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-3 py-2 font-medium">#</th>
               <th className="px-3 py-2 font-medium">Time</th>
@@ -309,33 +288,33 @@ function EvidenceBlock({ detail }: { detail: IncidentDetailType }) {
               const anomalyFlag = isAnomalyFlagged(f.anomaly_score, f.anomaly_threshold);
               return (
                 <tr key={f.id} className="hover:bg-slate-800/50">
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-400">
+                  <td className="px-3 py-1.5 font-mono text-sm text-slate-400">
                     {parseSeq(f.flow_id)}
                   </td>
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-400">
+                  <td className="px-3 py-1.5 font-mono text-sm text-slate-400">
                     {formatReplayTime(f.replay_time)}
                   </td>
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-300">
+                  <td className="px-3 py-1.5 font-mono text-sm text-slate-300">
                     {f.source ?? "—"}
                   </td>
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-300">
+                  <td className="px-3 py-1.5 font-mono text-sm text-slate-300">
                     {f.destination ?? "—"}
                   </td>
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-400">
+                  <td className="px-3 py-1.5 font-mono text-sm text-slate-400">
                     {f.service_port != null ? `:${f.service_port}` : "—"}
                   </td>
-                  <td className="px-3 py-1.5 text-xs text-slate-400">
+                  <td className="px-3 py-1.5 text-sm text-slate-400">
                     {f.label ?? f.family ?? "—"}
                   </td>
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-300">
+                  <td className="px-3 py-1.5 font-mono text-sm text-slate-300">
                     {formatPercent(f.confidence)}
                   </td>
                   <td className="px-3 py-1.5">
                     <span
-                      className={`inline-block rounded px-1.5 py-0.5 text-xs font-medium ${
+                      className={`inline-block rounded px-1.5 py-0.5 text-sm font-medium ${
                         anomalyFlag == null ? "bg-slate-700 text-slate-300" : anomalyFlag
-                          ? "bg-violet-500/20 text-violet-400"
-                          : "bg-emerald-500/20 text-emerald-400"
+                          ? "bg-violet-500/20 text-slate-200"
+                          : "bg-emerald-500/20 text-slate-200"
                       }`}
                     >
                       {anomalyFlag == null ? "Threshold unavailable" : anomalyFlag ? "Abnormal" : "Normal"}

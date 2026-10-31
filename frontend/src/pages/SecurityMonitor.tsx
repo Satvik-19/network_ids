@@ -68,15 +68,16 @@ export function SecurityMonitor({ ready, onOpenIncident }: { ready: boolean; onO
     const edge = graphData.edges.find((e) => e.id === selection);
     if (node || edge) {
       const related = relatedFlows(flows, selection);
-      const risk = related.reduce((m, f) => Math.max(m, f.risk_score ?? 0), 0);
-      const suspicious = related.filter((f) => f.classification !== "BENIGN").length;
+      const scores = related.flatMap(f => f.risk_score == null ? [] : [f.risk_score]);
+      const risk = scores.length ? Math.max(...scores) : null;
+      const suspicious = related.filter((f) => f.classification != null && f.classification !== "BENIGN").length;
       return {
         title: node?.label ?? edge!.label,
         lines: [
           `${related.length} observed communication${related.length !== 1 ? "s" : ""}`,
           `${suspicious} suspicious flow${suspicious !== 1 ? "s" : ""}`,
-          `max risk: ${risk.toFixed(1)}`,
-          node ? (node.kind === "port" ? "service / port node" : "network host") : "observed scenario relationship",
+          `max risk: ${risk == null ? "unavailable" : risk.toFixed(1)}`,
+          node ? "network host" : `service ports: ${edge!.ports.join(", ") || "unavailable"}`,
         ],
       };
     }
@@ -109,37 +110,31 @@ export function SecurityMonitor({ ready, onOpenIncident }: { ready: boolean; onO
         onSpeed={setSpeed}
       />
 
-      <SecurityStatus status={status} incidents={incidents} />
-
       <SummaryCards status={status} />
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <AttackTimeline flows={flows} />
-        <RiskDistribution flows={flows} />
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div>
-          <div className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-500">
-            Communication Map
-          </div>
-          <p className="mb-2 text-xs text-slate-500">Scenario addresses, display ports and replay times are synthetic.</p>
-          <CommGraph data={graphData} height={360} onSelect={(s) => setSelection(s.id)} />
+      <SecurityStatus status={status} incidents={incidents} />
+      <div className="investigation-grid">
+        <section className="communication-section">
+          <h2>Observed communications</h2>
+          <p className="meta">Current run · latest 100 flow records · select a host or connection</p>
+          <CommGraph key={status?.run_id ?? "idle"} data={graphData} height={360} onSelect={(s) => setSelection(s.id)} />
           {selectionInfo && (
             <div className="mt-2 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2">
               <div className="text-sm font-semibold text-slate-200">{selectionInfo.title}</div>
-              <ul className="mt-1 space-y-0.5 text-xs text-slate-400">
+              <ul className="mt-1 space-y-0.5 text-sm text-slate-400">
                 {selectionInfo.lines.map((l) => (
                   <li key={l}>{l}</li>
                 ))}
               </ul>
             </div>
           )}
-        </div>
+        </section>
 
         <IncidentList incidents={incidents} onOpen={onOpenIncident} />
       </div>
-
+      <div className="chart-grid">
+        <AttackTimeline flows={flows} />
+        <RiskDistribution flows={flows} />
+      </div>
       <TrafficTable flows={flows} />
     </div>
   );

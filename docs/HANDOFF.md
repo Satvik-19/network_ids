@@ -64,3 +64,33 @@ https://github.com/Satvik-19/network_ids.git, branch main. Final remote check fe
 main, found no divergence. Push outcome is reported by the final delivery message;
 verify `git status -sb` when continuing. Pre-existing .freebuff/ and shot1_setup.png,
 shot2_normal.png, shot3_portscan_monitor.png remain untracked and untouched.
+
+## Latest continuity - completed frontend console redesign (2026-10-31)
+
+User superseded preview-only approval and explicitly authorized external artifact
+edits, actual frontend redesign, validation, commit and normal push. DEC-023 is
+the accepted boundary; Phase 5 features remain deferred. External nine-file Hue
+skill is updated in C:/Users/BIT/.codex/skills/network-ids-design and is not in this
+repository. Frontend tokens.css and Tailwind mappings need no runtime skill access.
+
+Working UI: fixed rail/mobile nav, dark/light themes, flat metric band, graph-led
+Monitor, quieter incident rows, readable evidence, signed SHAP shared by incident
+and Playground. Graph uses React SVG instead of Cytoscape rendering, IP-only nodes,
+aggregated directed host pairs, preserved lane slots, metadata ports, severity
+marks and keyboard-selectable connection rows. Unknown protocol stays unavailable.
+Old Cytoscape dependency remains installed; no dependency changes were needed.
+
+Executed:142 Python PASS226.99s;10 frontend PASS; TypeScript/build PASS; original
+real HTTP replay gate PASS with temp OUT; Hue PASS0errors/0warnings plus strict
+YAML to cover Windows npx subprocess skip. Desktop/narrow both-theme visual review
+completed. Web suite remains70.83,12 detected/4 missed/4FP; saved result reload and
+Normal2.50 scale verified. Backend/ML/config/data unchanged from a597863. Read
+DESIGN_SYSTEM.md for files, screenshots and commands. Bundle warning remains.
+
+Browser used disposable %TEMP%/nids_redesign_20261031.db on localhost8000 and Vite
+5174; production developer DB preserved. Live gate evidence is in temp directory
+nids_redesign_gate_u9oqz0s7. Git intended scope is frontend plus listed governance
+docs only. Existing .freebuff/ and the three shot*.png files remain untouched and
+untracked. External design outputs/screenshots must not be staged in this repo.
+Commit/push outcome is reported in the delivery message; inspect current Git before
+continuing. No outstanding approved implementation task remains.

@@ -18,6 +18,8 @@ const NAV = [
 export default function App() {
   const [view, setView] = useState<View>({ name: "monitor" });
   const [health, setHealth] = useState<Health | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
 
   function refreshHealth() {
     return api
@@ -38,48 +40,37 @@ export default function App() {
     view.name === id || (id === "incidents" && view.name === "incidents");
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
-        <header className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-slate-800 pb-4">
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-white lg:text-2xl">
-              Network IDS
-            </h1>
-            <p className="mt-1 max-w-xl text-xs leading-relaxed text-slate-400">
-              Replay network scenarios and inspect how the AI-powered IDS detects, scores
-              and explains suspicious activity.
-            </p>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
+    <div className="console-shell">
+      <aside className="console-rail">
+        <div className="brand-mark" aria-hidden="true">N / IDS</div>
+        <h1>Network IDS</h1>
+        <p className="meta">Security evaluation console</p>
+        <nav aria-label="Workspace">
+          {NAV.map((item, index) => <button key={item.id} onClick={() => navTo(item.id)} aria-current={isActive(item.id) ? "page" : undefined}>
+            <span className="nav-number">0{index + 1}</span>{item.label}
+          </button>)}
+        </nav>
+        <div className="rail-context">
+          <div className="flex items-center gap-2">
             <span
               className={`inline-block h-2 w-2 rounded-full ${
                 health?.model_loaded ? "bg-emerald-400" : "bg-red-400"
               }`}
             />
-            {health?.model_loaded ? "System ready" : health ? "Model unavailable" : "Backend unreachable"}
+            {health?.model_loaded ? "Inference ready" : health ? "Model unavailable" : "Backend unreachable"}
           </div>
-        </header>
+          <p className="meta mt-2">XGBoost + Isolation Forest</p>
+          <p className="scope-note">Prepared scenarios.<br />No live network capture.</p>
+        </div>
+        <button className="theme-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>{theme === "dark" ? "Light" : "Dark"} appearance <span aria-hidden="true">◐</span></button>
+      </aside>
+      <div className="console-main">
+        <header className="workspace-header"><div><p className="eyebrow">Workspace / {view.name === "incidents" && view.openId != null ? `Incident ${view.openId}` : view.name}</p><h2>{NAV.find(n => n.id === view.name)?.label}</h2></div><span className="meta">CICIDS2017 · academic prototype</span></header>
         {health && !health.model_loaded && (
           <p role="alert" className="mb-4 text-sm text-amber-300">{health.message}</p>
         )}
 
-        <nav className="mb-6 flex gap-1">
-          {NAV.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => navTo(item.id)}
-              className={`rounded-lg px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                isActive(item.id)
-                  ? "bg-white text-slate-900"
-                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
-        <main>
+        <main id="workspace-content">
           {view.name === "playground" && <Playground ready={health?.model_loaded === true} />}
           {view.name === "monitor" && (
             <SecurityMonitor ready={health?.model_loaded === true} onOpenIncident={(id) => setView({ name: "incidents", openId: id })} />

@@ -352,3 +352,45 @@ truth/sequence/sidecars, existing config sections, all preprocessing/label/schem
 hybrid/risk/TreeSHAP code, artifact metadata and model bytes unchanged. Only additive
 playground weights and threshold-history schema introduced. Git diff --check PASS.
 Clean-environment dependency installation and production deployment NOT executed.
+
+## 2026-10-31 - Executed console redesign validation
+
+- `python -m pytest ml/tests backend/tests -q -p no:cacheprovider --tb=short`:
+  **142 passed in 226.99s** using Python 3.10.11 and existing artifacts.
+- `npm test` in frontend: **10 passed**, including directed host aggregation,
+  boolean risk tones, stable positions, missing-host/risk evidence, fixed risk
+  domain, proportional signed SHAP, and existing anomaly/outcome regressions.
+- `node node_modules/typescript/bin/tsc --noEmit --incremental false`: PASS.
+- `npm run build` (TypeScript project build + Vite): PASS. Existing >500kB chunk
+  warning remains; no limit was raised or warning suppressed.
+- Original `backend.tests.e2e_replay_phase3.main()` with temporary OUT: PASS,
+  including original four scenarios and sequential isolation. Evidence:
+  `%TEMP%/nids_redesign_gate_u9oqz0s7/evidence.json`. Developer DB and historical
+  evaluation JSON were not replaced.
+- Official Hue `node .../hue/scripts/validate.mjs .../network-ids-design`: PASS,
+  0 errors, 0 warnings, 1 skip (Windows `spawnSync npx ENOENT` YAML subprocess).
+  Independent strict PyYAML parsing with duplicate-key rejection: PASS, as do
+  nine-output inventory, UTF-8, 14px body and fixed [0,100] assertions.
+- Git comparison to a597863: backend/, ml/, config/ and data/ unchanged.
+
+Browser review used actual local Uvicorn with a disposable NETWORK_IDS_DB and Vite.
+All four external previews were rendered in dark/light and desktop/narrow views
+(1440 and 375/390px). Fixed overview gaps, clipped preview graph/SHAP/count charts,
+theme-control overlap, unreadable severity tags and cramped incident rows.
+The application Monitor, incident explanations, Playground and both themes were
+visually inspected. No whole-page horizontal overflow observed; evidence tables
+retain explicit local scrolling. Plex font availability checked in the browser.
+
+Executed interactions: PortScan completed8/8, host/connection selection, suspicious
+filter, unchanged host transforms across polling/filter/selection, pause/resume/stop,
+new-run evidence reset; Normal8/8,0 suspicious,0 incidents,max2.50. Normal risk bars
+are4.75px on a190px plot (2.5%), while axis stays0/25/50/75/100. Benign-only graph
+filter yields explicit empty evidence. Public Web suite completed28 flows and
+70.83/100,12 detected,4 misses,4 false alerts; saved result reload, unknown benign
+false-alert explanation and negative signed SHAP inspected. Browser console was
+clean before deliberate error checks. Two screenshot-framing keyboard attempts
+timed out on non-focusable elements; focusing the theme control resolved them.
+These were automation issues, not test/build or application failures.
+
+Screenshots and exact external artifact paths are recorded in DESIGN_SYSTEM.md.
+No model fitting, threshold tuning, dependency installation or deployment was run.

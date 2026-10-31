@@ -972,3 +972,30 @@ counts, missing/unsupported coverage and fixed dataset limitations alongside sco
 No score with missing selected scenarios or no malicious/benign evidence. Store
 historical context and evidence separately from Monitor; never reinterpret old runs
 using new thresholds/weights. Failed/interrupted runs cannot have a success score.
+
+## DEC-023 - Approved frontend console redesign
+
+Date: 2026-10-31
+Status: ACCEPTED (explicit user authorization to implement, validate, commit and push)
+Apply the installed Network IDS/Hue language to the existing React application:
+IBM Plex Sans/Mono, 14px body, charcoal/light surfaces, flat hierarchy and restrained
+semantic markers. Preserve React navigation, polling, run isolation, all API calls,
+backend/ML behavior, thresholds, fixtures and incident grouping.
+
+Replace the communication graph's force layout with a small React SVG diagram.
+Only actual source/destination hosts are nodes. Aggregate each directed host pair;
+ports, observed counts and maximum recorded risk belong to connection evidence.
+Missing risk remains unavailable, protocol is explicitly unavailable. Fixed lane
+slots persist across polling and selection/filter changes; new hosts append.
+Two-lane diagrams fit narrow screens; mixed-role diagrams and tables scroll locally.
+Keyboard-selectable host controls and connection rows retain access to evidence.
+No new dependency or topology inference. The unused existing Cytoscape dependency
+is left installed; dependency cleanup and arbitrary large-graph optimization are
+outside this redesign.
+
+Risk uses fixed 0-100 axes; distribution remains literal integer counts. Shared
+signed SHAP bars use exact stored contributions and a common symmetric scale per
+flow, with an aligned zero axis, outlined negatives and explicit raw-margin units.
+External skill artifacts stay in their installed location and outside Git. The
+frontend's committed tokens are self-contained at runtime. This is Phase 4 visual
+completion, not authorization for deferred Phase 5 functionality.

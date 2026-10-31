@@ -10,11 +10,12 @@ import {
 } from "recharts";
 import type { ReplayFlow } from "../api/types";
 import { EmptyState } from "./ui";
+import { RISK_DOMAIN } from "../lib/charts";
 
 const CLS_COLORS: Record<string, string> = {
-  BENIGN: "#10b981",
-  KNOWN_ATTACK: "#ef4444",
-  UNKNOWN_SUSPICIOUS: "#8b5cf6",
+  BENIGN: "var(--text3)",
+  KNOWN_ATTACK: "var(--error)",
+  UNKNOWN_SUSPICIOUS: "var(--warning)",
 };
 
 export function AttackTimeline({ flows }: { flows: ReplayFlow[] }) {
@@ -25,16 +26,16 @@ export function AttackTimeline({ flows }: { flows: ReplayFlow[] }) {
       return {
         seq: f.seq ?? f.id,
         at: format(f.replay_time),
-        score: f.risk_score ?? 0,
+        score: f.risk_score,
         risk: f.risk_score,
         cls: f.classification ?? "BENIGN",
-        fill: CLS_COLORS[f.classification ?? "BENIGN"] ?? "#64748b",
+        fill: CLS_COLORS[f.classification ?? "BENIGN"] ?? "var(--text3)",
       };
     });
 
   if (rows.length === 0) {
     return (
-      <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+      <div className="chart-section">
         <h2 className="text-sm font-semibold text-slate-200">Replay Activity</h2>
         <EmptyState title="No flows replayed yet" description="Start a scenario to see activity" />
       </div>
@@ -42,21 +43,21 @@ export function AttackTimeline({ flows }: { flows: ReplayFlow[] }) {
   }
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+    <div className="chart-section">
       <h2 className="text-sm font-semibold text-slate-200">Replay Activity</h2>
-      <p className="text-xs text-slate-500">Risk score per flow · green = benign, red = attack, purple = anomalous</p>
+      <p className="text-sm text-slate-500">Recorded risk / fixed 0–100 · neutral = benign, red = known attack, amber = unknown suspicious</p>
       <div className="mt-3 h-56">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={rows} margin={{ top: 4, right: 8, bottom: 0, left: -8 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-            <XAxis dataKey="seq" tick={{ fontSize: 10, fill: "#64748b" }} tickFormatter={fmtTick} />
-            {/* Keep a nonzero axis even when every recorded score is zero. */}
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis dataKey="seq" tick={{ fontSize: 12, fill: "var(--text3)" }} tickFormatter={fmtTick} />
+            {/* One risk scale across scenarios; missing scores remain unavailable. */}
             <YAxis
-              tick={{ fontSize: 10, fill: "#64748b" }}
-              domain={[0, (dataMax: number) => Math.max(1, dataMax)]}
+              tick={{ fontSize: 12, fill: "var(--text3)" }}
+              domain={RISK_DOMAIN} ticks={[0, 25, 50, 75, 100]}
             />
             <Tooltip
-              contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ backgroundColor: "var(--surface2)", color: "var(--text1)", border: "1px solid var(--border-visible)", borderRadius: 4, fontSize: 14 }}
               formatter={(_v, _n, item) => {
                 const p = item?.payload as (typeof rows)[number] | undefined;
                 return [p?.risk == null ? "unavailable" : `${p.risk}`, "risk score"];

@@ -4,8 +4,9 @@ import type { EnvironmentProfile, PlaygroundProfile, PlaygroundResult } from "..
 import { RiskDistribution } from "../components/RiskDistribution";
 import { ClassificationBadge, RiskBadge } from "../components/ui";
 import { scenarioOutcome, unknownExplanation } from "../lib/detection";
+import { SignedContributions } from "../components/SignedContributions";
 
-const panel = "rounded-xl border border-slate-800 bg-slate-900 p-4";
+const panel = "playground-section";
 const input = "mt-1 block w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm";
 const button = "rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-900 disabled:opacity-40";
 const services = [
@@ -85,7 +86,7 @@ export function Playground({ ready }: { ready: boolean }) {
         <span className="font-mono text-slate-200">{s.name}</span> — {s.reason} · {s.available ? `${s.flow_count} flows` : "Unavailable"}
       </li>)}</ul>
       {!!plan.unsupported_services.length && <p className="mt-3 text-sm text-amber-200">No prepared coverage: {plan.unsupported_services.join(", ")}. These services are not assessed.</p>}
-      <p className="my-3 text-xs text-slate-400">Unknown-attack detection is not established. The unknown fixture contains benign anomaly challenges and measures false alerts.</p>
+      <p className="my-3 text-sm text-slate-400">Unknown-attack detection is not established. The unknown fixture contains benign anomaly challenges and measures false alerts.</p>
       <button className={button} disabled={busy || !ready} onClick={() => void perform(async () => {
         setResult(null); setSelection(0);
         const run = await api.runPlayground(plan.id);
@@ -97,7 +98,7 @@ export function Playground({ ready }: { ready: boolean }) {
     <form className="flex flex-wrap items-end gap-3" onSubmit={e => { e.preventDefault(); void perform(async () => {
       setResult(null); setPlan(null); setSelection(0); setResult(await api.playgroundResults(Number(savedId)));
     }); }}>
-      <label className="text-xs text-slate-400">Saved run ID<input className={input} type="number" min="1" step="1" required value={savedId} onChange={e => setSavedId(e.target.value)} /></label>
+      <label className="text-sm text-slate-400">Saved run ID<input className={input} type="number" min="1" step="1" required value={savedId} onChange={e => setSavedId(e.target.value)} /></label>
       <button className={button} disabled={busy || !savedId}>Load saved result</button>
     </form>
 
@@ -111,21 +112,21 @@ export function Playground({ ready }: { ready: boolean }) {
           <p className="mt-1 text-sm text-slate-400">Assessment: {assessment.status.replace(/_/g, " ")}. This score describes only this selected scenario suite; it is not a real-network security rating.</p>
           <dl className="my-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[["Detected threats", assessment.detected], ["Missed threats", assessment.missed], ["False alerts", assessment.false_alerts], ["Correct benign", assessment.correct_benign]].map(([label, value]) => <div key={label}>
-              <dt className="text-xs text-slate-400">{label}</dt><dd className="text-xl font-semibold">{value}</dd>
+              <dt className="text-sm text-slate-400">{label}</dt><dd className="text-xl font-semibold">{value}</dd>
             </div>)}
           </dl>
           <p className="text-sm">Strongest tested areas: {assessment.strongest.join(", ") || "None"}.</p>
           <p className="mt-1 text-sm">Weakest tested areas / blind spots: {assessment.blind_spots.join(", ") || "None observed in these fixtures"}.</p>
-          <p className="mt-3 text-xs text-slate-400">Score = 100 × ({assessment.weights.detection_weight} × mean attack-scenario recall + {assessment.weights.false_alert_weight} × benign specificity). Recall: {assessment.mean_scenario_recall == null ? "not applicable" : `${(100 * assessment.mean_scenario_recall).toFixed(2)}%`}; specificity: {assessment.benign_specificity == null ? "not applicable" : `${(100 * assessment.benign_specificity).toFixed(2)}%`}. Missing scenarios or absent attack/benign evidence suppress the score. Weakest/strongest areas use mean recall and specificity within each scenario.</p>
+          <p className="mt-3 text-sm text-slate-400">Score = 100 × ({assessment.weights.detection_weight} × mean attack-scenario recall + {assessment.weights.false_alert_weight} × benign specificity). Recall: {assessment.mean_scenario_recall == null ? "not applicable" : `${(100 * assessment.mean_scenario_recall).toFixed(2)}%`}; specificity: {assessment.benign_specificity == null ? "not applicable" : `${(100 * assessment.benign_specificity).toFixed(2)}%`}. Missing scenarios or absent attack/benign evidence suppress the score. Weakest/strongest areas use mean recall and specificity within each scenario.</p>
         </>}
         <p className="mt-4 text-sm">Scenario coverage: {result.coverage.executed ?? 0} / {result.coverage.selected ?? 0} selected scenarios executed.</p>
-        <p className="mt-1 text-xs text-amber-200">Unavailable: {result.coverage.unavailable?.join(", ") || "None"}. Uncovered services: {result.coverage.unsupported_services?.join(", ") || "None selected"}. Unknown-attack detection: not established.</p>
-        <p className="mt-3 text-xs text-slate-400">Small, prepared fixtures are demonstration evidence. {overlap} evaluated vectors exactly match deployed-training features; legacy source-row identity is uncertain. Synthetic communication metadata is not captured traffic. Use the locked held-out comparison for model metrics.</p>
+        <p className="mt-1 text-sm text-amber-200">Unavailable: {result.coverage.unavailable?.join(", ") || "None"}. Uncovered services: {result.coverage.unsupported_services?.join(", ") || "None selected"}. Unknown-attack detection: not established.</p>
+        <p className="mt-3 text-sm text-slate-400">Small, prepared fixtures are demonstration evidence. {overlap} evaluated vectors exactly match deployed-training features; legacy source-row identity is uncertain. Synthetic communication metadata is not captured traffic. Use the locked held-out comparison for model metrics.</p>
       </div>
       {!!flows.length && <>
         <div className={`${panel} overflow-x-auto`}>
           <h2 className="mb-3 font-semibold">Scenario result matrix</h2>
-          <table className="w-full text-left text-sm"><thead className="text-xs text-slate-400"><tr>
+          <table className="w-full text-left text-sm"><thead className="text-sm text-slate-400"><tr>
             <th scope="col">Scenario</th><th scope="col">Attack flows</th><th scope="col">Detected</th><th scope="col">Missed</th><th scope="col">Benign flows</th><th scope="col">False alerts</th>
           </tr></thead><tbody>{result.scenarios.map(s => <tr key={s.name} className="border-t border-slate-800">
             <th scope="row" className="py-3 font-mono font-normal">{s.name}</th>
@@ -144,8 +145,8 @@ export function Playground({ ready }: { ready: boolean }) {
             <p>Supervised prediction: {selected.output.label} · confidence {(selected.output.confidence * 100).toFixed(2)}% · risk {selected.output.risk_score.toFixed(2)}.</p>
             <p>Anomaly score: {selected.output.anomaly_score.toFixed(5)}; recorded threshold: {selected.output.anomaly_threshold}. Known-confidence threshold: {result.context.thresholds?.known_confidence ?? "unavailable"}.</p>
             <p className="text-slate-300">{selected.output.classification === "UNKNOWN_SUSPICIOUS" ? unknownExplanation(selected.output.label) : selected.output.classification === "KNOWN_ATTACK" ? "The supervised attack prediction passed the known-confidence gate." : "The hybrid pipeline returned benign. A malicious evaluation label therefore counts as a missed threat."}</p>
-            <p className="text-xs text-slate-400">TreeSHAP explains the supervised prediction, not Isolation Forest or the risk score. Evaluation truth is never a model input.</p>
-            {selected.output.top_features.length ? <ul className="space-y-1 font-mono text-xs">{selected.output.top_features.map(f => <li key={f.feature}>{f.feature}: {f.shap_value.toFixed(4)} ({f.direction})</li>)}</ul> : <p className="text-xs text-slate-400">No TreeSHAP stored for benign decisions; this runner follows the replay policy of explaining suspicious flows.</p>}
+            <p className="text-sm text-slate-400">TreeSHAP explains the supervised prediction, not Isolation Forest or the risk score. Evaluation truth is never a model input.</p>
+            {selected.output.top_features.length ? <SignedContributions features={selected.output.top_features} label={selected.output.label} /> : <p className="text-sm text-slate-400">No TreeSHAP stored for benign decisions; this runner follows the replay policy of explaining suspicious flows.</p>}
           </div>}
         </div>
       </>}
