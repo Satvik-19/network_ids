@@ -125,3 +125,10 @@ coverage explicit; unknown fixture is a benign anomaly challenge. Task 8 next.
 Backend runner and saved outcome assessment complete. 46 related tests and original
 replay HTTP gate PASS. See DEC-022 for formula and incomplete/failure semantics.
 Milestone 3 complete; Task 9 frontend and Task 10 final gates still pending.
+
+## Task 9 implementation - 2026-10-31
+
+Playground questionnaire/preview/run/history retrieval and visual assessment now
+implemented and browser-tested. 5 Node tests, TypeScript and production build PASS.
+Home and public web workflows, actual misses/false alerts, unsupported services,
+flow explanation and 404 handling verified. Final project gates remain Task 10.

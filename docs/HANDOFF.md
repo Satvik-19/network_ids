@@ -281,3 +281,11 @@ context and notice. Weights .5/.5 configurable; score suppressed if missing or n
 attack evidence. Web profile real result 12 detected, 4 missed, 4 FP, 70.83 score.
 46 related tests and original replay HTTP gate PASS. No Monitor writes. Task 9 UI,
 then full final tests/docs/artifact checks before authorized push to existing main.
+
+## Next after Batch 9 (2026-10-31)
+
+Task 9 complete. Task 10: full Python suite (pinned dataset network needed), Node/
+TypeScript/build, original live replay gate, invariant/model/scenario/config review,
+final current docs and verified remote/main push if not diverged. Browser verified
+Home and public web+database, saved result ID2 on disposable browser DB. No deferred
+scope/dependencies introduced. Keep unrelated .freebuff and shot*.png untouched.

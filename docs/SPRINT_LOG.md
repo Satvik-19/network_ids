@@ -1387,3 +1387,30 @@ backend.tests.e2e_replay_phase3 with temporary evidence path PASS. Web profile r
 model workflow: 12 detected, 4 missed, 4 false alerts, score 70.83. GET reproduces
 saved results, no Prediction/Incident changes. git diff --check PASS.
 Milestone 3 complete; frontend and final verification remain. No push yet.
+
+## [2026-10-31] Batch 9 - Milestone 4 Task 9 Playground interface
+
+Added Playground navigation/page, short validated environment questionnaire,
+deterministic suite preview, bounded run action, saved-result retrieval, actual
+outcome counts/matrix, risk distribution, score/formula, strongest/weakest areas,
+coverage/unsupported services and selectable flow explanations. Profile edits
+clear previous preview/results; busy actions disable repeated submissions. Model
+readiness gates execution. Saved run ID retrieves historical assessment without
+recomputing it. Notices distinguish prepared simulations, unknown benign anomaly
+false alerts, legacy exact-training matches, synthetic sidecars and real networks.
+TreeSHAP remains supervised-only and stored only for suspicious decisions as replay.
+Reused RiskDistribution with narrowed required prop (risk_level only); no fake IDs.
+
+Files: frontend/src/pages/Playground.tsx, App.tsx, api/{client,types}.ts,
+components/RiskDistribution.tsx, lib/detection.ts, tests/detection.test.mjs.
+New outcome test failed first (helper missing). Final 5 Node tests PASS; TypeScript
+--noEmit --incremental false PASS; Vite production build PASS (existing >500kB
+bundle warning retained). Initial typecheck found unsupported replaceAll; corrected
+to target-compatible replacement. No dependency changes.
+Live browser on Vite 5174 + Uvicorn 8000 disposable SQLite: Home 2 scenarios, score
+not applicable, 4 false alerts; public web + database 4 scenarios, uncovered database,
+12 detected / 4 missed / 4 FP, 70.83 score; edits clear old result; persisted reload
+matches; missing saved run shows 404 and clears prior assessment; missed web flow
+and benign anomaly SHAP inspected. Screenshot saved outside repo. One transient
+HMR missing-module error occurred while adding files; final compile/build succeeds.
+Task 9 complete. Task 10 full-suite, invariant review and final docs/push pending.

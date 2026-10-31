@@ -7,6 +7,9 @@ import type {
   ReplayStatus,
   ScenarioInfo,
   Health,
+  EnvironmentProfile,
+  PlaygroundProfile,
+  PlaygroundResult,
 } from "./types";
 
 const BASE = "/api";
@@ -64,4 +67,7 @@ export const api = {
     get<IncidentList>(runId ? `/incidents?run_id=${encodeURIComponent(runId)}` : "/incidents"),
   incidentDetail: (id: number) => get<IncidentDetail>(`/incidents/${id}`),
   baselines: () => get<BenignBaselinesOut>("/baselines/benign"),
+  createProfile: (profile: EnvironmentProfile) => post<PlaygroundProfile>("/playground/profile", profile),
+  runPlayground: (profileId: number) => post<PlaygroundResult>("/playground/run", { profile_id: profileId }),
+  playgroundResults: (runId: number) => get<PlaygroundResult>(`/playground/results/${runId}`),
 };

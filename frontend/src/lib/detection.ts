@@ -14,3 +14,10 @@ export function unknownExplanation(label: string | null | undefined): string {
       : "The supervised classifier did not confidently identify a known attack.";
   return `${prediction} The anomaly detector flagged behavior outside its learned benign baseline, so the hybrid IDS escalated it as suspicious.`;
 }
+
+export function scenarioOutcome(truth: string, classification: string): string {
+  const alert = classification !== "BENIGN";
+  return truth === "BENIGN"
+    ? alert ? "False alert" : "Correct benign"
+    : alert ? "Detected threat" : "Missed threat";
+}

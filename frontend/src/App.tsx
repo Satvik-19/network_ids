@@ -3,14 +3,16 @@ import { api } from "./api/client";
 import { IncidentDetail } from "./pages/IncidentDetail";
 import { IncidentsPage } from "./pages/IncidentsPage";
 import { SecurityMonitor } from "./pages/SecurityMonitor";
+import { Playground } from "./pages/Playground";
 import { usePolling } from "./api/usePolling";
 import type { Health } from "./api/types";
 
-type View = { name: "monitor" } | { name: "incidents"; openId: number | null };
+type View = { name: "monitor" } | { name: "playground" } | { name: "incidents"; openId: number | null };
 
 const NAV = [
   { id: "monitor", label: "Security Monitor" },
   { id: "incidents", label: "Incidents" },
+  { id: "playground", label: "Security Playground" },
 ];
 
 export default function App() {
@@ -29,6 +31,7 @@ export default function App() {
   function navTo(id: string) {
     if (id === "monitor") setView({ name: "monitor" });
     else if (id === "incidents") setView({ name: "incidents", openId: null });
+    else if (id === "playground") setView({ name: "playground" });
   }
 
   const isActive = (id: string) =>
@@ -77,6 +80,7 @@ export default function App() {
         </nav>
 
         <main>
+          {view.name === "playground" && <Playground ready={health?.model_loaded === true} />}
           {view.name === "monitor" && (
             <SecurityMonitor ready={health?.model_loaded === true} onOpenIncident={(id) => setView({ name: "incidents", openId: id })} />
           )}

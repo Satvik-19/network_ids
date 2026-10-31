@@ -29,3 +29,13 @@ test('unknown explanation distinguishes benign and low-confidence attack predict
   assert.match(uncertain, /without sufficient confidence/);
   assert.doesNotMatch(uncertain, /predicted benign/);
 });
+
+test('scenario outcomes count anomaly alerts on benign truth as false alerts', async () => {
+  const { scenarioOutcome } = await load();
+  assert.equal(scenarioOutcome('BENIGN', 'BENIGN'), 'Correct benign');
+  assert.equal(scenarioOutcome('BENIGN', 'UNKNOWN_SUSPICIOUS'), 'False alert');
+  assert.equal(scenarioOutcome('BENIGN', 'KNOWN_ATTACK'), 'False alert');
+  assert.equal(scenarioOutcome('Web Attack - XSS', 'BENIGN'), 'Missed threat');
+  assert.equal(scenarioOutcome('DDoS', 'UNKNOWN_SUSPICIOUS'), 'Detected threat');
+  assert.equal(scenarioOutcome('DDoS', 'KNOWN_ATTACK'), 'Detected threat');
+});

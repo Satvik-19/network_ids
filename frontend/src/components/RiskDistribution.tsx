@@ -9,7 +9,7 @@ const LEVEL_COLORS: Record<string, string> = {
   CRITICAL: "#ef4444",
 };
 
-export function RiskDistribution({ flows }: { flows: ReplayFlow[] }) {
+export function RiskDistribution({ flows }: { flows: Pick<ReplayFlow, "risk_level">[] }) {
   const levels = ["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const;
   const data = levels.map((level) => ({
     level,

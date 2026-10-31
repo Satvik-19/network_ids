@@ -310,3 +310,11 @@ Includes real frozen pipeline, saved-result equality, no Monitor writes, commit
 rollback, inference failure, restart interruption, missing coverage and model 503.
 Original four-scenario live HTTP gate PASS with temporary evidence output.
 No frontend claim until Task 9 browser gate.
+
+## Approved implementation Batch 9 - 2026-10-31
+
+5 frontend Node tests PASS, TypeScript --noEmit --incremental false PASS, Vite build
+PASS. Browser: Home and public web different suites; scores/counts match backend;
+profile edits clear state; database unsupported; 404 clears old assessment; saved
+result reload; missed web prediction and benign anomaly SHAP explanation PASS.
+Final clean-session browser/error and full Python regression checks remain Task 10.

@@ -136,3 +136,52 @@ export interface BenignBaselinesOut {
   baselines: Record<string, BenignBaselineStats>;
   unit_note: string;
 }
+
+export interface EnvironmentProfile {
+  environment: "home" | "lab" | "small_organisation" | "web_server";
+  scale: "1-10" | "10-50" | "50+";
+  exposure: "internal" | "some_public" | "public";
+  services: ("web" | "ssh" | "ftp" | "database" | "file_sharing")[];
+}
+
+export interface PlaygroundProfile {
+  id: number;
+  profile: EnvironmentProfile;
+  suite: { name: string; reason: string; available: boolean; flow_count: number; purpose: string }[];
+  unsupported_services: string[];
+  unknown_attack_detection: string;
+  notice: string;
+}
+
+export interface OutcomeCounts {
+  malicious: number; detected: number; missed: number;
+  benign: number; false_alerts: number; correct_benign: number;
+}
+
+export interface PlaygroundFlow {
+  seq: number;
+  truth_label: string;
+  features: Record<string, number>;
+  output: {
+    classification: Classification; label: string; family: string; confidence: number;
+    anomaly_score: number; anomaly_threshold: number; risk_score: number;
+    risk_level: RiskLevel; top_features: TopFeature[];
+  };
+}
+
+export interface PlaygroundResult {
+  run_id: number;
+  status: "running" | "completed" | "failed";
+  assessment: (OutcomeCounts & {
+    status: "complete" | "incomplete" | "not_applicable";
+    score: number | null; mean_scenario_recall: number | null; benign_specificity: number | null;
+    blind_spots: string[]; strongest: string[];
+    weights: { detection_weight: number; false_alert_weight: number };
+  }) | null;
+  coverage: { selected?: number; executed?: number; unavailable?: string[]; unsupported_services?: string[]; unknown_attack_detection?: string };
+  scenarios: { name: string; purpose: string; counts: OutcomeCounts; flows: PlaygroundFlow[]; training_feature_matches: number }[];
+  context: { thresholds?: { known_confidence: number; anomaly: number } };
+  profile: Partial<EnvironmentProfile>;
+  notice: string;
+  error: string | null;
+}
