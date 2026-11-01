@@ -71,8 +71,8 @@ polished demo.
 - [ ] Harden error handling, loading states, replay reliability.
 - [ ] Add/expand tests across ML, backend, frontend.
 - [ ] UI polish across all four core screens.
-- [ ] Write setup / architecture / methodology / limitations / demo docs.
-- [ ] Cite CICIDS2017 source + paper academically.
+- [x] Write setup / architecture / methodology / limitations / demo docs (documentation reference set completed 2026-11-01; full Phase-5 gate remains incomplete).
+- [x] Cite CICIDS2017 source + dataset paper; a peer-reviewed dataset-quality study is included as a literature-review starting reference.
 - [ ] (Optional, stretch) Evaluate App Security Quick Check only after core
       completion; gate it behind PRD §53 conditions.
 
@@ -106,11 +106,15 @@ presentation/demo.
 
 ## Current Status
 
-NOT STARTED.
+Documentation reference deliverables completed 2026-11-01 under the user
+authorized documentation audit. The broader Phase-5 gate remains NOT COMPLETE:
+final research runs, Model Evaluation Lab, latency evaluation and other remaining
+quality/presentation tasks are not claimed complete.
 
 ## Blockers
 
-None (awaiting Phase 4 completion).
+No blocker for the completed documentation task. Remaining Phase-5 deliverables
+are deferred and require their own scope/authorization.
 
 ## Decisions Made During This Phase
 

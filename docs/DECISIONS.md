@@ -1,5 +1,11 @@
 # DECISIONS.md — Architecture / Implementation Decision Records
 
+Current behavior follows the latest accepted decision and current source, not
+necessarily every earlier record verbatim. For example, DEC-019 corrects older
+evaluation descriptions, DEC-023 supersedes the proposed Cytoscape renderer, and
+the current hybrid order is documented in `ml-pipeline.md` and tested in
+`ml/hybrid/decision.py`.
+
 Lightweight ADRs. Use this when an implementation decision could affect
 future work. Do NOT create records for trivial variable names or ordinary
 coding choices.
@@ -386,18 +392,18 @@ Fully compatible (PRD §58 Phase-1 gate; §32 final selection deferred).
 ## DEC-007 — Final supervised model: XGBoost n_estimators=200 (random)
 
 Date: 2026-08-09
-Status: ACCEPTED
+Status: ACCEPTED (model choice retained; evaluation interpretation superseded by DEC-019)
 Phase: 2
 
 ### Context
 
-Phase-2 completion gate requires one saved final supervised model for runtime, selected by a documented selection experiment and evaluated on a test set disjoint from fit and calibration.
+Phase-2 completion gate requires one saved final supervised model for runtime, selected by a documented experiment. The candidate selection and final report both reuse random/test; later evaluation qualification is recorded in DEC-019.
 
 ### Decision
 
-- Select the random experiment xgb multiclass n_estimators=200 variant (supervised_selection_random.json): macro-F1 0.8898, weighted-F1 0.9988, FP rate 0.00143 on random_3way/test.
+- Select the random experiment xgb multiclass n_estimators=200 variant (`supervised_selection_random.json`): multiclass macro-F1 0.8898, weighted-F1 0.9988; its separate binary candidate had FP rate 0.00143 on `random/test`.
 - Promote to ml/artifacts/supervised_model.joblib + supervised_model_metadata.json (feature_order = schema order, 77).
-- Validation on the DISJOINT random_3way/test: accuracy 0.9987, macro-F1 0.8898, weighted-F1 0.9988.
+- Final artifact metrics on random/test: accuracy 0.9987, macro-F1 0.8898, weighted-F1 0.9988. The candidate selection and final result reuse random/test; this is not an untouched post-selection estimate (see DEC-019 and EVALUATION_PROTOCOL.md).
 
 ### Reasoning
 
@@ -540,7 +546,7 @@ The hybrid decision layer must implement PR2 §10 semantics deterministically wi
 
 - HybridThresholds from config: known_confidence_threshold = 0.75
   (validated on random_3way/test: acc 0.9991 for conf >= 0.75; only   531/721 errors above 0.75), anomaly_threshold = -0.0928.
-- Decision: if supervised conf >= 0.75 and label != BENIGN -> KNOWN_ATTACK; if anomaly flagged and supervised label BENIGN -> UNKNOWN_SUSPICIOUS; else BENIGN. For UNKNOWN the predicted family is dropped (no fabricated family).
+- Current decision: if confidence >= 0.75 and the supervised label != BENIGN -> KNOWN_ATTACK; otherwise, if anomaly score is below the configured threshold -> UNKNOWN_SUSPICIOUS (including benign or low-confidence malicious supervised predictions); otherwise BENIGN. The implementation and exact semantics are documented in `docs/ml-pipeline.md`.
 - Risk: risk_score = clamp(severity[family] * (0.5 + 0.5*confidence) + 15*anomaly_signal, 0, 100); levels CRITICAL >= 85, HIGH >= 65, MEDIUM >= 40, else LOW; severity table in config (BENIGN 5, Botnet 60, DoS 90, Brute Force 70, Recon 50, Web Attack 80, Heartbleed 95, Infiltration 85, UNKNOWN_SUSPICIOUS 60).
 - A BENIGN verdict floors risk to LOW even if the predicted family is an attack (E2E catch); UNKNOWN_SUSPICIOUS uses neutral severity 60.
 

@@ -233,16 +233,19 @@ Evaluation Lab do not depend on the Monitor/Incident flow.
 
 ---
 
-## 14. Network Graph — Cytoscape.js (PRD §15, §40, §66.10)
+## 14. Network Graph — observed host communication
 
-- **Decision:** Cytoscape.js for the interactive communication graph. Nodes =
-  hosts/devices/servers/optional service-port nodes. Edges = observed
-  communication. Semantics are **communication relationships**, NOT physical
-  topology.
-- **Reason:** Do not write a custom network renderer; reuse established tool.
-- **Change allowed only when:** Graph integration is unstable — fallback is a
-  simplified connection view (PRD §63).
-- **PRD reference:** §15, §40, §63, §64.6, §66.10.
+- **Original PRD decision:** Cytoscape.js was the proposed graph tool; graph
+  nodes/edges must represent communication, not physical topology.
+- **Current approved implementation (DEC-023, 2026-10-31):** deterministic
+  SVG renderer with source/destination IP hosts as nodes and directed observed
+  host-pair edges. Service ports and recorded risk/count remain edge metadata;
+  no port nodes, protocol inference or physical topology is introduced.
+- **Reason for superseding the proposed tool:** stable positions across polling,
+  filtering and selection, and direct host-to-host evidence semantics.
+- **Boundary:** preserve actual observed flow relationships. Any future renderer
+  change must retain these semantics and documented evidence.
+- **PRD reference:** §15, §40, §63, §64.6, §66.10; approved override DEC-023.
 
 ---
 

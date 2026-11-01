@@ -1,69 +1,64 @@
 # Implementation Status
 
-Updated: 2026-10-31. Current phase: Phase 4 approved first version COMPLETE and
-VALIDATED within the reviewed scope. Phase 5 remains deferred, not authorized.
-Historical detail lives in SPRINT_LOG.md; next-agent orientation in HANDOFF.md.
+Updated: 2026-11-01. Phase 4 implementation and UI redesign are complete within
+approved scope. This documentation audit is the documentation portion of Phase 5;
+the broader Phase-5 completion gate remains incomplete/deferred. The Model
+Evaluation Lab, expanded incident investigation and advanced evaluation research
+are not implemented. Historical detail: `SPRINT_LOG.md`; current handoff:
+`HANDOFF.md`.
 
-## Approved milestones
+## Approved and validated implementation
 
-| Milestone | Status | Implemented and validated |
+| Milestone | Status | Evidence |
 |---|---|---|
-| 1 reliability (Tasks 1-3) | COMPLETE | Failed-worker rollback/cleanup, restart synchronization, readiness, run-scoped Monitor, boolean graph selectors, accurate unknown text and recorded threshold evidence |
-| 2 evaluation (Tasks 4-6) | COMPLETE | Reporting corrections, identical-cohort frozen comparison, provenance, three small SSH/FTP/web scenario additions |
-| 3 Playground backend (Tasks 7-8) | COMPLETE | Strict profiles, deterministic relevance rules, existing SQLite tables, <=64-flow runner, outcome scoring, snapshots, failure/interruption handling |
-| 4 Playground UI/final gates (Tasks 9-10) | COMPLETE | Questionnaire, preview/run/retrieve, score/counts/coverage/matrix/risk chart/flow evidence, final regression and invariant checks |
-
-## Validation (executed)
-
-- Full Python: 142 passed in 226.99s; command `python -m pytest ml/tests backend/tests -q -p no:cacheprovider --tb=short`.
-- Frontend: 10 Node tests PASS; TypeScript --noEmit --incremental false PASS; Vite production build PASS.
-- Original four-scenario real Uvicorn gate with sequential isolation PASS; evidence written to temporary paths to preserve historical artifacts.
-- Browser: Home, public Web and all-seven-scenario Lab suites; actual misses/false alerts; profile invalidation; uncovered database; saved ID reload; 404 state; readiness loss/recovery; process-restart persistence; Monitor isolation PASS.
-- Fresh browser completed 52-flow suite with no console errors before deliberate backend-offline test.
-- Models, original config sections, canonical features/preprocessing/labels, hybrid/risk/SHAP code and original four fixture vectors/sidecars unchanged (asserted against f84fb71 and recorded hashes).
-- Initial final run: 138 passed / 1 failed because an all-fixture parity assertion still assumed the original four. Replaced with explicit original-four (16 detections) and seven-fixture (36) checks; no runtime change to satisfy it.
+| Reliability hardening | COMPLETE | Replay failure rollback/session cleanup, restart synchronization, readiness, run-scoped Monitor, graph selectors and unknown-suspicious explanations; see BUG_LOG and TESTING. |
+| Evaluation credibility | COMPLETE within approved scope | Report distinctions, frozen same-cohort comparison, fixture provenance and small fixture additions; no retraining or threshold sweep. |
+| Playground backend | COMPLETE | Strict profiles, deterministic fixture selection, existing SQLite tables, <=64-flow run, outcome assessment/snapshots, failure/interruption handling. |
+| Playground UI and gate | COMPLETE | Profile, preview, run/retrieve, coverage, counts, matrix, risk and evidence. |
+| Network IDS UI redesign | COMPLETE | Responsive dark/light console; host-only deterministic directed SVG; meaningful metric scale; see DESIGN_SYSTEM.md and DEC-023. |
+| Documentation system | COMPLETE for current implementation reference | Root README, architecture, ML/evaluation, API/persistence, frontend/Playground, diagrams, run/test and academic/demo references added; docs audit and links checked for this commit. |
+| Phase-5 full completion gate | DEFERRED / NOT COMPLETE | Model Lab, expanded research and any unapproved future scope remain open. |
 
 ## Current interfaces and evidence
 
-Monitor/prediction/incidents APIs preserve existing fields; nullable anomaly_threshold
-is additive and legacy rows stay null. Replay adds FAILED. Health adds readiness/message.
-Playground: POST /api/playground/profile, POST /api/playground/run, GET
-/api/playground/results/{run_id}. Evidence lives only in playground_* tables.
-Seven fixtures / 52 flows, 77 features each. Inference thresholds remain .75 / -.0928.
-Readiness weights .5/.5 combine macro attack-scenario recall and benign specificity.
-Missing selected scenarios suppress score; attack-free Home suite has no score.
-Unsupported services and unknown-attack coverage stay explicit.
+The application has Security Monitor, Incidents/detail and Security Playground.
+The Model Evaluation Lab is not a current screen. Seven fixtures contain 52 rows
+with 77 features each. Inference thresholds are 0.75 and -0.0928; readiness
+weights are 0.5/0.5. Missing selected fixtures suppress the Playground score;
+attack-free profiles have no score. Unsupported services and unknown-attack
+coverage remain explicit. See `docs/backend-reference.md` and
+`docs/frontend-and-playground.md`.
+
+## Recorded application validation
+
+The last recorded implementation validation (2026-10-31) reports 142 Python
+checks, 10 frontend Node checks, TypeScript, Vite build, original real-HTTP replay
+gate and browser workflows passing. Those results predate this documentation-only
+change; this commit records documentation validation separately in
+`docs/testing.md` and the sprint log. Existing Vite >500 kB warning remains.
 
 ## Retained limitations
 
-- Small fixtures are demonstrations. Legacy PortScan 5/8 and DoS/DDoS 1/8 vectors
-  match training features; original source-row identity cannot be recovered.
-- Unknown fixture contains benign anomaly false alerts, not unknown attacks.
-- New web fixture retains 4/8 misses. Tiny class support limits interpretation.
-- Locked reused random cohort (282788): hybrid FPR .023136, only 2 additional
-  malicious rescues and 5011 additional benign alerts versus confidence gate.
-- Historical test reuse and weak temporal generalization remain disclosed.
-- Single-process local SQLite and bounded synchronous Playground execution; permanent
-  database failure can prevent durable failure evidence. Replay failures preserve
-  committed rows and may leave incident end markers unset on finalization failure.
-- Graph polling relayout is resolved by the approved SVG redesign; >500kB production bundle warning remains.
-- Fresh clone needs the existing supervised artifact supplied/regenerated separately;
-  no model was retrained, replaced or added during this work.
+- Small fixtures are demonstrations. Legacy PortScan 5/8 and DoS/DDoS 1/8
+  vectors match deployed-training feature vectors; source-row identity cannot
+  be recovered. Unknown fixture is benign and its anomaly alerts are false alerts.
+- New web fixture has 4/8 misses. Rare-class supports in the dataset are tiny.
+- On a reused 282,788-row random cohort, hybrid FPR is 0.023136; it adds 2
+  malicious rescues and 5,011 benign alerts over the confidence gate.
+- Historical test reuse and poor temporal generalization remain disclosed.
+- SQLite and replay are single-process local-demo components. Permanent database
+  failure can prevent durable failure evidence; replay finalization failure may
+  leave incident end markers unset while prior commits remain.
+- Fresh clone requires compatible serialized model artifacts; model binaries
+  are not committed. The frontend build retains a >500 kB bundle warning.
+- No live capture, mitigation, drift, external alerting, enterprise deployment,
+  advanced threat intelligence, extra datasets/models, real zero-day claim,
+  full Model Lab, expanded investigation or PDF export is implemented.
 
-Live capture, mitigation, drift, external alerting, enterprise deployment, advanced
-threat intelligence, extra datasets/models, zero-day research, full Model Lab,
-expanded investigation and optional PDF export remain future work.
+## Scope boundary
 
-## Approved visual follow-up - COMPLETE / TESTED / VALIDATED
-
-The user explicitly authorized full frontend implementation after design review,
-followed by commit and normal push. DEC-023 documents the boundary. Monitor,
-incident detail and Playground now share the Network IDS 1.1 language, both themes,
-readable typography, flat hierarchy and responsive controls. Host-only directed
-graphs retain positions and associated service evidence. Risk axes remain0-100;
-count charts and signed SHAP retain their original numerical meaning.
-All142 Python regressions,10 frontend tests, TypeScript, production build and
-original real-HTTP gate PASS. All four previews and actual application screens
-were inspected in desktop/narrow views. Hue PASS with strict independent YAML
-validation covering its Windows-only YAML subprocess skip. No backend, ML, API,
-config or fixture changes. See DESIGN_SYSTEM.md and TESTING.md for evidence.
+The Playground uses prepared scenario records and deterministic profile rules; it
+does not test a user's real network. SHAP describes supervised XGBoost output
+only. The graph describes observed fixture relationships rather than physical
+topology. See `docs/machine-learning/evaluation.md` for full methodology and
+limitations.

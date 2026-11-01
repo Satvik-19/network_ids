@@ -94,3 +94,41 @@ docs only. Existing .freebuff/ and the three shot*.png files remain untouched an
 untracked. External design outputs/screenshots must not be staged in this repo.
 Commit/push outcome is reported in the delivery message; inspect current Git before
 continuing. No outstanding approved implementation task remains.
+
+
+## 2026-11-01 - Documentation audit and publication
+
+The authorized documentation audit updated the GitHub-facing README and created
+a navigable technical/academic documentation set. Current code is authoritative:
+three application views (Monitor, Incidents/detail, Playground), no Model Lab;
+current graph is stable directed SVG with host nodes and edge metadata; trained
+model binaries are ignored; clean clone needs compatible artifacts. Evaluation
+figures now separate supervised, IF, locked hybrid and fixture-based Playground
+results, with test reuse, temporal limitations, rare support and provenance stated.
+
+New references: docs/README.md, project-overview.md, architecture.md, diagrams.md,
+ml-pipeline.md, machine-learning/evaluation.md, backend-reference.md,
+frontend-and-playground.md, running-the-project.md, testing.md, academic/README.md,
+demo-guide.md. Root README and PROJECT_CONTEXT were reconciled. Architecture lock
+now records DEC-023 host graph implementation. Historical phase/decision/sprint
+entries are retained; Phase 5 is not marked complete.
+
+For this documentation commit, re-run validation commands recorded in
+docs/testing.md and check Git status. Model tests from 2026-10-31 are historical,
+not rerun for docs-only changes. Do not stage the pre-existing .freebuff/ or
+shot*.png files. Publish only explicit documentation paths; preserve existing
+main history and human Git identity.
+
+
+## Documentation validation outcome - 2026-11-01
+
+Passed: strict YAML + JSON parsing, documented API/OpenAPI path parity (15), seven
+scenario fixtures/52 records/77 features, Markdown link/anchor/fence checks, 41
+offline Python tests, 10 frontend tests, TypeScript check and Vite production build.
+Build retains the existing >500 kB chunk warning. Mermaid rendering was not available.
+
+The full Python run is not verified in this environment: pinned Hugging Face source
+DNS fails (`socket.gaierror [Errno 11001] getaddrinfo failed`) during
+`ml/tests/test_predictor.py::test_predict_full_contract`; SHAP fixture setup also
+requires the remote split. Re-run the full suite with dataset cache/network available.
+No code/model/config/fixture behavior changed in the documentation task.

@@ -1496,3 +1496,32 @@ Governance files written via complete UTF-8 bytes, same-directory atomic replace
 and verified re-read. Intended diff/history/staging reviewed before authorized
 normal commit/push; unrelated .freebuff/ and shot*.png excluded. Git identity is
 unchanged, no Codex author/coauthor attribution and no history rewrite.
+
+
+## [2026-11-01] Complete documentation audit and academic reference
+
+Scope: user-authorized repository documentation audit and GitHub publication.
+Audited tracked Markdown against current backend/API schemas, frontend routes and
+data flow, ML preprocessing/training/hybrid code, artifacts/results, scenarios,
+configuration, requirements, tests and committed phase/design records. Corrected
+root README claims (notably old Cytoscape description and stale roadmap status),
+clarified Model Evaluation Lab is not implemented, retained historical records,
+and updated PROJECT_CONTEXT/architecture graph decision/status/handoff.
+
+Added: docs index, overview, architecture, editable Mermaid workflows, ML pipeline,
+evaluation/results/limitations, backend/API/SQLite/replay reference, frontend and
+Playground guide, installation/operation, testing guidance, academic synopsis/report
+outline/PPT/viva resource, and demo guide. Metrics were extracted from committed
+JSON evidence; no model, API, metric or feature was created or altered. Existing
+untracked .freebuff/ and shot*.png were not included.
+
+Validation executed: 41 offline Python tests passed (hybrid, incidents, scenario
+schema). The full Python suite was attempted; dataset-dependent test setup failed
+because Hugging Face hostname resolution returned socket.gaierror 11001. A direct
+`-x` run identifies `ml/tests/test_predictor.py::test_predict_full_contract`; SHAP
+fixture setup has the same remote dependency. `npm test` 10 passed, standalone
+tsc exit 0, Vite build exit 0 (existing 564.73 kB warning). Strict config YAML,
+all scenario/result/artifact JSON, 15 OpenAPI paths, 7 scenarios/52 rows/77 features,
+Markdown link/anchor/fence checks passed. Mermaid rendering unavailable. No app
+source tests are claimed beyond those runs; prior 142-pass suite remains historical.
+Files and publication: see commit summary and Git history for this entry.

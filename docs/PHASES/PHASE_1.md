@@ -1,6 +1,7 @@
 # Phase 1 — Dataset, Research Baseline and Project Foundation
 
-Source: PRD §58 (Phase 1). This is the active phase.
+Source: PRD §58 (Phase 1). Historical phase record; completed and validated
+2026-08-09. Current project status is summarized in `../IMPLEMENTATION_STATUS.md`.
 
 ## Goal
 
